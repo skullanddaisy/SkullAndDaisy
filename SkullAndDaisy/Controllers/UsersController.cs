@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SkullAndDaisy.Data;
+using SkullAndDaisy.Models;
+using SkullAndDaisy.Validators;
 
 namespace SkullAndDaisy.Controllers
 {
@@ -11,5 +9,40 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        readonly UserRepository _userRepository;
+        readonly CreateUserRequestValidator _validator;
+
+        public UsersController()
+        {
+            _userRepository = new UserRepository();
+            _validator = new CreateUserRequestValidator();
+        }
+
+        [HttpGet]
+        public ActionResult GetAllUsers()
+        {
+            var users = _userRepository.GetAllUsers();
+
+            return Ok(users);
+        }
+
+        [HttpPost("register")]
+        public ActionResult AddUser(CreateUserRequest createRequest)
+        {
+            if (_validator.Validate(createRequest))
+            {
+                return BadRequest(new { error = "users must have a username and password." });
+            }
+
+            var newUser = _userRepository.AddUser(
+                createRequest.FirstName,
+                createRequest.LastName,
+                createRequest.Username,
+                createRequest.Email,
+                createRequest.Password,
+                createRequest.DateCreated);
+
+            return Created($"/api/user/{newUser.Id}", newUser);
+        }
     }
 }
