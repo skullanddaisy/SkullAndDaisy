@@ -20,5 +20,7 @@ namespace SkullAndDaisy.Controllers
 
             return Created($"api/createdProductOrder/{newProductOrder.Id}", newProductOrder);
         }
+
+        [HttpDelete("deleteProducOrder")]
     }
 }

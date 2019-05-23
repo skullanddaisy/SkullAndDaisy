@@ -13,8 +13,48 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        [HttpGet("getAllMyOrders/{userId}")]
+        public ActionResult GetAllMyOrders(int userId)
+        {
+            var allOrders = OrderRepository.GetAll(userId);
+
+            return Ok(allOrders);
+        }
+
+        [HttpGet("getMyCompletedOrders/{userId}")]
+        public ActionResult GetMyCompletedOrders(int userId)
+        {
+            var completedOrders = OrderRepository.GetCompleted(userId);
+
+            return Ok(completedOrders);
+        }
+
+        [HttpGet("getMyCancelledOrders/{userId}")]
+        public ActionResult GetMyCancelledOrders(int userId)
+        {
+            var cancelledOrders = OrderRepository.GetCancelled(userId);
+
+            return Ok(cancelledOrders);
+        }
+
+        [HttpGet("getMyPendingOrder/{userId}")]
+        public ActionResult GetMyPendingOrder(int userId)
+        {
+            var pendingOrder = OrderRepository.GetPending(userId);
+
+            return Ok(pendingOrder);
+        }
+
+        [HttpGet("getCustomersCompletedOrders/{userId}")]
+        public ActionResult GetCustomersCompletedOrders(int userId)
+        {
+            var customerOrders = OrderRepository.GetCustomersCompleted(userId);
+
+            return Ok(customerOrders);
+        }
+
         [HttpPost("addOrder")]
-        public ActionResult CreateOrder(Order orderObject)
+        public ActionResult AddOrder(Order orderObject)
         {
             var newOrder = OrderRepository.AddOrder(orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
 

@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+using Dapper;
 
 namespace SkullAndDaisy.Data
 {
@@ -14,12 +13,33 @@ namespace SkullAndDaisy.Data
 
         const string ConnectionString = "Server = localhost; Database = SkullAndDaisy; Trusted_Connection = True;";
 
-        static Order AddOrder(string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
+        public static Order AddOrder(string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
         {
             using(var db = new SqlConnection(ConnectionString))
             {
-                var newOrderObject = 
+                var newOrderObject = db.QueryFirstOrDefault<Order>(@"
+                    Insert into Orders
+                    Output inserted.*
+                    Values(@orderStatus, @total, @orderDate, @paymentTypeId, @userId)",
+                    new {orderStatus, total, orderDate, paymentTypeId, userId });
+
+                if (newOrderObject != null)
+                {
+                    return newOrderObject;
+                }
             }
+
+            throw new Exception("No Order Created");
+        }
+
+        public static List<Order> GetAll(int userId)
+        {
+            using(var db = new SqlConnection(ConnectionString))
+            {
+                var orders = db.Query<Order>("");
+            }
+
+            throw new Exception("Found No Orders");
         }
     }
 }
