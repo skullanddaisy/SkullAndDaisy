@@ -57,5 +57,27 @@ namespace SkullAndDaisy.Data
 
             throw new Exception("Could not create leaper");
         }
+
+        public User UpdateUser(User userToUpdate)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var updateQuery = @"
+                        Update Users
+                        Set firstName = @firstname,
+                        lastName = @lastname,
+                        username = @username,
+                        email = @email,
+                        password = @password
+                        Where id = @id";
+
+                var rowsAffected = db.Execute(updateQuery, userToUpdate);
+
+                if (rowsAffected == 1)
+                    return userToUpdate;
+            }
+
+            throw new Exception("Could not update user");
+        }
     }
 }

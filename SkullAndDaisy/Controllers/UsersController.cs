@@ -44,5 +44,13 @@ namespace SkullAndDaisy.Controllers
 
             return Created($"/api/user/{newUser.Id}", newUser);
         }
+
+        [HttpPut("{id}")]
+        public ActionResult updateUser(User user)
+        {
+            var updatedUser = _userRepository.UpdateUser(user);
+
+            return Ok(user);
+        }
     }
 }
