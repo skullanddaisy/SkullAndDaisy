@@ -79,5 +79,26 @@ namespace SkullAndDaisy.Data
 
             throw new Exception("Could not update user");
         }
+
+        public bool DeleteUserAccount(User userToUpdate)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var updateQuery = @"
+                    Update Users
+                    Set firstname = null,
+                        lastname = null,
+                        email = null,
+                        password = null
+                    Where id = @id";
+
+                var rowsAffected = db.Execute(updateQuery, userToUpdate);
+
+                if (rowsAffected == 1)
+                    return true;
+            }
+
+            throw new Exception("Could not delete account");
+        }
     }
 }
