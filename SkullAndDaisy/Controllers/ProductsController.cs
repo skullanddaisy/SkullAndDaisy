@@ -15,6 +15,11 @@ namespace SkullAndDaisy.Controllers
     {
         ProductRepository _productRepository;
 
+        public ProductsController()
+        {
+            _productRepository = new ProductRepository();
+        }
+
         [HttpPost("CreateProduct")]
         public ActionResult AddProduct(CreateProductRequest createRequest)
         {
@@ -22,14 +27,16 @@ namespace SkullAndDaisy.Controllers
 
             var newProduct = _productRepository.AddProduct(
                 createRequest.Title,
+                createRequest.Description,
                 createRequest.ProductTypeId,
                 createRequest.Price,
+                createRequest.Quantity,
                 createRequest.UserId);
 
             return Created($"/api/target/{newProduct.Id}", newProduct);
         }
 
-        [HttpGet("GetProducts")]
+        [HttpGet("GetAllProducts")]
         public ActionResult GetAllProducts()
         {
             var products = _productRepository.GetAll();
@@ -37,24 +44,17 @@ namespace SkullAndDaisy.Controllers
             return Ok(products);
         }
 
-        [HttpPut("UpdateProduct")]
+        [HttpPut("UpdateProduct/{id}")]
         public ActionResult UpdateProduct(Product product)
         {
-            var updatedProduct = _productRepository.UpdateProduct(
-                                                    product.Id,
-                                                    product.Title,
-                                                    product.Description,
-                                                    product.Quantity,
-                                                    product.ProductTypeId,
-                                                    product.Price,
-                                                    product.UserId);
-            return Ok(updatedProduct);
+            var updatedProduct = _productRepository.UpdateProduct(product);
+            return Ok(product);
         }
 
-        [HttpDelete("DeleteProduct")]
-        public ActionResult DeleteProuct(Product product)
+        [HttpDelete("DeleteProduct/{productId}")]
+        public ActionResult DeleteProduct(int productId)
         {
-            var productToDelete = _productRepository.DeleteProduct(product.Id);
+            var productToDelete = _productRepository.DeleteProduct(productId);
 
             return Ok(productToDelete);
         }

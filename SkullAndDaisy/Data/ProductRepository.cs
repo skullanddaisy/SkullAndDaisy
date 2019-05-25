@@ -11,7 +11,7 @@ namespace SkullAndDaisy.Data
     {
         const string ConnectionString = "Server=localhost;Database=SkullAndDaisy;Trusted_Connection=True;";
 
-        public Product AddProduct(string title, int productTypeId, decimal price, int userId)
+        public Product AddProduct(string title, string description, int productTypeId, decimal price, int quantity, int userId)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
@@ -19,20 +19,26 @@ namespace SkullAndDaisy.Data
                     INSERT INTO [dbo].[Products]
                                 ([ProductTypeId],
                                 [Price],
+                                [Quantity],
                                 [Title],
+                                [Description],
                                 [UserId])
                     output inserted.*
                             VALUES
                                 (@productTypeId,
                                  @price,
+                                 @quantity,
                                  @title,
+                                 @description,
                                  @userId)";
 
                 var parameters = new
                 {
                     ProductTypeId = productTypeId,
                     Price = price,
+                    Quantity = quantity,
                     Title = title,
+                    Description = description,
                     UserId = userId
                 };
 
@@ -57,57 +63,46 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public Product UpdateProduct(int id, string title, string description, int quantity, int productTypeId, decimal price, int userId)
+        public Product UpdateProduct(Product productToUpdate)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
                 var updateQuery = @"
                 UPDATE [dbo].[Products]
-                     SET[ProductTypeId] = @productTypeId,
-                        [Price] = @price,
+                     SET[Price] = @price,
                         [Title] = @title,
                         [Description] = @description,
-                        [Quantity] = @quantity,
-                        [UserId] = @userId
+                        [Quantity] = @quantity
                      WHERE id = @id";
 
-                var parameters = new
-                {
-                    Id = id,
-                    ProductTypeId = productTypeId,
-                    Price = price,
-                    Title = title,
-                    UserId = userId
-                };
+                var rowAffected = db.Execute(updateQuery, productToUpdate);
 
-                var newProduct = db.QueryFirstOrDefault<Product>(updateQuery, parameters);
-
-                if (newProduct != null)
+                if (rowAffected == 1)
                 {
-                    return newProduct;
+                    return productToUpdate;
                 }
                 throw new Exception("Could not update product");
             }
         }
 
-        public Product DeleteProduct(int id)
+        public bool DeleteProduct(int id)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
                 var deleteQuery = @"
                 DELETE FROM [dbo].[Products]
-                WHERE id = 1";
+                WHERE id = @id";
 
-                var parameters = new
+                var parameter = new
                 {
                     Id = id
                 };
 
-                var productToDelete = db.QueryFirstOrDefault<Product>(deleteQuery, parameters);
+                var productToDelete = db.Execute(deleteQuery, parameter);
 
-                if (productToDelete != null)
+                if (productToDelete == 1)
                 {
-                    return productToDelete;
+                    return true;
                 }
                 throw new Exception("Could not delete product");
             }
