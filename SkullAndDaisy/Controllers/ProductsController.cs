@@ -36,6 +36,14 @@ namespace SkullAndDaisy.Controllers
             return Created($"/api/target/{newProduct.Id}", newProduct);
         }
 
+        [HttpGet("{id}")]
+        public ActionResult GetSingleProduct(int id)
+        {
+            var singleProduct = _productRepository.GetProduct(id);
+
+            return Ok(singleProduct);
+        }
+
         [HttpGet("GetAllProducts")]
         public ActionResult GetAllProducts()
         {

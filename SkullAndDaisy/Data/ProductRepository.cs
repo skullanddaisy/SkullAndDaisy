@@ -53,6 +53,19 @@ namespace SkullAndDaisy.Data
 
         }
 
+        public Product GetProduct(int id)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var singleProduct = db.QueryFirstOrDefault<Product>(@"
+                    Select * From Products
+                    WHERE id = @id",
+                    new { id });
+
+                return singleProduct;
+            }
+        }
+
         public IEnumerable<Product> GetAll()
         {
             using (var db = new SqlConnection(ConnectionString))
