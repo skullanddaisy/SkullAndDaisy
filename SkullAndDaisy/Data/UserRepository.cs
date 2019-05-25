@@ -22,6 +22,19 @@ namespace SkullAndDaisy.Data
             }
         }
 
+        public User GetSingleUser(int id)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var user = db.QueryFirstOrDefault<User>(@"
+                    Select * From users
+                    Where id = @id",
+                    new { id });
+
+                return user;
+            }
+        }
+
         public User AddUser(string firstName, string lastName, string username, string email, string password, DateTime dateCreated)
         {
             using (var db = new SqlConnection(ConnectionString))
@@ -65,10 +78,10 @@ namespace SkullAndDaisy.Data
                 var updateQuery = @"
                         Update Users
                         Set firstName = @firstname,
-                        lastName = @lastname,
-                        username = @username,
-                        email = @email,
-                        password = @password
+                            lastName = @lastname,
+                            username = @username,
+                            email = @email,
+                            password = @password
                         Where id = @id";
 
                 var rowsAffected = db.Execute(updateQuery, userToUpdate);
