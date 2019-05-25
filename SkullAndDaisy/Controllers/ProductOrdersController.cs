@@ -14,13 +14,19 @@ namespace SkullAndDaisy.Controllers
     public class ProductOrdersController : ControllerBase
     {
         [HttpPost("addProductOrder")]
-        public ActionResult CreateProductOrder(ProductOrder productOrderObject)
+        public ActionResult AddProductOrder(ProductOrder productOrderObject)
         {
             var newProductOrder = ProductOrderRepository.AddProductOrder(productOrderObject.ProductId, productOrderObject.OrderId);
 
             return Created($"api/createdProductOrder/{newProductOrder.Id}", newProductOrder);
         }
 
-        [HttpDelete("deleteProducOrder")]
+        [HttpDelete("deleteProductOrder/{productOrderId}")]
+        public ActionResult DeleteProductOrder(int productOrderId)
+        {
+            var deletedProductOrder = ProductOrderRepository.DeleteProductOrder(productOrderId);
+
+            return Ok(deletedProductOrder);
+        }
     }
 }

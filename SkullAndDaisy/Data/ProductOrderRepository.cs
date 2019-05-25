@@ -17,10 +17,10 @@ namespace SkullAndDaisy.Data
             using (var db = new SqlConnection(ConnectionString))
             {
                 var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
-                    Insert into ProductOrders
+                    Insert into ProductOrders(orderId, productId)
                     Output inserted.*
-                    Values(@productId, @orderId)",
-                    new {productId, orderId});
+                    Values(@orderId, @productId)",
+                    new {orderId, productId});
 
                 if (newProductOrder != null)
                 {
@@ -29,6 +29,25 @@ namespace SkullAndDaisy.Data
             }
 
             throw new Exception("No ProductOrder created");
+        }
+
+        public static ProductOrder DeleteProductOrder(int productOrderId)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var deletedProductOrder = db.QueryFirstOrDefault<ProductOrder>(
+                    @"delete from ProductOrders
+                    output deleted.*
+                    where Id = @productOrderId",
+                    new { productOrderId });
+
+                if (deletedProductOrder != null)
+                {
+                    return deletedProductOrder;
+                }
+            }
+
+            throw new Exception("Product Order did not delete");
         }
     }
 }

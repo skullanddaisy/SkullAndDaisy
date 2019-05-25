@@ -45,14 +45,6 @@ namespace SkullAndDaisy.Controllers
             return Ok(pendingOrder);
         }
 
-        [HttpGet("getCustomersCompletedOrders/{userId}")]
-        public ActionResult GetCustomersCompletedOrders(int userId)
-        {
-            var customerOrders = OrderRepository.GetCustomersCompleted(userId);
-
-            return Ok(customerOrders);
-        }
-
         [HttpPost("addOrder")]
         public ActionResult AddOrder(Order orderObject)
         {
