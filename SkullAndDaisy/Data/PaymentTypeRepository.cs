@@ -38,5 +38,35 @@ namespace SkullAndDaisy.Data
                 return paymentType;
             }
         }
+
+        public PaymentType AddNewPaymentType(string name, int accountNumber, int userId)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var insertQuery = @"
+                    Insert into [dbo].[PaymentTypes](
+                               [Name],
+                               [AccountNumber],
+                               [UserId])
+                    Output inserted.*
+                    Values(@name, @accountNumber, @userId)";
+
+                var parameters = new
+                {
+                    Name = name,
+                    AccountNumber = accountNumber,
+                    UserId = userId
+                };
+
+                var newPaymentType = db.QueryFirstOrDefault<PaymentType>(insertQuery, parameters);
+
+                if (newPaymentType != null)
+                {
+                    return newPaymentType;
+                }
+            }
+
+            throw new Exception("Could not create a payment type");
+        }
     }
 }

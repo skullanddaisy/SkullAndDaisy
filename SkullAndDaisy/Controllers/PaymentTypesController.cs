@@ -35,5 +35,17 @@ namespace SkullAndDaisy.Controllers
 
             return Ok(paymentType);
         }
+
+        [HttpPost("create")]
+        public ActionResult AddPaymentType(CreatePaymentTypeRequest createRequest)
+        {
+            var newPaymentType = _paymentTypeRepository.AddNewPaymentType(
+                createRequest.Name,
+                createRequest.AccountNumber,
+                createRequest.UserId);
+
+            return Created($"/api/paymenttype/{newPaymentType.Id}", newPaymentType);
+        }
+
     }
 }

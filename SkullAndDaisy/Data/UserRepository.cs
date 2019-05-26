@@ -68,7 +68,7 @@ namespace SkullAndDaisy.Data
                 }
             }
 
-            throw new Exception("Could not create leaper");
+            throw new Exception("Could not create user");
         }
 
         public User UpdateUser(User userToUpdate)
