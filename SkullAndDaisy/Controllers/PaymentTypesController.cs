@@ -47,5 +47,13 @@ namespace SkullAndDaisy.Controllers
             return Created($"/api/paymenttype/{newPaymentType.Id}", newPaymentType);
         }
 
+        [HttpPut("update/{id}")]
+        public ActionResult updatePaymentType(PaymentType paymentType)
+        {
+            var updatedPaymentType = _paymentTypeRepository.UpdatePaymentType(paymentType);
+
+            return Ok(paymentType);
+        }
+
     }
 }

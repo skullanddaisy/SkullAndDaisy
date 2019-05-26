@@ -68,5 +68,25 @@ namespace SkullAndDaisy.Data
 
             throw new Exception("Could not create a payment type");
         }
+
+        public PaymentType UpdatePaymentType(PaymentType paymentTypeToUpdate)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var updateQuery = @"
+                        Update PaymentTypes
+                        Set name = @name,
+                            accountNumber = @accountNumber,
+                            userId = @userId
+                        Where id = @id";
+
+                var rowsAffected = db.Execute(updateQuery, paymentTypeToUpdate);
+
+                if (rowsAffected == 1)
+                    return paymentTypeToUpdate;
+            }
+
+            throw new Exception("Could not update payment type");
+        }
     }
 }
