@@ -27,5 +27,13 @@ namespace SkullAndDaisy.Controllers
 
             return Ok(paymentTypes);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSinglePaymentType(int id)
+        {
+            var paymentType = _paymentTypeRepository.GetSinglePaymentType(id);
+
+            return Ok(paymentType);
+        }
     }
 }

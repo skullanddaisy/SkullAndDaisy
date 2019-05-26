@@ -25,5 +25,18 @@ namespace SkullAndDaisy.Data
                 return paymentTypesForUser;
             }
         }
+
+        public PaymentType GetSinglePaymentType(int id)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var paymentType = db.QueryFirstOrDefault<PaymentType>(@"
+                    Select * from PaymentTypes
+                    Where id = @id",
+                    new { id });
+
+                return paymentType;
+            }
+        }
     }
 }

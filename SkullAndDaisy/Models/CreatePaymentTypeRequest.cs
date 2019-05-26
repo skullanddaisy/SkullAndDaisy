@@ -8,6 +8,7 @@ namespace SkullAndDaisy.Models
     public class CreatePaymentTypeRequest
     {
         public string Name { get; set; }
-        public string AccountNo { get; set; }
+        public int AccountNumber { get; set; }
+        public int UserId { get; set; }
     }
 }
