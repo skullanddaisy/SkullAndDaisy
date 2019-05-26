@@ -48,11 +48,19 @@ namespace SkullAndDaisy.Controllers
         }
 
         [HttpPut("update/{id}")]
-        public ActionResult updatePaymentType(PaymentType paymentType)
+        public ActionResult UpdatePaymentType(PaymentType paymentType)
         {
             var updatedPaymentType = _paymentTypeRepository.UpdatePaymentType(paymentType);
 
             return Ok(paymentType);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public ActionResult DeletePaymentType(int id)
+        {
+            var paymentTypeToDelete = _paymentTypeRepository.DeletePaymentType(id);
+
+            return Ok(paymentTypeToDelete);
         }
 
     }

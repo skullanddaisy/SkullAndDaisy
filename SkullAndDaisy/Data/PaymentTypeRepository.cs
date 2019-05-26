@@ -88,5 +88,26 @@ namespace SkullAndDaisy.Data
 
             throw new Exception("Could not update payment type");
         }
+
+        public bool DeletePaymentType(int id)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var deleteQuery = @"
+                    Delete from PaymentTypes
+                    Where id = @id";
+
+                var parameters = new { Id = id };
+
+                var rowsAffected = db.Execute(deleteQuery, parameters);
+
+                if (rowsAffected == 1)
+                {
+                    return true;
+                }
+
+                throw new Exception("Could not delete payment type");
+            }
+        }
     }
 }
