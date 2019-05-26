@@ -20,7 +20,7 @@ namespace SkullAndDaisy.Controllers
             _paymentTypeRepository = new PaymentTypeRepository();
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{userId}/all")]
         public ActionResult GetAllPaymentTypesForUser(int userId)
         {
             var paymentTypes = _paymentTypeRepository.GetAllPaymentTypesForUser(userId);
