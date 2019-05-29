@@ -39,7 +39,7 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public PaymentType AddNewPaymentType(string name, int accountNumber, int userId)
+        public PaymentType AddNewPaymentType(string name, int accountNumber, int userId, bool isActive)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
@@ -47,15 +47,17 @@ namespace SkullAndDaisy.Data
                     Insert into [dbo].[PaymentTypes](
                                [Name],
                                [AccountNumber],
-                               [UserId])
+                               [UserId],
+                               [IsActive])
                     Output inserted.*
-                    Values(@name, @accountNumber, @userId)";
+                    Values(@name, @accountNumber, @userId, @isActive)";
 
                 var parameters = new
                 {
                     Name = name,
                     AccountNumber = accountNumber,
-                    UserId = userId
+                    UserId = userId,
+                    IsActive = isActive
                 };
 
                 var newPaymentType = db.QueryFirstOrDefault<PaymentType>(insertQuery, parameters);
@@ -94,7 +96,8 @@ namespace SkullAndDaisy.Data
             using (var db = new SqlConnection(ConnectionString))
             {
                 var deleteQuery = @"
-                    Delete from PaymentTypes
+                    Update PaymentTypes
+                    Set isActive = 0
                     Where id = @id";
 
                 var parameters = new { Id = id };

@@ -42,7 +42,8 @@ namespace SkullAndDaisy.Controllers
             var newPaymentType = _paymentTypeRepository.AddNewPaymentType(
                 createRequest.Name,
                 createRequest.AccountNumber,
-                createRequest.UserId);
+                createRequest.UserId,
+                createRequest.IsActive);
 
             return Created($"/api/paymenttype/{newPaymentType.Id}", newPaymentType);
         }
@@ -55,7 +56,7 @@ namespace SkullAndDaisy.Controllers
             return Ok(paymentType);
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpPut("delete/{id}")]
         public ActionResult DeletePaymentType(int id)
         {
             var paymentTypeToDelete = _paymentTypeRepository.DeletePaymentType(id);
