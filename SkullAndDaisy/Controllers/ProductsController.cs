@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SkullAndDaisy.Data;
 using SkullAndDaisy.Models;
 
@@ -36,6 +31,7 @@ namespace SkullAndDaisy.Controllers
             return Created($"/api/target/{newProduct.Id}", newProduct);
         }
 
+        // Get single product method
         [HttpGet("{id}")]
         public ActionResult GetSingleProduct(int id)
         {

@@ -52,7 +52,7 @@ namespace SkullAndDaisy.Data
             }
 
         }
-
+        // Get single product method
         public Product GetProduct(int id)
         {
             using (var db = new SqlConnection(ConnectionString))
