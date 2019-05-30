@@ -14,5 +14,7 @@ namespace SkullAndDaisy.Models
         public int PaymentTypeId { get; set; }
         public int UserId { get; set; }
 
+        public List<Product> Products { get; set; }
+
     }
 }
