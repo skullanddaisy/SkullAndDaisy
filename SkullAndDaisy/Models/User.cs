@@ -14,5 +14,14 @@ namespace SkullAndDaisy.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime DateCreated { get; set; }
+
+        // Items user is selling
+        public List<Product> Products { get; set; }
+
+        // Methods of payment
+        public List<PaymentType> PaymentTypes { get; set; }
+
+        // Order history
+        public List<Order> Orders { get; set; }
     }
 }

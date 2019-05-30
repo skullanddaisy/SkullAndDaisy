@@ -26,6 +26,14 @@ namespace SkullAndDaisy.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{id}")]
+        public ActionResult GetSingleUser(int id)
+        {
+            var user = _userRepository.GetSingleUser(id);
+
+            return Ok(user);
+        }
+
         [HttpPost("register")]
         public ActionResult AddUser(CreateUserRequest createRequest)
         {

@@ -18,7 +18,43 @@ namespace SkullAndDaisy.Data
             {
                 var users = db.Query<User>("Select * from Users").ToList();
 
+                var paymentTypes = db.Query<PaymentType>("Select * from PaymentTypes").ToList();
+
+                var products = db.Query<Product>("Select * from Products").ToList();
+
+                var orders = db.Query<Order>("Select * from Orders").ToList();
+
+                foreach (var user in users)
+                {
+                    user.PaymentTypes = paymentTypes.Where(paymentType => paymentType.UserId == user.Id).ToList();
+                    user.Products = products.Where(product => product.UserId == user.Id).ToList();
+                    user.Orders = orders.Where(order => order.UserId == user.Id).ToList();
+                }
+
                 return users;
+            }
+        }
+
+        public User GetSingleUser(int id)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var paymentTypes = db.Query<PaymentType>("Select * from PaymentTypes").ToList();
+
+                var products = db.Query<Product>("Select * from Products").ToList();
+
+                var orders = db.Query<Order>("Select * from Orders").ToList();
+
+                var user = db.QueryFirstOrDefault<User>(@"
+                    Select * From users
+                    Where id = @id",
+                    new { id });
+
+                user.Orders = orders.Where(order => order.UserId == user.Id).ToList();
+                user.PaymentTypes = paymentTypes.Where(paymentType => paymentType.UserId == user.Id).ToList();
+                user.Products = products.Where(product => product.UserId == user.Id).ToList();
+
+                return user;
             }
         }
 
@@ -55,7 +91,7 @@ namespace SkullAndDaisy.Data
                 }
             }
 
-            throw new Exception("Could not create leaper");
+            throw new Exception("Could not create user");
         }
 
         public User UpdateUser(User userToUpdate)
@@ -65,10 +101,10 @@ namespace SkullAndDaisy.Data
                 var updateQuery = @"
                         Update Users
                         Set firstName = @firstname,
-                        lastName = @lastname,
-                        username = @username,
-                        email = @email,
-                        password = @password
+                            lastName = @lastname,
+                            username = @username,
+                            email = @email,
+                            password = @password
                         Where id = @id";
 
                 var rowsAffected = db.Execute(updateQuery, userToUpdate);
