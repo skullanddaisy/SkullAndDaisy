@@ -47,5 +47,13 @@ namespace SkullAndDaisy.Controllers
 
             return Created($"api/createdOrder/{newOrder.Id}", newOrder);
         }
+
+        [HttpPut("updateOrder")]
+        public ActionResult UpdateOrder(Order orderObject)
+        {
+            var updatedOrder = OrderRepository.UpdateOrder(orderObject.Id, orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
+
+            return Ok(updatedOrder);
+        }
     }
 }
