@@ -39,10 +39,20 @@ namespace SkullAndDaisy.Data
         {
             using (var db = new SqlConnection(ConnectionString))
             {
+                var paymentTypes = db.Query<PaymentType>("Select * from PaymentTypes").ToList();
+
+                var products = db.Query<Product>("Select * from Products").ToList();
+
+                var orders = db.Query<Order>("Select * from Orders").ToList();
+
                 var user = db.QueryFirstOrDefault<User>(@"
                     Select * From users
                     Where id = @id",
                     new { id });
+
+                user.Orders = orders.Where(order => order.UserId == user.Id).ToList();
+                user.PaymentTypes = paymentTypes.Where(paymentType => paymentType.UserId == user.Id).ToList();
+                user.Products = products.Where(product => product.UserId == user.Id).ToList();
 
                 return user;
             }
