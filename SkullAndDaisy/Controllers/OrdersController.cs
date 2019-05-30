@@ -51,7 +51,7 @@ namespace SkullAndDaisy.Controllers
         [HttpPut("updateOrder")]
         public ActionResult UpdateOrder(Order orderObject)
         {
-            var updatedOrder = OrderRepository.UpdateOrder(orderObject);
+            var updatedOrder = OrderRepository.UpdateOrder(orderObject.Id, orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
 
             return Ok(updatedOrder);
         }

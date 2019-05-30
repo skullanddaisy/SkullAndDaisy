@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
 using System;
+using System.Linq;
 
 namespace SkullAndDaisy.Data
 {
@@ -11,6 +12,42 @@ namespace SkullAndDaisy.Data
         public static List<ProductOrder> _productOrders = new List<ProductOrder>();
 
         const string ConnectionString = "Server = localhost; Database = SkullAndDaisy; Trusted_Connection = True;";
+
+        public static List<ProductOrder> GetAll()
+        {
+            using(var db = new SqlConnection(ConnectionString))
+            {
+                var allProductOrders = db.Query<ProductOrder>(@"
+                    select Id, ProductId, OrderId
+                    from ProductOrders").ToList();
+
+                if (allProductOrders != null)
+                {
+                    return allProductOrders;
+                }
+            }
+
+            throw new Exception("Found no Product Orders");
+        }
+
+        public static List<ProductOrder> GetAllByOrderId(int orderId)
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var filteredProductOrders = db.Query<ProductOrder>(@"
+                    select Id, ProductId, OrderId
+                    from ProductOrders
+                    where OrderId = @orderId",
+                    new { orderId }).ToList();
+
+                if (filteredProductOrders != null)
+                {
+                    return filteredProductOrders;
+                } 
+            }
+
+            throw new Exception("Found no Product Orders");
+        }
 
         public static ProductOrder AddProductOrder(int productId, int orderId)
         {

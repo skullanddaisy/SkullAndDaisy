@@ -110,5 +110,29 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found No Orders");
         }
 
+        public static Order UpdateOrder(int id, string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
+        {
+            using(var db = new SqlConnection(ConnectionString))
+            {
+                var updatedOrder = db.QueryFirstOrDefault<Order>(@"
+                    update Orders
+                    set OrderStatus = @orderStatus,
+                    Total = @total,
+                    OrderDate = @orderDate,
+                    PaymentTypeId = @paymentTypeId,
+                    UserId = @userId
+                    output inserted.*
+                    where Id = @id",
+                    new {orderStatus, total, orderDate, paymentTypeId, userId, id});
+
+                if (updatedOrder != null)
+                {
+                    return updatedOrder;
+                }
+
+            }
+
+            throw new Exception("Order did not update");
+        }
     }
 }

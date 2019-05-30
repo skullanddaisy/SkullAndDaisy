@@ -8,6 +8,22 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class ProductOrdersController : ControllerBase
     {
+        [HttpGet("getAllProductOrders")]
+        public ActionResult GetAllProductOrders()
+        {
+            var allProductOrders = ProductOrderRepository.GetAll();
+
+            return Ok(allProductOrders);
+        }
+
+        [HttpGet("GetProductOrdersByOrderId/{orderId}")]
+        public ActionResult GetProductOrdersByOrderId(int orderId)
+        {
+            var filteredProductOrders = ProductOrderRepository.GetAllByOrderId(orderId);
+
+            return Ok(filteredProductOrders);
+        }
+
         [HttpPost("addProductOrder")]
         public ActionResult AddProductOrder(ProductOrder productOrderObject)
         {
