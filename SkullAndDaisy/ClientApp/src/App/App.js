@@ -1,10 +1,5 @@
-import React, { Component } from 'react';
-
-import connection from '../helpers/data/connection';
-
-import Auth from '../components/Auth/Auth';
-
-import './App.scss';
+import React, { Component } from '../../node_modules/react';
+import connection from '../firebaseRequests/connection'
 
 class App extends Component {
   componentDidMount() {
@@ -14,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Auth />
+        
       </div>
     );
   }
