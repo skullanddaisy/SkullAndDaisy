@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Options;
 using SkullAndDaisy.Models;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,15 @@ namespace SkullAndDaisy.Data
 {
     public class UserRepository
     {
-        const string ConnectionString = "Server=localhost;Database=SkullAndDaisy;Trusted_Connection=True;";
+        readonly string _connectionString;
 
+        public UserRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
         public IEnumerable<User> GetAllUsers()
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var users = db.Query<User>("Select * from Users").ToList();
 
@@ -37,7 +42,7 @@ namespace SkullAndDaisy.Data
 
         public User GetSingleUser(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var paymentTypes = db.Query<PaymentType>("Select * from PaymentTypes").ToList();
 
@@ -60,7 +65,7 @@ namespace SkullAndDaisy.Data
 
         public User AddUser(string firstName, string lastName, string username, string email, string password, DateTime dateCreated)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var insertQuery = @"
                     Insert into [dbo].[Users](
@@ -96,7 +101,7 @@ namespace SkullAndDaisy.Data
 
         public User UpdateUser(User userToUpdate)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updateQuery = @"
                         Update Users
@@ -118,7 +123,7 @@ namespace SkullAndDaisy.Data
 
         public bool DeleteUserAccount(User userToUpdate)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updateQuery = @"
                     Update Users

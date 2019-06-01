@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkullAndDaisy.Data;
 using SkullAndDaisy.Models;
 using SkullAndDaisy.Validators;
@@ -12,9 +13,9 @@ namespace SkullAndDaisy.Controllers
         readonly UserRepository _userRepository;
         readonly CreateUserRequestValidator _validator;
 
-        public UsersController()
+        public UsersController(UserRepository userRepository)
         {
-            _userRepository = new UserRepository();
+            _userRepository = userRepository;
             _validator = new CreateUserRequestValidator();
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace SkullAndDaisy.Data
 {
@@ -51,7 +52,7 @@ namespace SkullAndDaisy.Data
 
         public static Order AddOrder(string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
         {
-            using(var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(ConnectionString))
             {
                 var newOrderObject = db.QueryFirstOrDefault<Order>(@"
                     Insert into Orders(OrderStatus, Total, OrderDate, PaymentTypeId, UserId)

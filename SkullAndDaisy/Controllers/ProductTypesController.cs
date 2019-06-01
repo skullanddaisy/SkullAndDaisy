@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkullAndDaisy.Data;
@@ -13,17 +14,16 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class ProductTypesController : ControllerBase
     {
-        ProductTypeRepository _productTypeRepository;
+        readonly ProductTypeRepository _productTypeRepository;
 
-        public ProductTypesController()
+        public ProductTypesController(ProductTypeRepository productTypeRepository)
         {
-            _productTypeRepository = new ProductTypeRepository();
+            _productTypeRepository = productTypeRepository;
         }
 
         [HttpPost("CreateProductType")]
         public ActionResult AddProductType(CreateProductTypeRequest createRequest)
         {
-            _productTypeRepository = new ProductTypeRepository();
 
             var newProductType = _productTypeRepository.AddProductType(
                 createRequest.Name);
