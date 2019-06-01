@@ -1,20 +1,25 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Options;
 using SkullAndDaisy.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SkullAndDaisy.Data
 {
     public class PaymentTypeRepository
     {
-        const string ConnectionString = "Server=localhost;Database=SkullAndDaisy;Trusted_Connection=True;";
+        readonly string _connectionString;
+
+        public PaymentTypeRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
 
         public IEnumerable<PaymentType> GetAllPaymentTypesForUser(int userId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var paymentTypesForUser = db.Query<PaymentType>(@"
                     Select * 
@@ -28,7 +33,7 @@ namespace SkullAndDaisy.Data
 
         public PaymentType GetSinglePaymentType(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var paymentType = db.QueryFirstOrDefault<PaymentType>(@"
                     Select * from PaymentTypes
@@ -41,7 +46,7 @@ namespace SkullAndDaisy.Data
 
         public PaymentType AddNewPaymentType(string name, int accountNumber, int userId, bool isActive)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var insertQuery = @"
                     Insert into [dbo].[PaymentTypes](
@@ -73,7 +78,7 @@ namespace SkullAndDaisy.Data
 
         public PaymentType UpdatePaymentType(PaymentType paymentTypeToUpdate)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updateQuery = @"
                         Update PaymentTypes
@@ -93,7 +98,7 @@ namespace SkullAndDaisy.Data
 
         public bool DeletePaymentType(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deleteQuery = @"
                     Update PaymentTypes

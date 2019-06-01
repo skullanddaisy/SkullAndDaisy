@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,11 +10,16 @@ namespace SkullAndDaisy.Data
 {
     public class ProductRepository
     {
-        const string ConnectionString = "Server=localhost;Database=SkullAndDaisy;Trusted_Connection=True;";
+        readonly string _connectionString;
+
+        public ProductRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
 
         public Product AddProduct(string title, string description, int productTypeId, decimal price, int quantity, int userId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var insertQuery = @"
                     INSERT INTO [dbo].[Products]
@@ -55,7 +61,7 @@ namespace SkullAndDaisy.Data
         // Get single product method
         public Product GetProduct(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var singleProduct = db.QueryFirstOrDefault<Product>(@"
                     Select * From Products
@@ -68,7 +74,7 @@ namespace SkullAndDaisy.Data
 
         public IEnumerable<Product> GetAll()
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var products = db.Query<Product>("Select * from Products").ToList();
 
@@ -78,7 +84,7 @@ namespace SkullAndDaisy.Data
 
         public Product UpdateProduct(Product productToUpdate)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updateQuery = @"
                 UPDATE [dbo].[Products]
@@ -100,7 +106,7 @@ namespace SkullAndDaisy.Data
 
         public bool DeleteProduct(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deleteQuery = @"
                 DELETE FROM [dbo].[Products]

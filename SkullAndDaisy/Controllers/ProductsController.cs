@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkullAndDaisy.Data;
 using SkullAndDaisy.Models;
 
@@ -8,17 +9,16 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        ProductRepository _productRepository;
+        readonly ProductRepository _productRepository;
 
-        public ProductsController()
+        public ProductsController(ProductRepository productRepository)
         {
-            _productRepository = new ProductRepository();
+            _productRepository = productRepository;
         }
 
         [HttpPost("CreateProduct")]
         public ActionResult AddProduct(CreateProductRequest createRequest)
         {
-            _productRepository = new ProductRepository();
 
             var newProduct = _productRepository.AddProduct(
                 createRequest.Title,
@@ -33,6 +33,7 @@ namespace SkullAndDaisy.Controllers
 
         // Get single product method
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult GetSingleProduct(int id)
         {
             var singleProduct = _productRepository.GetProduct(id);
@@ -41,6 +42,7 @@ namespace SkullAndDaisy.Controllers
         }
 
         [HttpGet("GetAllProducts")]
+        [AllowAnonymous]
         public ActionResult GetAllProducts()
         {
             var products = _productRepository.GetAll();

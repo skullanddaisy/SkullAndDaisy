@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkullAndDaisy.Models;
 using SkullAndDaisy.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SkullAndDaisy.Controllers
 {
@@ -15,9 +16,9 @@ namespace SkullAndDaisy.Controllers
     {
         readonly PaymentTypeRepository _paymentTypeRepository;
 
-        public PaymentTypesController()
+        public PaymentTypesController(PaymentTypeRepository paymentTypeRepository)
         {
-            _paymentTypeRepository = new PaymentTypeRepository();
+            _paymentTypeRepository = paymentTypeRepository;
         }
 
         [HttpGet("{userId}/all")]
