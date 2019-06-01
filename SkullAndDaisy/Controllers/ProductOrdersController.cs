@@ -9,10 +9,17 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class ProductOrdersController : ControllerBase
     {
+        readonly ProductOrderRepository _productOrderRepository;
+
+        public ProductOrdersController(ProductOrderRepository productOrderRepository)
+        {
+            _productOrderRepository = productOrderRepository;
+        }
+
         [HttpGet("getAllProductOrders")]
         public ActionResult GetAllProductOrders()
         {
-            var allProductOrders = ProductOrderRepository.GetAll();
+            var allProductOrders = _productOrderRepository.GetAll();
 
             return Ok(allProductOrders);
         }
@@ -20,7 +27,7 @@ namespace SkullAndDaisy.Controllers
         [HttpGet("GetProductOrdersByOrderId/{orderId}")]
         public ActionResult GetProductOrdersByOrderId(int orderId)
         {
-            var filteredProductOrders = ProductOrderRepository.GetAllByOrderId(orderId);
+            var filteredProductOrders = _productOrderRepository.GetAllByOrderId(orderId);
 
             return Ok(filteredProductOrders);
         }
@@ -28,7 +35,7 @@ namespace SkullAndDaisy.Controllers
         [HttpPost("addProductOrder")]
         public ActionResult AddProductOrder(ProductOrder productOrderObject)
         {
-            var newProductOrder = ProductOrderRepository.AddProductOrder(productOrderObject.ProductId, productOrderObject.OrderId);
+            var newProductOrder = _productOrderRepository.AddProductOrder(productOrderObject.ProductId, productOrderObject.OrderId);
 
             return Created($"api/createdProductOrder/{newProductOrder.Id}", newProductOrder);
         }
@@ -36,7 +43,7 @@ namespace SkullAndDaisy.Controllers
         [HttpDelete("deleteProductOrder/{productOrderId}")]
         public ActionResult DeleteProductOrder(int productOrderId)
         {
-            var deletedProductOrder = ProductOrderRepository.DeleteProductOrder(productOrderId);
+            var deletedProductOrder = _productOrderRepository.DeleteProductOrder(productOrderId);
 
             return Ok(deletedProductOrder);
         }

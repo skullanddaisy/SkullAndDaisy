@@ -10,15 +10,24 @@ namespace SkullAndDaisy.Data
 {
     public class OrderRepository
     {
-        const string ConnectionString = "Server = localhost; Database = SkullAndDaisy; Trusted_Connection = True;";
+        readonly string _connectionString;
+        readonly ProductOrderRepository _productOrderRepository;
+        readonly ProductRepository _productRepository;
 
-        public static List<Order> GetBySeller(int userId)
+        public OrderRepository(IOptions<DbConfiguration> dbConfig, ProductOrderRepository productOrderRepository, ProductRepository productRepository)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            _connectionString = dbConfig.Value.ConnectionString;
+            _productRepository = productRepository;
+            _productOrderRepository = productOrderRepository;
+        }
+
+        public List<Order> GetBySeller(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
             {
                 var orders = db.Query<Order>("select * from orders").ToList();
 
-                var productOrders = ProductOrderRepository.GetAll();
+                var productOrders = _productOrderRepository.GetAll();
 
                 var products = db.Query<Product>(@"select * 
                     from Products 
@@ -50,9 +59,9 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no orders");
         }
 
-        public static Order AddOrder(string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
+        public Order AddOrder(string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var newOrderObject = db.QueryFirstOrDefault<Order>(@"
                     Insert into Orders(OrderStatus, Total, OrderDate, PaymentTypeId, UserId)
@@ -69,17 +78,15 @@ namespace SkullAndDaisy.Data
             throw new Exception("No Order Created");
         }
 
-        public static List<Order> GetAll(int userId)
+        public List<Order> GetAll(int userId)
         {
-            using(var db = new SqlConnection(ConnectionString))
+            using(var db = new SqlConnection(_connectionString))
             {
                 var myorders = db.Query<Order>(
                     @"select Id, OrderStatus, OrderDate, Total, PaymentTypeId, UserId
                     from Orders
                     where UserId = @userId",
                     new { userId }).ToList();
-
-               
 
                 var orders = FilterProducts(myorders);
 
@@ -89,9 +96,9 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found No Orders");
         }
 
-        public static List<Order> GetByStatus(int userId, string orderStatus)
+        public List<Order> GetByStatus(int userId, string orderStatus)
         {
-            using(var db = new SqlConnection(ConnectionString))
+            using(var db = new SqlConnection(_connectionString))
             {
                 var filteredOrders = db.Query<Order>(
                     @"select Id, OrderStatus, OrderDate, Total, PaymentTypeId, UserId
@@ -109,17 +116,15 @@ namespace SkullAndDaisy.Data
         }
 
 
-        public static List<Order> FilterProducts(List<Order> orders)
+        public List<Order> FilterProducts(List<Order> orders)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 if (orders != null)
                 {
-                    var productOrders = ProductOrderRepository.GetAll();
+                    var productOrders = _productOrderRepository.GetAll();
 
-                    var products = db.Query<Product>("select * from Products").ToList();
-
-                    
+                    var products = _productRepository.GetAll().ToList();
 
                     foreach (var order in orders)
                     {
@@ -144,9 +149,9 @@ namespace SkullAndDaisy.Data
         }
 
 
-        public static Order UpdateOrder(int id, string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
+        public Order UpdateOrder(int id, string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
         {
-            using(var db = new SqlConnection(ConnectionString))
+            using(var db = new SqlConnection(_connectionString))
             {
                 var updatedOrder = db.QueryFirstOrDefault<Order>(@"
                     update Orders
