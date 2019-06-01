@@ -9,42 +9,41 @@ namespace SkullAndDaisy.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        readonly OrderRepository _orderRepository;
+
+        public OrdersController(OrderRepository orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
+
+        [HttpGet("getOrdersByProductSeller/{userId}")]
+        public ActionResult GetOrdersByProductSeller(int userId)
+        {
+            var resultingOrders = _orderRepository.GetBySeller(userId);
+
+            return Ok(resultingOrders);
+        }
+
         [HttpGet("getAllMyOrders/{userId}")]
         public ActionResult GetAllMyOrders(int userId)
         {
-            var allOrders = OrderRepository.GetAll(userId);
+            var allOrders = _orderRepository.GetAll(userId);
 
             return Ok(allOrders);
         }
 
-        [HttpGet("getMyCompletedOrders/{userId}")]
-        public ActionResult GetMyCompletedOrders(int userId)
+        [HttpGet("getMyOrdersByStatus/{userId}/{orderStatus}")]
+        public ActionResult GetMyOrdersByStatus(int userId, string orderStatus)
         {
-            var completedOrders = OrderRepository.GetCompleted(userId);
+            var myOrders = _orderRepository.GetByStatus(userId, orderStatus);
 
-            return Ok(completedOrders);
-        }
-
-        [HttpGet("getMyCancelledOrders/{userId}")]
-        public ActionResult GetMyCancelledOrders(int userId)
-        {
-            var cancelledOrders = OrderRepository.GetCancelled(userId);
-
-            return Ok(cancelledOrders);
-        }
-
-        [HttpGet("getMyPendingOrder/{userId}")]
-        public ActionResult GetMyPendingOrder(int userId)
-        {
-            var pendingOrder = OrderRepository.GetPending(userId);
-
-            return Ok(pendingOrder);
+            return Ok(myOrders);
         }
 
         [HttpPost("addOrder")]
         public ActionResult AddOrder(Order orderObject)
         {
-            var newOrder = OrderRepository.AddOrder(orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
+            var newOrder = _orderRepository.AddOrder(orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
 
             return Created($"api/createdOrder/{newOrder.Id}", newOrder);
         }
@@ -52,7 +51,7 @@ namespace SkullAndDaisy.Controllers
         [HttpPut("updateOrder")]
         public ActionResult UpdateOrder(Order orderObject)
         {
-            var updatedOrder = OrderRepository.UpdateOrder(orderObject.Id, orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
+            var updatedOrder = _orderRepository.UpdateOrder(orderObject.Id, orderObject.OrderStatus, orderObject.Total, orderObject.OrderDate, orderObject.PaymentTypeId, orderObject.UserId);
 
             return Ok(updatedOrder);
         }

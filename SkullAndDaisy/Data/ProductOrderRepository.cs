@@ -4,18 +4,22 @@ using System.Data.SqlClient;
 using Dapper;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace SkullAndDaisy.Data
 {
     public class ProductOrderRepository
     {
-        public static List<ProductOrder> _productOrders = new List<ProductOrder>();
+        readonly string _connectionString;
 
-        const string ConnectionString = "Server = localhost; Database = SkullAndDaisy; Trusted_Connection = True;";
-
-        public static List<ProductOrder> GetAll()
+        public ProductOrderRepository(IOptions<DbConfiguration> dbConfig)
         {
-            using(var db = new SqlConnection(ConnectionString))
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
+
+        public List<ProductOrder> GetAll()
+        {
+            using(var db = new SqlConnection(_connectionString))
             {
                 var allProductOrders = db.Query<ProductOrder>(@"
                     select Id, ProductId, OrderId
@@ -30,9 +34,9 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no Product Orders");
         }
 
-        public static List<ProductOrder> GetAllByOrderId(int orderId)
+        public List<ProductOrder> GetAllByOrderId(int orderId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var filteredProductOrders = db.Query<ProductOrder>(@"
                     select Id, ProductId, OrderId
@@ -49,9 +53,9 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no Product Orders");
         }
 
-        public static ProductOrder AddProductOrder(int productId, int orderId)
+        public ProductOrder AddProductOrder(int productId, int orderId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
                     Insert into ProductOrders(orderId, productId)
@@ -68,9 +72,9 @@ namespace SkullAndDaisy.Data
             throw new Exception("No ProductOrder created");
         }
 
-        public static ProductOrder DeleteProductOrder(int productOrderId)
+        public ProductOrder DeleteProductOrder(int productOrderId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deletedProductOrder = db.QueryFirstOrDefault<ProductOrder>(
                     @"delete from ProductOrders
