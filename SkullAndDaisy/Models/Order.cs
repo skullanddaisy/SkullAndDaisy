@@ -17,4 +17,11 @@ namespace SkullAndDaisy.Models
         public List<Product> Products { get; set; }
 
     }
+
+    internal enum OrderStatus
+    {
+        Complete,
+        Cancelled,
+        Pending
+    }
 }
