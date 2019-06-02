@@ -1,5 +1,5 @@
 import React, { Component } from '../../node_modules/react';
-import connection from '../firebaseRequests/connection'
+import connection from '../helpers/data/connection'
 
 class App extends Component {
   componentDidMount() {
