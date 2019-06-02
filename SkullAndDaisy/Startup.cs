@@ -47,6 +47,7 @@ namespace SkullAndDaisy
             services.AddTransient<ProductOrderRepository>();
             services.AddTransient<ProductRepository>();
             services.AddTransient<ProductTypeRepository>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
 
             // In production, the React files will be served from this directory
@@ -73,6 +74,11 @@ namespace SkullAndDaisy
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials();
+            });
 
             app.UseMvc();
 
