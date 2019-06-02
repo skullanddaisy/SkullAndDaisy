@@ -8,7 +8,7 @@ namespace SkullAndDaisy.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : SecureControllerBase
     {
         readonly UserRepository _userRepository;
         readonly CreateUserRequestValidator _validator;

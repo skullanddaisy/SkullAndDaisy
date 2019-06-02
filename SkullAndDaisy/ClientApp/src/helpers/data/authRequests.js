@@ -40,4 +40,8 @@ const getUid = () => {
     return firebase.auth().currentUser.uid;
 };
 
-export default { getUid, loginUser, logoutUser, registerUser };
+export default { 
+    getUid, 
+    loginUser, 
+    logoutUser, 
+    registerUser };
