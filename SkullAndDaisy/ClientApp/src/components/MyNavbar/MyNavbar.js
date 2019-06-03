@@ -19,7 +19,7 @@ class MyNavbar extends React.Component {
   render() {
     return (
       <div className="mynavbar">
-        <Navbar color="dark" light expand="md">
+        <Navbar color="light" light expand="md">
           <NavbarBrand href="/">Skull & Daisy</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import authRequests from '../../helpers/data/authRequests';
-
 import './Auth.scss';
 
 class Auth extends React.Component {
