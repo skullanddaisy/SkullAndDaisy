@@ -1,5 +1,6 @@
 import React, { Component } from '../../node_modules/react';
-import connection from '../helpers/data/connection'
+import connection from '../helpers/data/connection';
+import Auth from '../components/Auth/Auth';
 
 class App extends Component {
   componentDidMount() {
@@ -8,8 +9,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        
+      <div className="Auth">
+        <Auth />
       </div>
     );
   }
