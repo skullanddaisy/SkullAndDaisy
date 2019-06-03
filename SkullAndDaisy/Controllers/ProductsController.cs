@@ -41,6 +41,7 @@ namespace SkullAndDaisy.Controllers
             return Ok(singleProduct);
         }
 
+        // Get all products method
         [HttpGet("GetAllProducts")]
         [AllowAnonymous]
         public ActionResult GetAllProducts()
@@ -50,6 +51,7 @@ namespace SkullAndDaisy.Controllers
             return Ok(products);
         }
 
+        // Update single product method
         [HttpPut("UpdateProduct/{id}")]
         public ActionResult UpdateProduct(Product product)
         {
@@ -57,12 +59,22 @@ namespace SkullAndDaisy.Controllers
             return Ok(product);
         }
 
+        // Delete single product method
         [HttpDelete("DeleteProduct/{productId}")]
         public ActionResult DeleteProduct(int productId)
         {
             var productToDelete = _productRepository.DeleteProduct(productId);
 
             return Ok(productToDelete);
+        }
+
+        // Filter products by productTypeId method
+        [HttpGet("FilterProductByType/{productTypeId}")]
+        public ActionResult FilterProductByType(int productTypeId)
+        {
+            var productFilteredByType = _productRepository.FilterProductByType(productTypeId);
+
+            return Ok(productFilteredByType);
         }
     }
 }

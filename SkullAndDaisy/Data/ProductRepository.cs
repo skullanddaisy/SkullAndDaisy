@@ -126,5 +126,19 @@ namespace SkullAndDaisy.Data
                 throw new Exception("Could not delete product");
             }
         }
+
+        public IEnumerable<Product> FilterProductByType(int productTypeId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var productsFilteredByType = db.Query<Product>(@"
+                SELECT * FROM Products
+                JOIN ProductTypes ON ProductTypes.Id = Products.ProductTypeId
+                WHERE ProductTypeId = @productTypeId",
+                new { productTypeId }).ToList();
+
+                return productsFilteredByType;
+            }
+        }
     }
 }
