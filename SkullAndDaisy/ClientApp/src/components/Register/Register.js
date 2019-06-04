@@ -11,7 +11,7 @@ import {
   ModalBody,
 } from 'reactstrap';
 
-import authRequests from '../../../helpers/data/authRequests';
+import authRequests from '../../helpers/data/authRequests';
 
 const tempUser = {
   email: '',
