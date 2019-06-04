@@ -1,5 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Row,
+    Col,
+    Container,
+  } from 'reactstrap';
 import authRequests from '../../../helpers/data/authRequests';
 import Register from '../Register/Register.js';
 
@@ -41,16 +51,17 @@ class Auth extends React.Component {
     render () {
         const { user } = this.state;
         return (
-            <div className="Login">
+            <Container className="Login">
+                <Row>
+                    <Col><h1 className="text-center">Skull And Daisy</h1></Col>
+                </Row>
                 <div id="login-form">
-                <h1 className="text-center">Login</h1>
-                <form className="form-horizontal col-sm-6 col-sm-offset-3">
-                    <div className="form-group">
-                    <label htmlFor="inputEmail" className="col-sm-4 control-label">
+                <Form>
+                    <FormGroup className="form-group">
+                    <Label htmlFor="inputEmail" className="col-sm-4 control-label">
                         Email:
-                    </label>
-                    <div className="col-sm-8">
-                        <input
+                    </Label>
+                        <Input
                         type="email"
                         className="form-control"
                         id="inputEmail"
@@ -58,14 +69,12 @@ class Auth extends React.Component {
                         value={user.email}
                         onChange={this.emailChange}
                         />
-                    </div>
-                    </div>
-                    <div className="form-group">
-                    <label htmlFor="inputPassword" className="col-sm-4 control-label">
+                    </FormGroup>
+                    <FormGroup className="form-group">
+                    <Label htmlFor="inputPassword" className="col-sm-4 control-label">
                         Password:
-                    </label>
-                    <div className="col-sm-8">
-                        <input
+                    </Label>
+                        <Input
                         type="password"
                         className="form-control"
                         id="inputPassword"
@@ -73,28 +82,22 @@ class Auth extends React.Component {
                         value={user.password}
                         onChange={this.passwordChange}
                         />
-                    </div>
-                    </div>
-                    <div className="form-group">
-                    <div className="col-sm-12 text-center">
-                        <Link to="/register">Need to Register?</Link>
-                    </div>
-                    </div>
-                    <div className="form-group">
+                    </FormGroup>
+                    <FormGroup className="form-group">
                     <div className="col-sm-12">
-                        <button
+                        <Button
                         type="submit"
                         className="btn btn-default col-xs-12"
                         onClick={this.loginClickEvent}
                         >
                         Login
-                        </button>
+                        </Button>
                     </div>
-                    </div>
-                </form>
+                    </FormGroup>
+                </Form>
                 </div>
                 <Register />
-            </div>
+            </Container>
         );
     }
 }
