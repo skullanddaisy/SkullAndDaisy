@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
     Button,
     Form,
@@ -11,7 +10,7 @@ import {
     Container,
   } from 'reactstrap';
 import authRequests from '../../../helpers/data/authRequests';
-import Register from '../Register/Register.js';
+import Register from '../../Register/Register.js';
 
 import './Auth.scss';
 
