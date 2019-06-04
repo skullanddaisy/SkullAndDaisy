@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import authRequests from '../../../helpers/data/authRequests';
 
 import './Auth.scss';
 
@@ -9,6 +10,31 @@ class Auth extends React.Component {
             email: '',
             password: '',
         },
+    };
+
+    loginClickEvent = (e) => {
+        const { user } = this.state;
+        e.preventDefault();
+        authRequests
+            .loginUser(user)
+            .then(() => {
+            this.props.history.push('/home');
+        })
+        .catch(error => {
+            console.error('there was an error in registering', error);
+        });
+    };
+    
+    emailChange = e => {
+        const tempUser = { ...this.state.user };
+        tempUser.email = e.target.value;
+        this.setState({ user: tempUser });
+    };
+    
+    passwordChange = e => {
+        const tempUser = { ...this.state.user };
+        tempUser.password = e.target.value;
+        this.setState({ user: tempUser });
     };
 
     render () {
