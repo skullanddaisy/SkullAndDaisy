@@ -140,5 +140,19 @@ namespace SkullAndDaisy.Data
                 return productsFilteredByType;
             }
         }
+
+        public IEnumerable<Product> FilterProductsByUser(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var productsFilteredByUser = db.Query<Product>(@"
+                SELECT * FROM Products
+                JOIN Users ON Users.Id = Products.UserId
+                WHERE UserId = @userId",
+                new { userId }).ToList();
+
+                return productsFilteredByUser;
+            }
+        }
     }
 }

@@ -76,5 +76,14 @@ namespace SkullAndDaisy.Controllers
 
             return Ok(productFilteredByType);
         }
+        
+        // Filter products by productTypeId method
+        [HttpGet("FilterProductsByUser/{UserId}")]
+        public ActionResult FilterProductsByUser(int UserId)
+        {
+            var productsFilteredByUser = _productRepository.FilterProductsByUser(UserId);
+
+            return Ok(productsFilteredByUser);
+        }
     }
 }
