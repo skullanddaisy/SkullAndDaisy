@@ -22,6 +22,7 @@ namespace SkullAndDaisy.Controllers
 
             var newProduct = _productRepository.AddProduct(
                 createRequest.Title,
+                createRequest.ImageUrl,
                 createRequest.Description,
                 createRequest.ProductTypeId,
                 createRequest.Price,
