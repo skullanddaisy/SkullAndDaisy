@@ -1,0 +1,12 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 150px;
+    background-color: gray;
+}
+
+.footerText {
+    font-size: 30px;
+    color: white;
+}
