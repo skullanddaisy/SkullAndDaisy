@@ -50,10 +50,10 @@ namespace SkullAndDaisy.Data
                     }
 
                     var listedOrders = matchingOrders.ToList();
-                    var ordersWithProducts = FilterProducts(listedOrders);
+                    var ordersWithProducts = FilterProductsByUserId(listedOrders, userId);
+
                     return ordersWithProducts;
-                }
-                
+                }               
             }
 
             throw new Exception("Found no orders");
@@ -115,6 +115,40 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found No Orders");
         }
 
+        public List<Order> FilterProductsByUserId(List<Order> orders, int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                if (orders != null)
+                {
+                    var productOrders = _productOrderRepository.GetAll();
+
+                    var products = _productRepository.FilterProductsByUser(userId).ToList();
+
+                    foreach (var order in orders)
+                    {
+                        var matchingProductOrders = productOrders.Where(productOrder => productOrder.OrderId == order.Id).ToList();
+
+                        List<Product> theProducts = new List<Product>();
+
+                        foreach (var productOrder in matchingProductOrders)
+                        {
+                            var matchingProducts = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
+
+                            if (matchingProducts != null)
+                            {
+                                theProducts.Add(matchingProducts);
+                            }
+                        }
+
+                        order.Products = theProducts;
+                    }
+                    return orders;
+                }
+            }
+
+            throw new Exception("Found no orders");
+        }
 
         public List<Order> FilterProducts(List<Order> orders)
         {
@@ -136,7 +170,10 @@ namespace SkullAndDaisy.Data
                         {
                             var matchingProducts = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
 
-                            theProducts.Add(matchingProducts);
+                            if (matchingProducts != null)
+                            {
+                                theProducts.Add(matchingProducts);
+                            }
                         }
 
                         order.Products = theProducts;

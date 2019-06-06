@@ -22,7 +22,7 @@ namespace SkullAndDaisy.Data
             using(var db = new SqlConnection(_connectionString))
             {
                 var allProductOrders = db.Query<ProductOrder>(@"
-                    select Id, ProductId, OrderId
+                    select Id, ProductId, OrderId, Quantity
                     from ProductOrders").ToList();
 
                 if (allProductOrders != null)
@@ -39,7 +39,7 @@ namespace SkullAndDaisy.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var filteredProductOrders = db.Query<ProductOrder>(@"
-                    select Id, ProductId, OrderId
+                    select Id, ProductId, OrderId, Quantity
                     from ProductOrders
                     where OrderId = @orderId",
                     new { orderId }).ToList();
@@ -53,15 +53,15 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no Product Orders");
         }
 
-        public ProductOrder AddProductOrder(int productId, int orderId)
+        public ProductOrder AddProductOrder(int productId, int orderId, int quantity)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
-                    Insert into ProductOrders(orderId, productId)
+                    Insert into ProductOrders(orderId, productId, quantity)
                     Output inserted.*
-                    Values(@orderId, @productId)",
-                    new {orderId, productId});
+                    Values(@orderId, @productId, @quantity)",
+                    new {orderId, productId, quantity});
 
                 if (newProductOrder != null)
                 {
@@ -89,6 +89,28 @@ namespace SkullAndDaisy.Data
             }
 
             throw new Exception("Product Order did not delete");
+        }
+
+        public ProductOrder UpdateProductOrder(int id, int productId, int orderId, int quantity)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var updatedProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
+                    update ProductOrders
+                    set ProductId = @productId,
+                    OrderId = @orderId,
+                    Quantity = @quantity
+                    output inserted.*
+                    where Id = @id",
+                    new { productId, orderId, quantity, id });
+
+                if (updatedProductOrder != null)
+                {
+                    return updatedProductOrder;
+                }
+            }
+
+            throw new Exception("Product Order did not update");
         }
     }
 }
