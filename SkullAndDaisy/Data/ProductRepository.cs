@@ -133,7 +133,6 @@ namespace SkullAndDaisy.Data
             {
                 var productsFilteredByType = db.Query<Product>(@"
                 SELECT * FROM Products
-                JOIN ProductTypes ON ProductTypes.Id = Products.ProductTypeId
                 WHERE ProductTypeId = @productTypeId",
                 new { productTypeId }).ToList();
 
@@ -147,7 +146,6 @@ namespace SkullAndDaisy.Data
             {
                 var productsFilteredByUser = db.Query<Product>(@"
                 SELECT * FROM Products
-                JOIN Users ON Users.Id = Products.UserId
                 WHERE UserId = @userId",
                 new { userId }).ToList();
 

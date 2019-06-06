@@ -51,6 +51,8 @@ namespace SkullAndDaisy.Data
 
                     var listedOrders = matchingOrders.ToList();
                     var ordersWithProducts = FilterProductsByUserId(listedOrders, userId);
+
+                    return ordersWithProducts;
                 }               
             }
 
@@ -121,7 +123,7 @@ namespace SkullAndDaisy.Data
                 {
                     var productOrders = _productOrderRepository.GetAll();
 
-                    var products = _productRepository.GetAll().ToList();
+                    var products = _productRepository.FilterProductsByUser(userId).ToList();
 
                     foreach (var order in orders)
                     {
@@ -133,7 +135,10 @@ namespace SkullAndDaisy.Data
                         {
                             var matchingProducts = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
 
-                            theProducts.Add(matchingProducts);
+                            if (matchingProducts != null)
+                            {
+                                theProducts.Add(matchingProducts);
+                            }
                         }
 
                         order.Products = theProducts;
@@ -165,7 +170,10 @@ namespace SkullAndDaisy.Data
                         {
                             var matchingProducts = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
 
-                            theProducts.Add(matchingProducts);
+                            if (matchingProducts != null)
+                            {
+                                theProducts.Add(matchingProducts);
+                            }
                         }
 
                         order.Products = theProducts;
