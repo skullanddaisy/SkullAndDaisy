@@ -25,10 +25,7 @@ const registerUser = (user) => {
 
 const loginUser = (user) => {
     return firebase.auth().signInWithEmailAndPassword(user.email, user.password).then(cred => {
-        //get token from firebase
-        cred.user.getIdToken()
-            //save the token to the session storage
-            .then(token => sessionStorage.setItem('token', token));
+        getCurrentUserJwt();
     });
 };
 
@@ -40,8 +37,15 @@ const getUid = () => {
     return firebase.auth().currentUser.uid;
 };
 
-export default { 
-    getUid, 
-    loginUser, 
-    logoutUser, 
-    registerUser };
+const getCurrentUserJwt = () => firebase
+    .auth()
+    .currentUser.getIdToken()
+    .then(token => sessionStorage.setItem('token', token));
+
+export default {
+    getUid,
+    loginUser,
+    logoutUser,
+    registerUser,
+    getCurrentUserJwt
+};

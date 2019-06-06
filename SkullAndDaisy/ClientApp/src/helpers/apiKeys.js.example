@@ -7,6 +7,9 @@ const apiKeys = {
       storageBucket: '',
       messagingSenderId: '',
     },
+    sadApi: {
+      apiBaseUrl: ""
+    },
   };
   
   export default apiKeys;
