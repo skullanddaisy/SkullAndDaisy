@@ -22,28 +22,28 @@ class UserAccount extends React.Component {
                             <div className="card-body text-center">
                                 <h4 className="card-title"><i className="fas fa-box-open fa-6x"></i></h4>
                                 <h6 className="card-subtitle mb-2 text-muted">Orders</h6>
-                                <p className="card-text">See your order history</p>
+                                <p className="card-text">See your order data for your purchases</p>
                             </div>
                         </div>
                         <div className="card border-dark am-tile" id='sellermanagement' onClick={this.changeView}>
                             <div className="card-body text-center">
                                 <h4 className="card-title"><i className="fas fa-hand-holding-usd fa-6x"></i></h4>
-                                <h6 className="card-subtitle mb-2 text-muted">Sales</h6>
-                                <p className="card-text">Seller Management</p>
+                                <h6 className="card-subtitle mb-2 text-muted">Seller Management</h6>
+                                <p className="card-text">See order history, and manage product information</p>
                             </div>
                         </div>
                         <div className="card border-dark am-tile" id='paymenttypes' onClick={this.changeView}>
                             <div className="card-body text-center">
                                 <h4 className="card-title"><i className="far fa-credit-card fa-6x"></i></h4>
                                 <h6 className="card-subtitle mb-2 text-muted">Payment Methods</h6>
-                                <p className="card-text">Manage your payment</p>
+                                <p className="card-text">Manage your payment methods</p>
                             </div>
                         </div>
                         <div className="card border-dark am-tile" id='loginsettings' onClick={this.changeView}>
                             <div className="card-body text-center">
                                 <h4 className="card-title"><i className="fas fa-user-circle fa-6x"></i></h4>
                                 <h6 className="card-subtitle mb-2 text-muted">Login Settings</h6>
-                                <p className="card-text">Change username, password, etc</p>
+                                <p className="card-text">Change your username, password, etc</p>
                             </div>
                         </div>
 
