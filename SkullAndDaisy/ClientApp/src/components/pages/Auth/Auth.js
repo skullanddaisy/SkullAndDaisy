@@ -31,7 +31,7 @@ class Auth extends React.Component {
             this.props.history.push('/home');
         })
         .catch(error => {
-            console.error('there was an error in registering', error);
+            console.error('there was an error in logging in', error);
         });
     };
     

@@ -8,11 +8,15 @@ import MyFooter from '../../MyFooter/MyFooter';
 import './Home.scss';
 
 class Home extends React.Component {
+    goToProfile = () => {
+        this.props.history.push('/useraccount')
+    }
+
     render() {
         return (
-            <div className = 'homeContainer'>
+            <div className='homeContainer'>
                 <div className="homeUpper">
-                    <UserProfileCard />
+                    <UserProfileCard goToProfile={this.goToProfile} />
                     <DealOfTheDayCard />
                 </div>
                 <div className="homeMiddle">
@@ -25,13 +29,13 @@ class Home extends React.Component {
                     </div>
                     <LatestProductsCard />
                     <div className="productTypesText">
-                    <h1>Product types</h1>
+                        <h1>Product types</h1>
                     </div>
                     <ProductTypesCard />
                 </div>
-                    <div>
-                        <MyFooter />
-                    </div>
+                <div>
+                    <MyFooter />
+                </div>
             </div>
         );
     }
