@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -29,19 +30,34 @@ class MyNavbar extends React.Component {
   }
 
   render() {
-    const {isAuthed, logoutClicky } = this.props;
+    const { isAuthed, logoutClicky } = this.props;
+
+    const buildNavbar = () => {
+      if (isAuthed) {
+        return (
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/useraccount'>User Account</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/cart'>Cart</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className='logout-link' onClick={logoutClicky}>Logout</NavLink>
+            </NavItem>
+          </Nav>
+        );
+      }
+      return <Nav className='ml-auto' navbar />;
+    };
 
     return (
       <div className="my-navbar">
-        <Navbar color="light" light expand="md">
+        <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">Skull & Daisy</NavbarBrand>
-          <NavbarToggler onClick={e => this.toggle(e)}/>
+          <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem className="nav-link">
-              { isAuthed ? <NavLink className='logout-link' onClick={logoutClicky}>Logout</NavLink> : ''}
-              </NavItem>
-            </Nav>
+            {buildNavbar()}
           </Collapse>
         </Navbar>
       </div>
