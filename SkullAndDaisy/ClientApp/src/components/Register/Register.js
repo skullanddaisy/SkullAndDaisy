@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 
 import authRequests from '../../helpers/data/authRequests';
+import userRequests from '../../helpers/data/userRequests';
 
 const tempUser = {
   email: '',
@@ -19,8 +20,6 @@ const tempUser = {
   password: '',
   firstname: '',
   lastname: '',
-  datecreated: '',
-  uid: 0
 };
 
 class Register extends React.Component {
@@ -50,7 +49,8 @@ class Register extends React.Component {
     authRequests
       .registerUser(user)
       .then(() => {
-        this.props.history.push('/home');
+        authRequests.getCurrentUserJwt();
+        userRequests.createUser(user);
       })
       .catch(error => {
         console.error('there was an error in registering', error);
