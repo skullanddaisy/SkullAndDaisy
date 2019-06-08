@@ -4,14 +4,14 @@ import './MyFooter.scss';
 
 
 class MyFooter extends React.Component {
-    
-    
+
+
     render() {
         const sadText = "-------------- Skull and Daisy --------------";
-        return(
+        return (
             <footer className="footer">
                 <div className="footerContent">
-                    <span class="footerText">{sadText}</span>
+                    <span className="footerText">{sadText}</span>
                 </div>
             </footer>
         )

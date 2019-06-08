@@ -8,7 +8,7 @@ import './UserAccount.scss';
 class UserAccount extends React.Component {
     render() {
         return (
-            <div className = 'top-row'>
+            <div className='top-row'>
                 <div className="your-orders">
                     <OrderHistory />
                 </div>
@@ -21,4 +21,4 @@ class UserAccount extends React.Component {
     }
 }
 
-export default Home;
+export default UserAccount;
