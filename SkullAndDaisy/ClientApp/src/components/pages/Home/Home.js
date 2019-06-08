@@ -8,8 +8,8 @@ import ProductTypesCard from '../../ProductTypesCard/ProductTypesCard';
 import './Home.scss';
 
 class Home extends React.Component {
-    render() {
-        return (
+  render() {
+    return (
             <div className = 'Home'>
                 <div className="upper">
                     <UserProfileCard />
@@ -21,8 +21,8 @@ class Home extends React.Component {
                     <ProductTypesCard />
                 </div>
             </div>
-        );
-    }
+    );
+  }
 }
 
 export default Home;
