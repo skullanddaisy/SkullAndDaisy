@@ -1,0 +1,35 @@
+// .homeContainer {
+//     display: flex;
+//     justify-content: center;
+// }
+
+.homeUpper {
+    display: flex;
+    justify-content: center;
+}
+
+.homeMiddle {
+    display: flex;
+    justify-content: center;
+    flex-wrap:wrap;
+    text-align: left;
+    
+}
+
+.featuredListText {
+    text-align: left;
+    width: 1400px;
+    margin-left: 10px;
+}
+
+.latestProductsText {
+    text-align: left;
+    width: 1400px;
+    margin-left: 10px;
+}
+
+.productTypesText {
+    text-align: left;
+    width: 1400px;
+    margin-left: 10px;
+}

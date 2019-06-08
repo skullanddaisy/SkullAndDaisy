@@ -4,7 +4,7 @@ import './FeaturedListCard.scss';
 class FeaturedListCard extends React.Component {
   render() {
     return (
-      <div className='featured-list-card container'>
+      <div className='featured-list-card'>
         <h2>Featured List Card Component</h2>
       </div>
     );
