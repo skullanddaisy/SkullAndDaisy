@@ -33,9 +33,9 @@ namespace SkullAndDaisy
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = "https://securetoken.google.com/skull-and-daisy",
+                        ValidIssuer = "https://securetoken.google.com/skull-and-daisy-2287d",
                         ValidateAudience = true,
-                        ValidAudience = "skull-and-daisy",
+                        ValidAudience = "skull-and-daisy-2287d",
                         ValidateLifetime = true
                     };
                 });

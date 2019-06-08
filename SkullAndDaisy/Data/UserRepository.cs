@@ -63,7 +63,7 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public User AddUser(string firstName, string lastName, string username, string email, string password, DateTime dateCreated)
+        public User AddUser(string firstName, string lastName, string username, string email, string password)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -73,10 +73,9 @@ namespace SkullAndDaisy.Data
                         [LastName],
                         [Username],
                         [Email],
-                        [Password],
-                        [DateCreated])
+                        [Password])
                     Output inserted.*
-                    Values(@firstname, @lastname, @username, @email, @password, @datecreated)";
+                    Values(@firstname, @lastname, @username, @email, @password)";
 
                 var parameters = new
                 {
@@ -85,7 +84,6 @@ namespace SkullAndDaisy.Data
                     Username = username,
                     Email = email,
                     Password = password,
-                    DateCreated = dateCreated
                 };
 
                 var newUser = db.QueryFirstOrDefault<User>(insertQuery, parameters);
