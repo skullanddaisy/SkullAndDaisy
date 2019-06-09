@@ -20,6 +20,8 @@ import Orders from '../components/pages/Orders/Orders';
 import SellerManagement from '../components/pages/SellerManagement/SellerManagement';
 import PaymentTypes from '../components/pages/PaymentTypes/PaymentTypes';
 import LoginSettings from '../components/pages/LoginSettings/LoginSettings';
+import CustomerOrders from '../components/pages/CustomerOrders/CustomerOrders';
+import SellerProducts from '../components/pages/SellerProducts/SellerProducts';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import './App.scss';
 
@@ -83,6 +85,8 @@ class App extends Component {
                 <PrivateRoute path='/sellermanagement/' exact authed={this.state.authed} component={SellerManagement} />
                 <PrivateRoute path='/paymenttypes/' exact authed={this.state.authed} component={PaymentTypes} />
                 <PrivateRoute path='/loginsettings/' exact authed={this.state.authed} component={LoginSettings} />
+                <PrivateRoute path='/customerorders/' exact authed={this.state.authed} component={CustomerOrders} />
+                <PrivateRoute path='/sellerproducts/' exact authed={this.state.authed} component={SellerProducts} />
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
           </React.Fragment>
