@@ -4,27 +4,30 @@ import {
   CardTitle, CardSubtitle, Button,
 } from 'reactstrap';
 import productShape from '../../helpers/props/productShape';
+import './ProductCard.scss';
 
 class ProductCard extends React.Component {
   static propTypes = {
     product: productShape,
   }
-}
 
-const Example = (props) => {
-  return (
-    <div>
+  render() {
+    const { product } = this.props;
+
+    return (
+      <div id={product.id}>
       <Card>
-        <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
+        <CardImg className='product-img' top src={product.imageUrl} alt={product.title} />
         <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardSubtitle>Card subtitle</CardSubtitle>
-          <CardText>Text.</CardText>
-          <Button>Button</Button>
+          <CardTitle>{product.title}</CardTitle>
+          <CardSubtitle>{product.price}</CardSubtitle>
+          <CardText>{product.description}</CardText>
+          <Button>Buy!!!!</Button>
         </CardBody>
       </Card>
     </div>
-  );
-};
+    );
+  }
+}
 
-export default Example;
+export default ProductCard;
