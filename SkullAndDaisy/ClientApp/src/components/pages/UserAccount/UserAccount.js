@@ -4,12 +4,12 @@ import './UserAccount.scss';
 
 class UserAccount extends React.Component {
     changeView = (e) => {
-        const view = e.currentTarget.id;
-        this.props.history.push(`/${view}`);
+      const view = e.currentTarget.id;
+      this.props.history.push(`/${view}`);
     }
 
     render() {
-        return (
+      return (
             <div className='user-account'>
 
                 <h1>Account Management</h1>
@@ -50,7 +50,7 @@ class UserAccount extends React.Component {
                     </div>
                 </div>
             </div>
-        );
+      );
     }
 }
 

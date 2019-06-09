@@ -9,11 +9,11 @@ import './Home.scss';
 
 class Home extends React.Component {
     goToProfile = () => {
-        this.props.history.push('/useraccount/')
+      this.props.history.push('/useraccount/');
     }
 
     render() {
-        return (
+      return (
             <div className='homeContainer'>
                 <div className="homeUpper">
                     <UserProfileCard
@@ -39,7 +39,7 @@ class Home extends React.Component {
                     <MyFooter />
                 </div>
             </div>
-        );
+      );
     }
 }
 
