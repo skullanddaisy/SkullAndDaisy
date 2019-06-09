@@ -1,12 +1,12 @@
-import React, { Component } from '../../node_modules/react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import {
-  Route, 
-  BrowserRouter, 
-  Redirect, 
-  Switch
+  Route,
+  BrowserRouter,
+  Redirect,
+  Switch,
 } from 'react-router-dom';
+import React from '../../node_modules/react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,7 +25,7 @@ import SellerProducts from '../components/pages/SellerProducts/SellerProducts';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import './App.scss';
 
-const PublicRoute = ({ component: Component, authed, ...rest}) => {
+const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
     ? (<Component { ...props } {... rest} />)
     : (<Redirect to={{ pathname: '/home', state: { from: props.location } }}/>));
@@ -39,7 +39,7 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
-class App extends Component {
+class App extends React.Component {
   state = {
     authed: false,
   }
@@ -52,7 +52,7 @@ class App extends Component {
         this.setState({
           authed: true,
         });
-      authRequests.getCurrentUserJwt();
+        authRequests.getCurrentUserJwt();
       } else {
         this.setState({
           authed: false,
@@ -66,12 +66,12 @@ class App extends Component {
   }
 
   render() {
-    const {authed} = this.state;
+    const { authed } = this.state;
     const logoutClicky = () => {
       authRequests.logoutUser();
       this.setState({ authed: false });
     };
-    
+
     return (
       <div className="App">
         <BrowserRouter>
