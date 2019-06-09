@@ -9,9 +9,13 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown
 } from 'reactstrap';
 import ReactModal from 'react-modal';
-import menuIcon from '../../img/menuIcon-white.svg';
 
 import './MyNavbar.scss';
 
@@ -23,11 +27,18 @@ class MyNavbar extends React.Component {
 
   state = {
     isOpen: false,
+    dropdownOpen: false
   };
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
+    });
+  }
+
+  categoryToggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
     });
   }
 
@@ -59,6 +70,45 @@ class MyNavbar extends React.Component {
           <NavbarBrand href="/">Skull & Daisy</NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
+          {/* Modal */}
+          <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Categories</h4>
+                </div>
+
+                <div class="modal-body">
+                  
+                </div>
+
+              </div> {/*modal-content*/}
+            </div> {/*modal-dialog*/}
+          </div> {/*modal*/}
+          <UncontrolledDropdown inNavbar>
+                <DropdownToggle id="categoryDropdown" nav caret>
+                  Categories
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    Potions
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    Poisons
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    Crystals
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    Herbs
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
             {buildNavbar()}
           </Collapse>
         </Navbar>
