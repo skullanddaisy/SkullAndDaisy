@@ -33,11 +33,7 @@ const PublicRoute = ({ component: Component, authed, ...rest }) => {
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
-const PrivateRoute = ({
-  component: Component,
-  authed,
-  ...rest
-}) => {
+const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === true
     ? (<Component {...props } />)
     : (<Redirect to={{ pathname: '/auth', state: { from: props.location } }} />));
