@@ -4,12 +4,10 @@ import apiKeys from '../apiKeys';
 
 const sadApiBaseUrl = apiKeys.sadApi.apiBaseUrl;
 
-const apiUrl = 'http://localhost:51137/api/users';
-
 const createUser = user => axios.post(`${sadApiBaseUrl}/users/register`, user);
 
 const getAllUsers = () => new Promise((resolve, reject) => {
-  axios.get(`${apiUrl}`)
+  axios.get(`${sadApiBaseUrl}/users`)
     .then((result) => {
       if (result != null) {
         const allUsers = result.data;
