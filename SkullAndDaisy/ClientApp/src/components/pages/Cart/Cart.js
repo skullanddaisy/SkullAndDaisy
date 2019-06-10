@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import orderRequests from '../../../helpers/data/orderRequests';
+import userRequests from '../../../helpers/data/userRequests';
 import './Cart.scss';
 
 class Cart extends Component {
-  static propTypes = {
-    uid: PropTypes.string,
-  }
-
   state = {
     pendingOrder: [],
+    userId: 0,
   }
 
   componentDidMount() {
-    orderRequests.getPendingOrder(this.state.uid).then((pendingOrder) => {
-      this.setState({ pendingOrder });
-    }).catch((error) => {
-      console.error('error on getPendingOrder', error);
-    });
+    userRequests.getUserIdByEmail()
+      .then((userId) => {
+        this.setState({ userId });
+        orderRequests.getPendingOrder(this.state.userId)
+          .then((pendingOrder) => {
+            console.log(pendingOrder);
+          });
+      })
+      .catch((error) => {
+        console.error('error on getPendingOrder', error);
+      });
   }
 
   render() {

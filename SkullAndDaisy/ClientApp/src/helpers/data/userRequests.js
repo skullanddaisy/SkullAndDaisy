@@ -4,19 +4,17 @@ import apiKeys from '../apiKeys';
 
 const sadApiBaseUrl = apiKeys.sadApi.apiBaseUrl;
 
+const apiUrl = 'http://localhost:51137/api/users';
+
 const createUser = user => axios.post(`${sadApiBaseUrl}/users/register`, user);
 
 const getAllUsers = () => new Promise((resolve, reject) => {
-  axios.getAllUsers(`$${sadApiBaseUrl}/users`)
+  axios.get(`${apiUrl}`)
     .then((result) => {
-      const allUsersObject = result.data;
-      const allUsersArray = [];
-      if (allUsersObject !== null) {
-        allUsersObject.forEach((user) => {
-          allUsersArray.push(user);
-        });
+      if (result != null) {
+        const allUsers = result.data;
+        resolve(allUsers);
       }
-      resolve(allUsersArray);
     })
     .catch((err) => {
       reject(err);
@@ -24,16 +22,17 @@ const getAllUsers = () => new Promise((resolve, reject) => {
 });
 
 
-const getUserIdByEmail = () => {
+const getUserIdByEmail = () => new Promise((resolve, reject) => {
   const userEmail = authRequests.getUserEmail();
   getAllUsers()
     .then((users) => {
-      const currentUser = users.filter(user => user.Email === userEmail);
-      return currentUser.Id;
+      const currentUser = users.filter(user => user.email === userEmail);
+      const userId = currentUser[0].id;
+      resolve(userId);
     }).catch((error) => {
-      console.error('did not find user', error);
+      reject(error);
     });
-};
+});
 
 export default {
   createUser,

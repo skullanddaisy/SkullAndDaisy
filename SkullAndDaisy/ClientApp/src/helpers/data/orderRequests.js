@@ -5,9 +5,9 @@ const sadApiBaseUrl = apiKeys.sadApi.apiBaseUrl;
 
 const getPendingOrder = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/pending`);
 
-const getCompltedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/complete`);
+const getCompletedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/complete`);
 
 export default {
   getPendingOrder,
-  getCompltedOrders,
+  getCompletedOrders,
 };
