@@ -1,0 +1,45 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import orderRequests from '../../../helpers/data/orderRequests';
+import './Cart.scss';
+
+const defaultPendingOrder = {
+  id: 0,
+  orderDate: '',
+  orderStatus: '',
+  paymentTypeId: 0,
+  total: 0.00,
+  userId: 0,
+  products: [],
+};
+
+class Cart extends Component {
+  static propTypes = {
+    userId: PropTypes.number,
+  }
+
+  state = {
+    pendingOrder: defaultPendingOrder,
+  }
+
+  componentDidMount() {
+    orderRequests.getPendingOrder(this.props.userId)
+      .then((result) => {
+        const pendingOrder = result.data[0];
+        this.setState({ pendingOrder });
+      })
+      .catch((error) => {
+        console.error('error on getPendingOrder', error);
+      });
+  }
+
+  render() {
+    return (
+      <div className = 'Cart'>
+        <h1>Your Cart</h1>
+      </div>
+    );
+  }
+}
+
+export default Cart;

@@ -1,4 +1,5 @@
 import React from 'react';
+import userRequests from '../../../helpers/data/userRequests';
 import UserProfileCard from '../../UserProfileCard/UserProfileCard';
 import DealOfTheDayCard from '../../DealOfTheDayCard/DealOfTheDayCard';
 import FeaturedListCard from '../../FeaturedListCard/FeaturedListCard';
@@ -8,17 +9,29 @@ import MyFooter from '../../MyFooter/MyFooter';
 import './Home.scss';
 
 class Home extends React.Component {
+    state = {
+      userId: 0,
+    }
+
     goToProfile = () => {
-      this.props.history.push('/useraccount/');
+      this.props.history.push('/useraccount');
+    }
+
+    componentDidMount() {
+      userRequests.getUserIdByEmail()
+        .then((userId) => {
+          this.setState({ userId });
+        }).catch((error) => {
+          console.error(error);
+        });
     }
 
     render() {
+      const { userId } = this.state;
       return (
             <div className='homeContainer'>
                 <div className="homeUpper">
-                    <UserProfileCard
-                        goToProfile={this.goToProfile}
-                    />
+                    <UserProfileCard goToProfile={this.goToProfile} userId={userId}/>
                     <DealOfTheDayCard />
                 </div>
                 <div className="homeMiddle">

@@ -3,6 +3,10 @@ import apiKeys from '../apiKeys';
 
 const sadApiBaseUrl = apiKeys.sadApi.apiBaseUrl;
 
+const getPendingOrder = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/pending`);
+
+const getCompletedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/complete`);
+
 const getAllSellerOrders = sellerId => new Promise((resolve, reject) => {
   axios
     .get(`${sadApiBaseUrl}/orders/getordersbyproductseller/{sellerId}`)
@@ -15,4 +19,8 @@ const getAllSellerOrders = sellerId => new Promise((resolve, reject) => {
     });
 });
 
-export default getAllSellerOrders;
+export default {
+  getPendingOrder,
+  getCompletedOrders,
+  getAllSellerOrders,
+};
