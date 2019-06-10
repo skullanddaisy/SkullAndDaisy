@@ -30,7 +30,6 @@ class Home extends React.Component {
       const { userId } = this.state;
       return (
             <div className='homeContainer'>
-
                 <div className="homeUpper">
                     <UserProfileCard goToProfile={this.goToProfile} userId={userId}/>
                     <DealOfTheDayCard />

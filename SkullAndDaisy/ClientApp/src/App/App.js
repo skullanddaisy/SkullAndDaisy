@@ -17,14 +17,16 @@ import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
 import Cart from '../components/pages/Cart/Cart';
 import UserAccount from '../components/pages/UserAccount/UserAccount';
+import Orders from '../components/pages/Orders/Orders';
+import SellerManagement from '../components/pages/SellerManagement/SellerManagement';
+import PaymentTypes from '../components/pages/PaymentTypes/PaymentTypes';
+import LoginSettings from '../components/pages/LoginSettings/LoginSettings';
+import CustomerOrders from '../components/pages/CustomerOrders/CustomerOrders';
+import SellerProducts from '../components/pages/SellerProducts/SellerProducts';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import './App.scss';
 
-const PublicRoute = ({
-  component: Component,
-  authed,
-  ...rest
-}) => {
+const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
     ? (<Component { ...props } {... rest} />)
     : (<Redirect to={{ pathname: '/home', state: { from: props.location } }}/>));
@@ -81,10 +83,17 @@ class App extends React.Component {
           <React.Fragment>
             <MyNavbar isAuthed={authed} logoutClicky={logoutClicky}/>
               <Switch>
-                <PrivateRoute path='/' exact component={Home} authed={this.state.authed}/>
+                <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
+                <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
+                <PrivateRoute path='/useraccount' exact authed={this.state.authed} component={UserAccount} />
                 <PrivateRoute path='/cart' exact component={Cart} authed={this.state.authed}/>
-                <PrivateRoute path='/home' component={Home} authed={this.state.authed}/>
-                <PrivateRoute path='/useraccount' exact authed={this.state.authed} component={UserAccount}/>
+                <PrivateRoute path='/orders/' exact authed={this.state.authed} component={Orders} />
+                <PrivateRoute path='/sellermanagement/' exact authed={this.state.authed} component={SellerManagement} />
+                <PrivateRoute path='/paymenttypes/' exact authed={this.state.authed} component={PaymentTypes} />
+                <PrivateRoute path='/loginsettings/' exact authed={this.state.authed} component={LoginSettings} />
+                <PrivateRoute path='/customerorders/' exact authed={this.state.authed} component={CustomerOrders} />
+                <PrivateRoute path='/sellerproducts/' exact authed={this.state.authed} component={SellerProducts} />
+
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
           </React.Fragment>
