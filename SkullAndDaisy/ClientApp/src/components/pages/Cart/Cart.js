@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import orderRequests from '../../../helpers/data/orderRequests';
+import userRequests from '../../../helpers/data/userRequests';
 import './Cart.scss';
 
 const defaultPendingOrder = {
@@ -19,17 +20,21 @@ class Cart extends Component {
   }
 
   state = {
+    userId: 0,
     pendingOrder: defaultPendingOrder,
   }
 
   componentDidMount() {
-    orderRequests.getPendingOrder(this.props.userId)
-      .then((result) => {
-        const pendingOrder = result.data[0];
-        this.setState({ pendingOrder });
-      })
-      .catch((error) => {
-        console.error('error on getPendingOrder', error);
+    userRequests.getUserIdByEmail()
+      .then((userId) => {
+        this.setState({ userId });
+        orderRequests.getPendingOrder(this.state.userId)
+          .then((result) => {
+            const pendingOrder = result.data[0];
+            this.setState({ pendingOrder });
+          });
+      }).catch((error) => {
+        console.error(error);
       });
   }
 
