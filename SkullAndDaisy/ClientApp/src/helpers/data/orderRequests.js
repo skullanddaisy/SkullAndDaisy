@@ -9,7 +9,7 @@ const getCompletedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrd
 
 const getAllSellerOrders = sellerId => new Promise((resolve, reject) => {
   axios
-    .get(`${sadApiBaseUrl}/orders/getordersbyproductseller/{sellerId}`)
+    .get(`${sadApiBaseUrl}/orders/getordersbyproductseller/${sellerId}`)
     .then((results) => {
       const sellerOrders = results.data;
       resolve(sellerOrders);

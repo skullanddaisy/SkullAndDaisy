@@ -28,6 +28,13 @@ class Home extends React.Component {
 
     render() {
       const { userId } = this.state;
+
+      if (userId === 0) {
+        return (
+          <div><h1>Loading</h1></div>
+        );
+      }
+
       return (
             <div className='homeContainer'>
                 <div className="homeUpper">
