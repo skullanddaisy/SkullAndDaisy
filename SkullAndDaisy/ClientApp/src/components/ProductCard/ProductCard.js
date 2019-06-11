@@ -15,7 +15,7 @@ class ProductCard extends React.Component {
     const { product } = this.props;
 
     return (
-      <div id={product.id}>
+      <div id={product.id} className="productCard">
       <Card>
         <CardImg className='product-img' top src={product.imageUrl} alt={product.title} />
         <CardBody>

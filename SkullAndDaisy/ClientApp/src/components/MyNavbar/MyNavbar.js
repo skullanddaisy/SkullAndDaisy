@@ -15,7 +15,6 @@ import {
   DropdownItem,
   UncontrolledDropdown
 } from 'reactstrap';
-import ReactModal from 'react-modal';
 
 import './MyNavbar.scss';
 
@@ -93,19 +92,19 @@ class MyNavbar extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Potions
+                    <NavLink tag={RRNavLink} to='/potions'>Potions</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    Poisons
+                    <NavLink tag={RRNavLink} to='/poisons'>Poisons</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    Crystals
+                    <NavLink tag={RRNavLink} to='/crystals'>Crystals</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    Herbs
+                    <NavLink tag={RRNavLink} to='/herbs'>Herbs</NavLink>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
