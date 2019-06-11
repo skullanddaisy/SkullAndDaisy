@@ -2,9 +2,8 @@
 import axios from 'axios';
 
 axios.interceptors.request.use(function (request) {
-    const token = sessionStorage.getItem('token');
-
-    if (token != null) {
+  const token = sessionStorage.getItem('token');
+  if (token != null) {
         request.headers.Authorization = `Bearer ${token}`;
     }
 
@@ -13,8 +12,8 @@ axios.interceptors.request.use(function (request) {
     return Promise.reject(err);
 });
 
-axios.interceptors.response.use(response => {
-    return response;
+axios.interceptors.response.use((response) => {
+  return response;
 }, errorResponse => {
     console.error("Blew up")
 });
@@ -37,6 +36,11 @@ const getUid = () => {
     return firebase.auth().currentUser.uid;
 };
 
+const getUserEmail = () =>{
+    return firebase.auth().currentUser.email;
+};
+
+
 const getCurrentUserJwt = () => firebase
     .auth()
     .currentUser.getIdToken()
@@ -44,8 +48,9 @@ const getCurrentUserJwt = () => firebase
 
 export default {
     getUid,
+    getUserEmail,
     loginUser,
     logoutUser,
     registerUser,
-    getCurrentUserJwt
+    getCurrentUserJwt,
 };
