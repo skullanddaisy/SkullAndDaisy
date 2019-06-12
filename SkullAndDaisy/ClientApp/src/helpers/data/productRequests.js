@@ -26,10 +26,22 @@ const getProductsByType = (productTypeId) => new Promise((resolve, reject) => {
     .catch((err) => {
       reject(err);
     });
+  });
+
+const getSellersProducts = sellerId => new Promise((resolve, reject) => {
+  axios
+    .get(`${sadApiBaseUrl}/products/FilterProductsByUser/${sellerId}`)
+    .then((results) => {
+      const sellersProducts = results.data;
+      resolve(sellersProducts);
+    })
+    .catch((err) => {
+      reject(err);
+    });
 });
 
-export default 
-{
+export default {
   getAllProducts,
+  getSellersProducts,
   getProductsByType
 };

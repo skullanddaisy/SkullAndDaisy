@@ -19,6 +19,18 @@ const getAllUsers = () => new Promise((resolve, reject) => {
     });
 });
 
+const getSingleUser = () => new Promise((resolve, reject) => {
+  const userEmail = authRequests.getUserEmail();
+  getAllUsers()
+    .then((users) => {
+      const currentUser = users.find(user => user.email === userEmail);
+      resolve(currentUser);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
 
 const getUserIdByEmail = () => new Promise((resolve, reject) => {
   const userEmail = authRequests.getUserEmail();
@@ -35,5 +47,6 @@ const getUserIdByEmail = () => new Promise((resolve, reject) => {
 export default {
   createUser,
   getAllUsers,
+  getSingleUser,
   getUserIdByEmail,
 };
