@@ -5,9 +5,10 @@ import './LoginSettings.scss';
 class LoginSettings extends React.Component {
   state = {
     userId: 0,
+    currentUser: {},
   }
 
-  componentDidMount() {
+  getUserId = () => {
     userRequests.getUserIdByEmail()
       .then((userId) => {
         this.setState({ userId });
@@ -16,6 +17,20 @@ class LoginSettings extends React.Component {
       });
   }
 
+  getCurrentUser = (userId) => {
+    userRequests.getSingleUser(userId)
+      .then((currentUser) => {
+        this.setState({ currentUser });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  componentDidMount() {
+    this.getUserId();
+    this.getCurrentUser(this.state.userId);
+  }
 
   render() {
     return (
