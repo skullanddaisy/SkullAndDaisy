@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Row } from 'reactstrap';
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
+import CartProductItem from '../../CartProductItem/CartProductItem';
 import './Cart.scss';
 
 const defaultPendingOrder = {
@@ -17,6 +19,8 @@ class Cart extends Component {
   state = {
     userId: 0,
     pendingOrder: defaultPendingOrder,
+    numberOfProducts: 0,
+    totalPriceOfOrder: 0,
   }
 
   componentDidMount() {
@@ -34,9 +38,30 @@ class Cart extends Component {
   }
 
   render() {
+    const { pendingOrder, numberOfProducts, totalPriceOfOrder } = this.state;
+
+    const CartProductItemComponents = pendingOrder.products.map(product => (
+      <CartProductItem
+        product={product}
+      />
+    ));
+
     return (
       <div className = 'Cart'>
         <h1>Your Cart</h1>
+        <div>
+          <h3>Shopping Cart</h3>
+          <Row>
+          <p>Price</p>
+          <p>Quantitiy</p>
+          </Row>
+          <Row>
+            {CartProductItemComponents}
+          </Row>
+          <Row>
+            <p>SubTotal ({numberOfProducts} items): {totalPriceOfOrder}</p>
+          </Row>
+        </div>
       </div>
     );
   }
