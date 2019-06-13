@@ -17,7 +17,7 @@ class ProductCard extends React.Component {
           <img className='productImg' top src={product.imageUrl} alt={product.title} />
         </div>
         <div className="cardBody">
-          <a className="productTitle" href="www.suckmydick.com">{product.title}</a>
+          <a className="productTitle" href="">{product.title}</a>
           <div className="productPrice">${product.price}</div>
         </div>
       </div>

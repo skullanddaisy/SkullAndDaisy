@@ -2,11 +2,22 @@ import React from 'react';
 import userRequests from '../../../helpers/data/userRequests';
 import './SellerManagement.scss';
 import orderRequests from '../../../helpers/data/orderRequests';
+import formatPrice from '../../../helpers/formatPrice';
 
 class SellerManagement extends React.Component {
   state = {
     userId: 0,
-    sellerOrders: [],
+    completedOrders: [],
+    totalSales: 0,
+  }
+
+  getTotalSales = () => {
+    const sellerOrders = this.state.completedOrders;
+    let mySales = 0;
+    sellerOrders.forEach((sellerOrder) => {
+      mySales = sellerOrder.total + mySales;
+    });
+    this.setState({ totalSales: mySales });
   }
 
   componentDidMount() {
@@ -15,9 +26,17 @@ class SellerManagement extends React.Component {
         this.setState({ userId });
         orderRequests.getSellerOrders(this.state.userId)
           .then((sellerOrders) => {
-            this.setState({ sellerOrders });
+            const sales = [];
+            sellerOrders.forEach((sellerOrder) => {
+              if (sellerOrder.orderStatus === 'Complete') {
+                sales.push(sellerOrder);
+              }
+            });
+            this.setState({ completedOrders: sales });
+            this.getTotalSales();
           });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
       });
   }
@@ -35,7 +54,7 @@ class SellerManagement extends React.Component {
           <div className="card-body text-center mt-5">
             <h3 className="card-subtitle mb-2 text-muted">Seller Dashboard</h3>
             <p className="card-text">Sales this month: </p>
-            <p className="card-text">Total sales: </p>
+            <p className="card-text">Total sales: {formatPrice(this.state.totalSales)}</p>
           </div>
 
         <div className="seller-management-container mx-auto">
