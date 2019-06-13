@@ -185,6 +185,21 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no orders");
         }
 
+        public decimal GetThisMonthsSales(int userId)
+        {
+            using(var db = new SqlConnection(_connectionString))
+            {
+                var monthlySum = db.ExecuteScalar<decimal>(
+                    @"SELECT SUM(o.total)
+                      FROM orders o
+                      WHERE o.OrderDate >= DATEADD(month, -1, GETDATE())
+                     AND o.UserId = @userId",
+                     new { userId });
+
+                return monthlySum;
+            }
+            throw new Exception("Could not find sales for this month.");
+        }
 
         public Order UpdateOrder(int id, string orderStatus, decimal total, DateTime orderDate, int paymentTypeId, int userId)
         {
