@@ -33,9 +33,20 @@ class LoginSettings extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.state;
+
     return (
       <div className='login-settings'>
-        <h2>Login Settings</h2>
+        <div class="card text-white bg-dark mb-3 profile-card">
+          <div class="card-header">Login Settings</div>
+          <div class="card-body">
+            <h4 class="card-title">Username: {currentUser.username}</h4>
+            <h5 class="card-title">First Name: {currentUser.firstName}</h5>
+            <h5 class="card-title">Last Name: {currentUser.lastName}</h5>
+            <p class="card-text">Email: {currentUser.email}</p>
+            <button className="btn btn-primary">Edit</button>
+          </div>
+        </div>
       </div>
     );
   }
