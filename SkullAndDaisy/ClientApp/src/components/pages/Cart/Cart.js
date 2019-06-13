@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row } from 'reactstrap';
+import { Row, Card } from 'reactstrap';
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
 import CartProductItem from '../../CartProductItem/CartProductItem';
@@ -29,8 +29,15 @@ class Cart extends Component {
         this.setState({ userId });
         orderRequests.getPendingOrder(this.state.userId)
           .then((result) => {
+            let numberOfProducts = 0;
+            let totalPriceOfOrder = 0;
             const pendingOrder = result.data[0];
-            this.setState({ pendingOrder });
+            const orderProducts = pendingOrder.products;
+            for (let i = 0; i < orderProducts.length; i += 1) {
+              numberOfProducts += 1;
+              totalPriceOfOrder += orderProducts[i].price;
+            }
+            this.setState({ pendingOrder, numberOfProducts, totalPriceOfOrder });
           });
       }).catch((error) => {
         console.error(error);
@@ -42,26 +49,29 @@ class Cart extends Component {
 
     const CartProductItemComponents = pendingOrder.products.map(product => (
       <CartProductItem
+        key={product.id}
         product={product}
       />
     ));
 
     return (
       <div className = 'Cart'>
-        <h1>Your Cart</h1>
-        <div>
-          <h3>Shopping Cart</h3>
-          <Row>
-          <p>Price</p>
-          <p>Quantitiy</p>
-          </Row>
-          <Row>
-            {CartProductItemComponents}
-          </Row>
-          <Row>
-            <p>SubTotal ({numberOfProducts} items): {totalPriceOfOrder}</p>
-          </Row>
-        </div>
+          <div className='cartHeader m-4'>
+            <h1>Your Cart</h1>
+          </div>
+          <Card className='cartCard m-4'>
+            <h3 className='d-flex align-self-start ml-2'>Shopping Cart</h3>
+            <Row>
+            <p>Price</p>
+            <p>Quantitiy</p>
+            </Row>
+            <Row>
+              {CartProductItemComponents}
+            </Row>
+            <Row>
+              <p>SubTotal ({numberOfProducts} items): ${totalPriceOfOrder}</p>
+            </Row>
+        </Card>
       </div>
     );
   }

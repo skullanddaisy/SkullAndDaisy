@@ -14,7 +14,7 @@ class CartProductItem extends React.Component {
         <img src={product.imageUrl} alt='this is a product' />
         <h4>{product.title}</h4>
         <p>{product.description}</p>
-        <p>{product.price}</p>
+        <p>${product.price}</p>
         <p>{product.quantity}</p>
       </div>
     );
