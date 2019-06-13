@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Card } from 'reactstrap';
+import {
+  Row,
+  Card,
+  Col,
+  Button,
+} from 'reactstrap';
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
 import CartProductItem from '../../CartProductItem/CartProductItem';
@@ -62,12 +67,22 @@ class Cart extends Component {
           <Card className='cartCard m-4'>
             <h3 className='d-flex align-self-start ml-2'>Shopping Cart</h3>
             <Row>
-            <p>Price</p>
-            <p>Quantitiy</p>
+              <Col className='col-4'></Col>
+              <Col className='col-2'>
+                <p>Price</p>
+              </Col>
+              <Col className='col-2'>
+                <p>Quantitiy</p>
+              </Col>
+              <Col className='col-4'></Col>
             </Row>
-            <Row>
-              {CartProductItemComponents}
-            </Row>
+                {CartProductItemComponents}
+              <Col>
+                <div className='subTotalCard'>
+                  <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
+                  <Button className='proceedButton btn-warning m-4'>Proceed To Checkout</Button>
+                </div>
+              </Col>
             <Row>
               <p>SubTotal ({numberOfProducts} items): ${totalPriceOfOrder}</p>
             </Row>

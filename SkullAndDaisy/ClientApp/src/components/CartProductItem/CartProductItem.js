@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'reactstrap';
 import productShape from '../../helpers/props/productShape';
 import './CartProductItem.scss';
 
@@ -11,11 +12,21 @@ class CartProductItem extends React.Component {
     const { product } = this.props;
     return (
       <div>
-        <img src={product.imageUrl} alt='this is a product' />
-        <h4>{product.title}</h4>
-        <p>{product.description}</p>
-        <p>${product.price}</p>
-        <p>{product.quantity}</p>
+        <Row>
+          <Col className='col-2'>
+            <img src={product.imageUrl} alt='this is a product' />
+          </Col>
+          <Col className='col-1'>
+            <h4>{product.title}</h4>
+            <p>{product.description}</p>
+          </Col>
+          <Col className='col-2'>
+            <p>${product.price}</p>
+          </Col>
+          <Col className='col-2'>
+            <p>{product.quantity}</p>
+          </Col>
+        </Row>
       </div>
     );
   }
