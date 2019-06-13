@@ -13,8 +13,9 @@ class SellerManagement extends React.Component {
     userRequests.getUserIdByEmail()
       .then((userId) => {
         this.setState({ userId });
-        orderRequests.getTotalCompletedSales(this.state.userId)
-          .then((order) => {
+        orderRequests.getSellerOrders(this.state.userId)
+          .then((sellerOrders) => {
+            this.setState({ sellerOrders });
           });
       }).catch((error) => {
         console.error(error);

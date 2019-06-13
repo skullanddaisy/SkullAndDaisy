@@ -10,6 +10,7 @@ const getAllUsers = () => new Promise((resolve, reject) => {
   axios.get(`${sadApiBaseUrl}/users`)
     .then((result) => {
       if (result != null) {
+        console.log('hi');
         const allUsers = result.data;
         resolve(allUsers);
       }
