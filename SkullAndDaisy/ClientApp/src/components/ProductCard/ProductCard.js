@@ -16,15 +16,15 @@ class ProductCard extends React.Component {
 
     return (
       <div id={product.id} className="productCard">
-      <Card>
-        <CardImg className='product-img' top src={product.imageUrl} alt={product.title} />
-        <CardBody>
-          <CardTitle>{product.title}</CardTitle>
-          <CardSubtitle>{product.price}</CardSubtitle>
-          <CardText>{product.description}</CardText>
-          <Button>Buy!!!!</Button>
-        </CardBody>
-      </Card>
+      <div>
+        <div className="imageDiv">
+          <img className='productImg' top src={product.imageUrl} alt={product.title} />
+        </div>
+        <div className="cardBody">
+          <a className="productTitle" href="">{product.title}</a>
+          <div className="productPrice">${product.price}</div>
+        </div>
+      </div>
     </div>
     );
   }

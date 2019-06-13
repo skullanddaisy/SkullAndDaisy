@@ -9,7 +9,7 @@ class Potions extends React.Component {
     }
     
     componentDidMount() {
-        ProductRequest.getProductsByType(4)
+        ProductRequest.getProductsByType(1)
             .then((filteredProducts) => {
                 this.setState({filteredProducts});
             })
@@ -17,15 +17,17 @@ class Potions extends React.Component {
     }
 
     render() {
-        const filteredProductItemComponents = this.state.filteredProducts.map(filteredProduct => (
+        const filteredProductItemComponents = this.state.filteredProducts.map(product => (
             <ProductCard
-            filteredProduct={filteredProduct}
-              key={filteredProduct.id}
+              product={product}
+              key={product.id}
               />));
         return (
             <div className='potions-page'>
                 <h1>Potions</h1>
-                {filteredProductItemComponents}
+                <div className="potionsContainer">
+                    {filteredProductItemComponents}
+                </div>
             </div>
         );
     }
