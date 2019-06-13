@@ -9,6 +9,7 @@ class SellerManagement extends React.Component {
     userId: 0,
     completedOrders: [],
     totalSales: 0,
+    monthlySales: 0,
   }
 
   getTotalSales = () => {
@@ -18,6 +19,16 @@ class SellerManagement extends React.Component {
       mySales = sellerOrder.total + mySales;
     });
     this.setState({ totalSales: mySales });
+  }
+
+  getMonthly = () => {
+    orderRequests.getMonthlySales(this.state.userId)
+      .then((monthlySales) => {
+        this.setState({ monthlySales });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   componentDidMount() {
@@ -34,6 +45,7 @@ class SellerManagement extends React.Component {
             });
             this.setState({ completedOrders: sales });
             this.getTotalSales();
+            this.getMonthly();
           });
       })
       .catch((error) => {
@@ -53,7 +65,7 @@ class SellerManagement extends React.Component {
 
           <div className="card-body text-center mt-5">
             <h3 className="card-subtitle mb-2 text-muted">Seller Dashboard</h3>
-            <p className="card-text">Sales this month: </p>
+            <p className="card-text">Sales this month: {formatPrice(this.state.totalSales)}</p>
             <p className="card-text">Total sales: {formatPrice(this.state.totalSales)}</p>
           </div>
 
