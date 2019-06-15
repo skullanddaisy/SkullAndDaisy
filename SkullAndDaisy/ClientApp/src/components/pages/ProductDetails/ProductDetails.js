@@ -2,7 +2,7 @@ import React from 'react';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
 import './ProductDetails.scss';
-
+import { Button } from 'reactstrap';
 
 class ProductDetails extends React.Component{
 	
@@ -10,7 +10,6 @@ class ProductDetails extends React.Component{
 		product: productShape,
 	}
 	
-
 	componentDidMount() {
 		let productId = this.props.match.params.id;
 		ProductRequest.getProductById(productId)
@@ -32,12 +31,12 @@ class ProductDetails extends React.Component{
 					<div id="middleCol" className="middleCol">
 						<h1 className="productTitle">{product.title}</h1>
 						<hr id="productDetailTitleLine"></hr>
-						<div className="productPrice">List Price: <span id="productDetailPrice">${product.price}</span></div>
+						<div className="listPrice">List Price: <span id="productDetailPrice">${product.price}</span></div>
+						<div id="descriptionHeader">Description:</div>
 						<div id="productDetails">{product.description}</div>
-					</div>
-					<div id="rightCol" className="rightCol">
-						<div id="addToCartCard" className="addToCartCard">
-							<div className="cartCardPrice">{product.price}</div>
+						<div className="productDetailsButtonContainer">
+							<Button className="productDetailsButton">Add to Cart</Button>
+							<Button className="productDetailsButton">Add to Wish List</Button>
 						</div>
 					</div>
 			</div>
