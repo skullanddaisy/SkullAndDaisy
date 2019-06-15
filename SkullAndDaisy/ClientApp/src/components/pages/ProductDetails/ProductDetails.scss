@@ -1,14 +1,21 @@
+.productDetailsContainer1 {
+	
+}
+
 .productDetailsContainer {
 	display: flex;
 	justify-content: center;
 	flex-flow: row wrap;
+	border: solid 1px white;
+	border-radius: 1rem;
+	margin: 35px 20px;
 }
 
 #leftCol {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	margin-top: 40px;
+	margin: 40px 50px 40px;
 	width: max-content;
 }
 
@@ -17,10 +24,12 @@
 	justify-content: left;
 	flex-direction: column;
 	margin-top: 40px;
-
+	color: white;
+	font-size: 20px;
 	#productDetails {
 		max-height: max-content;
 		max-width: 550px;
+		text-align: left;
 	}
 }
 
@@ -34,6 +43,7 @@
 .productDetailImg {
 	max-width: 550px;
 	max-height: 550px;
+	border-radius: 1rem;
 }
 
 .imageDiv {
@@ -43,11 +53,13 @@
 
 .productTitle {
 	text-align: left;
+	color: white;
 }
 
 #productDetailTitleLine {
 	width: 100%;
 	margin: 5px;
+	background-color:white;
 }
 
 #productDetailPrice {

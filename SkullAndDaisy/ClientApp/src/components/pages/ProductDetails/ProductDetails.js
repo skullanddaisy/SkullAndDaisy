@@ -22,7 +22,8 @@ class ProductDetails extends React.Component{
 		
 		const { product } = this.state;
 		return(
-			<div className="productDetailsContainer">
+			<div className="productDetailsContainer1">
+				<div className="productDetailsContainer">
 					<div id="leftCol" className="leftCol">
 						<div className="imageDiv">
 							<img className='productDetailImg' top src={product.imageUrl} alt={product.title} />
@@ -39,6 +40,7 @@ class ProductDetails extends React.Component{
 							<Button className="productDetailsButton">Add to Wish List</Button>
 						</div>
 					</div>
+				</div>
 			</div>
 		);
 	}
