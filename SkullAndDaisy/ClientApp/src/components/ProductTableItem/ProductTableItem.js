@@ -4,6 +4,8 @@ import productShape from '../../helpers/props/productShape';
 import formatPrice from '../../helpers/formatPrice';
 import formatProductType from '../../helpers/formatProductType';
 
+import './ProductTableItem.scss';
+
 export default class ProductTableItem extends Component {
   static propTypes = {
     product: productShape,
@@ -16,10 +18,10 @@ export default class ProductTableItem extends Component {
       <tr className="inventory-item">
         <td>
           <button className="btn btn-default">
-              <i className="fas fa-trash-alt"></i>
+              <i className="fas fa-trash-alt icon"></i>
           </button>
           <button className="btn btn-default">
-              <i className="fas fa-pencil-alt"></i>
+              <i className="fas fa-pencil-alt icon"></i>
           </button>
         </td>
         <th scope="row">{product.quantity}</th>
