@@ -1,6 +1,8 @@
 import React from 'react';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
+import './ProductDetails.scss';
+
 
 class ProductDetails extends React.Component{
 	
@@ -10,7 +12,8 @@ class ProductDetails extends React.Component{
 	
 
 	componentDidMount() {
-		ProductRequest.getProductById(1)
+		let productId = this.props.match.params.id;
+		ProductRequest.getProductById(productId)
 		.then((productById) => {
 			this.setState({ product: productById});
 		})
@@ -18,23 +21,25 @@ class ProductDetails extends React.Component{
 
 	render() {
 		
-		
-		
 		const { product } = this.state;
 		return(
-			<div className="productContainer">
-				<div className="productBanner"></div>
-				<div id={product.id} className="productCard" onClick={this.setProductId}>
-					<div>
+			<div className="productDetailsContainer">
+					<div id="leftCol" className="leftCol">
 						<div className="imageDiv">
-							<img className='productImg' top src={product.imageUrl} alt={product.title} />
-						</div>
-						<div className="cardBody">
-							<a className="productTitle" href="">{product.title}</a>
-							<div className="productPrice">${product.price}</div>
+							<img className='productDetailImg' top src={product.imageUrl} alt={product.title} />
 						</div>
 					</div>
-				</div>
+					<div id="middleCol" className="middleCol">
+						<h1 className="productTitle">{product.title}</h1>
+						<hr id="productDetailTitleLine"></hr>
+						<div className="productPrice">List Price: <span id="productDetailPrice">${product.price}</span></div>
+						<div id="productDetails">{product.description}</div>
+					</div>
+					<div id="rightCol" className="rightCol">
+						<div id="addToCartCard" className="addToCartCard">
+							<div className="cartCardPrice">{product.price}</div>
+						</div>
+					</div>
 			</div>
 		);
 	}

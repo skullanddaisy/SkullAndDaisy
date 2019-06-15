@@ -1,0 +1,39 @@
+.productDetailsContainer {
+	display: flex;
+	flex-flow: row wrap;
+}
+#leftCol {
+	display: flex;
+	justify-content: left;
+	flex-direction: column;
+	width: 45%;
+}
+
+#middleCol {
+	display: flex;
+	justify-content: center;
+	flex-direction: column
+}
+
+
+.productDetailImg {
+
+}
+
+.imageDiv {
+	max-width: 250px;
+	max-height: 250px;
+}
+
+#productDetailTitleLine {
+	width: 100%;
+	margin: 5px;
+}
+
+#productDetailPrice {
+	color: red;
+}
+
+.cartCardPrice {
+	color: red;
+}
