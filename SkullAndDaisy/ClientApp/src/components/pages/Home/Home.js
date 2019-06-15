@@ -4,7 +4,6 @@ import UserProfileCard from '../../UserProfileCard/UserProfileCard';
 import DealOfTheDayCard from '../../DealOfTheDayCard/DealOfTheDayCard';
 import FeaturedListCard from '../../FeaturedListCard/FeaturedListCard';
 import LatestProductsCard from '../../LatestProductsCard/LatestProductsCard';
-import ProductTypesCard from '../../ProductTypesCard/ProductTypesCard';
 import MyFooter from '../../MyFooter/MyFooter';
 import './Home.scss';
 
@@ -28,6 +27,13 @@ class Home extends React.Component {
 
     render() {
       const { userId } = this.state;
+
+      if (userId === 0) {
+        return (
+          <div><h1>Loading</h1></div>
+        );
+      }
+
       return (
             <div className='homeContainer'>
                 <div className="homeUpper">
@@ -43,10 +49,6 @@ class Home extends React.Component {
                         <h1>Latest products</h1>
                     </div>
                     <LatestProductsCard />
-                    <div className="productTypesText">
-                        <h1>Product types</h1>
-                    </div>
-                    <ProductTypesCard />
                 </div>
                 <div>
                     <MyFooter />
