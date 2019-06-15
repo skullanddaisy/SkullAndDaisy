@@ -60,31 +60,33 @@ class Cart extends Component {
     ));
 
     return (
-      <div className = 'Cart'>
+      <div className = 'Cart pb-5'>
           <div className='cartHeader m-4'>
             <h1>Your Cart</h1>
           </div>
           <Card className='cartCard m-4'>
             <h3 className='d-flex align-self-start ml-2'>Shopping Cart</h3>
             <Row>
-              <Col className='col-4'></Col>
+              <Col className='col-3'></Col>
+              <Col className='col-2'>
+                <p>Quantity</p>
+              </Col>
               <Col className='col-2'>
                 <p>Price</p>
               </Col>
               <Col className='col-2'>
-                <p>Quantitiy</p>
+                <p>SubTotal ({numberOfProducts} items): ${totalPriceOfOrder}</p>
               </Col>
-              <Col className='col-4'></Col>
             </Row>
-                {CartProductItemComponents}
-              <Col>
+              {CartProductItemComponents}
+            <Row>
+              <Col className='col-7'></Col>
+              <Col className='col-2'>
                 <div className='subTotalCard'>
                   <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
                   <Button className='proceedButton btn-warning m-4'>Proceed To Checkout</Button>
                 </div>
               </Col>
-            <Row>
-              <p>SubTotal ({numberOfProducts} items): ${totalPriceOfOrder}</p>
             </Row>
         </Card>
       </div>
