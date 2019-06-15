@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import productShape from '../../helpers/props/productShape';
 import formatPrice from '../../helpers/formatPrice';
+import formatProductType from '../../helpers/formatProductType';
 import './CartProductItem.scss';
 
 class CartProductItem extends React.Component {
@@ -29,7 +30,7 @@ class CartProductItem extends React.Component {
       <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
       <th><div>{product.title}</div>{product.description}</th>
       <td>{product.quantity}</td>
-      <td>{product.productTypeId}</td>
+      <td>{formatProductType(product.productTypeId)}</td>
       <td>{formatPrice(product.price)}</td>
       <td>
         <button className="btn btn-default">
