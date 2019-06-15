@@ -28,7 +28,7 @@ class CartProductItem extends React.Component {
     return (
       <tr className="cart-item">
       <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
-      <th><div>{product.title}</div>{product.description}</th>
+      <th><div className='mb-2'>{product.title}</div>{product.description}</th>
       <td>{product.quantity}</td>
       <td>{formatProductType(product.productTypeId)}</td>
       <td>{formatPrice(product.price)}</td>

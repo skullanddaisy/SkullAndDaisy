@@ -68,7 +68,7 @@ class Cart extends Component {
             </div>
             <div className='subTotalCard'>
               <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
-              <Button className='proceedButton btn-warning m-4'>Proceed To Checkout</Button>
+              <Button className='proceedButton btn-warning m-2'>Proceed To Checkout</Button>
             </div>
         </Card>
       </div>

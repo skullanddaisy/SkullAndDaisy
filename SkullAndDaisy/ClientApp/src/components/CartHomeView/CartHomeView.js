@@ -67,7 +67,7 @@ class CartHomeView extends Component {
             <div className='d-flex justify-content-between m-3'>
               <div><h4>Your Cart</h4></div>
               <div className='subTotalCard d-flex flex-wrap'>
-                <p className='subTotalText m-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
+                <p className='subTotalText mt-2 m-1'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
                 <Button className='proceedButton btn-warning m-1'>Proceed To Checkout</Button>
               </div>
             </div>
