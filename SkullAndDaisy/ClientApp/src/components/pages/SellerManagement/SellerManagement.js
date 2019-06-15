@@ -5,12 +5,13 @@ import InventoryTable from '../../InventoryTable/InventoryTable';
 import './SellerManagement.scss';
 import orderRequests from '../../../helpers/data/orderRequests';
 import formatPrice from '../../../helpers/formatPrice';
+import productRequests from '../../../helpers/data/productRequests';
 
 class SellerManagement extends React.Component {
   state = {
     userId: 0,
     completedOrders: [],
-    unShippedOrders: [],
+    unshippedOrders: [],
     totalSales: 0,
     monthlySales: 0,
     myInventory: [],
@@ -35,6 +36,27 @@ class SellerManagement extends React.Component {
       });
   }
 
+  getMyInventory = () => {
+    productRequests.getSellersProducts(this.state.userId)
+      .then((myInventory) => {
+        this.setState({ myInventory });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  getUnshippedOrders = () => {
+    const unshippedOrders = [];
+    const { completedOrders } = this.state;
+    completedOrders.forEach((order) => {
+      if (order.orderStatus !== 'Shipped') {
+        unshippedOrders.push(order);
+      }
+      this.setState({ unshippedOrders });
+    });
+  }
+
   componentDidMount() {
     userRequests.getUserIdByEmail()
       .then((userId) => {
@@ -43,13 +65,15 @@ class SellerManagement extends React.Component {
           .then((sellerOrders) => {
             const sales = [];
             sellerOrders.forEach((sellerOrder) => {
-              if (sellerOrder.orderStatus === 'Complete') {
+              if (sellerOrder.orderStatus !== 'Pending') {
                 sales.push(sellerOrder);
               }
             });
             this.setState({ completedOrders: sales });
             this.getTotalSales();
             this.getMonthly();
+            this.getMyInventory();
+            this.getUnshippedOrders();
           });
       })
       .catch((error) => {
@@ -63,7 +87,7 @@ class SellerManagement extends React.Component {
   }
 
   render() {
-    const { unShippedOrders, myInventory } = this.props;
+    const { unshippedOrders, myInventory } = this.props;
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
@@ -74,7 +98,7 @@ class SellerManagement extends React.Component {
           </div>
         </header>
         <div className="dashboard-middle mt-4">
-          <OrdersTable unshippedOrders={unShippedOrders} />
+          <OrdersTable unshippedOrders={unshippedOrders} />
           <InventoryTable myInventory={myInventory} />
         </div>
       </div>
