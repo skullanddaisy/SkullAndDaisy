@@ -15,6 +15,18 @@ const getAllProducts = () => new Promise((resolve, reject) => {
     });
 });
 
+const getProductById = (productId) => new Promise((resolve, reject) => {
+  axios
+    .get(`${sadApiBaseUrl}/products/${productId}`)
+    .then((results) => {
+      const productFiilteredById = results.data;
+      resolve(productFiilteredById);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+})
+
 const getProductsByType = productTypeId => new Promise((resolve, reject) => {
   axios
     .get(`${sadApiBaseUrl}/products/FilterProductByType/${productTypeId}`)
@@ -43,4 +55,5 @@ export default {
   getAllProducts,
   getSellersProducts,
   getProductsByType,
+  getProductById
 };

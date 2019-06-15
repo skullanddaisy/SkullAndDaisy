@@ -2,6 +2,11 @@
   cursor: pointer;
 
   &:hover {
-    background: rgb(15, 15, 15);
+    background: rgb(209, 199, 199);
+    color: black;
   }
+}
+
+.table-contents {
+  color: rgb(231, 225, 225) !important;
 }

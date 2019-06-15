@@ -28,6 +28,7 @@ import Potions from '../components/pages/ProductTypes/Potions/Potions';
 import Poisons from '../components/pages/ProductTypes/Poisons/Poisons';
 import Crystals from '../components/pages/ProductTypes/Crystals/Crystals';
 import Herbs from '../components/pages/ProductTypes/Herbs/Herbs';
+import ProductDetails from '../components/pages/ProductDetails/ProductDetails';
 import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
@@ -97,6 +98,7 @@ class App extends React.Component {
                 <PrivateRoute path='/loginsettings/' exact authed={this.state.authed} component={LoginSettings} />
                 <PrivateRoute path='/customerorders/' exact authed={this.state.authed} component={CustomerOrders} />
                 <PrivateRoute path='/sellerproducts/' exact authed={this.state.authed} component={SellerProducts} />
+                <PrivateRoute path='/productdetails/:id' exact authed={this.state.authed} component={ProductDetails} />
 
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
