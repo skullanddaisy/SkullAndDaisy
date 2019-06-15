@@ -34,7 +34,7 @@ class UserProfileCard extends React.Component {
     return (
       <div className='user-profile-card'>
         <div className='header' onClick={this.toUserProfileClickEvent}>
-          <h2 className='ml-2'><i class="fas fa-user-circle"></i>  Hi {userFirstName}!</h2>
+          <h2 className='ml-2'><i className="fas fa-user-circle"></i>  Hi {userFirstName}!</h2>
         </div>
         <CartHomeView userId={userId}/>
       </div>

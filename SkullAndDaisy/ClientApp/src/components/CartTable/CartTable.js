@@ -28,7 +28,7 @@ export default class CartTable extends Component {
           <Table striped>
             <thead>
               <tr>
-                <th></th>
+                <th><i class="fas fa-shopping-cart fa-2x"></i></th>
                 <th>Name</th>
                 <th>Qty</th>
                 <th>Price</th>
