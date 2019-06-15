@@ -8,17 +8,39 @@ import './CartTable.scss';
 export default class CartTable extends Component {
   static propTypes = {
     products: PropTypes.arrayOf(productShape),
+    cartHomeView: PropTypes.bool,
   }
 
   render() {
-    const { products } = this.props;
+    const { products, cartHomeView } = this.props;
 
     const cartProductItemComponents = products.map(product => (
       <CartProductItem
         product={product}
         key={product.id}
+        cartHomeView={cartHomeView}
       />
     ));
+
+    if (cartHomeView === true) {
+      return (
+        <div>
+          <Table striped>
+            <thead>
+              <tr>
+                <th><i class="fas fa-shopping-cart fa-2x"></i></th>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartProductItemComponents}
+            </tbody>
+          </Table>
+        </div>
+      );
+    }
 
     return (
       <div>

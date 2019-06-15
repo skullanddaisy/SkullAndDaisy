@@ -21,6 +21,7 @@ namespace SkullAndDaisy.Models
     internal enum OrderStatus
     {
         Complete,
-        Pending
+        Pending,
+        Shipped
     }
 }

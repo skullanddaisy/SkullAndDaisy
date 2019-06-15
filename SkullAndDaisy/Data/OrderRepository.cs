@@ -160,19 +160,21 @@ namespace SkullAndDaisy.Data
 
                     var products = _productRepository.GetAll().ToList();
 
+                    List<Product> theProducts = new List<Product>();
+
                     foreach (var order in orders)
                     {
                         var matchingProductOrders = productOrders.Where(productOrder => productOrder.OrderId == order.Id).ToList();
 
-                        List<Product> theProducts = new List<Product>();
-
                         foreach (var productOrder in matchingProductOrders)
                         {
-                            var matchingProducts = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
+                            var matchingProduct = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
 
-                            if (matchingProducts != null)
+                            matchingProduct.Quantity = productOrder.Quantity;
+
+                            if (matchingProduct != null)
                             {
-                                theProducts.Add(matchingProducts);
+                                theProducts.Add(matchingProduct);
                             }
                         }
 
