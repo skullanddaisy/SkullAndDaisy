@@ -26,12 +26,30 @@
 	margin-top: 40px;
 	color: white;
 	font-size: 20px;
+
+	#priceAndQuantityDiv {
+		display: flex;
+		margin-top: 10px;
+		
+		#quantityDiv {
+			margin-left: 75px;
+		}
+	}
+
 	#productDetails {
 		max-height: max-content;
 		max-width: 550px;
 		text-align: left;
 	}
+
+	#quantityInput {
+		text-align: center;
+		min-width: 25px;
+		max-width: 35px;
+		height: 30px;
+	}
 }
+
 
 
 #rightCol {
