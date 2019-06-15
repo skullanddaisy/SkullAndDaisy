@@ -55,5 +55,13 @@ namespace SkullAndDaisy.Controllers
 
             return Ok(updatedOrder);
         }
+
+        [HttpGet("getMonthlySalesTotal/{userId}")]
+        public decimal GetThisMonthsSales(int userId)
+        {
+            var salesTotal = _orderRepository.GetThisMonthsSales(userId);
+
+            return salesTotal;
+        }
     }
 }
