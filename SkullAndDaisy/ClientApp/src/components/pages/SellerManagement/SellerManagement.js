@@ -87,7 +87,7 @@ class SellerManagement extends React.Component {
   }
 
   render() {
-    const { unshippedOrders, myInventory } = this.props;
+    const { unshippedOrders, myInventory } = this.state;
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
