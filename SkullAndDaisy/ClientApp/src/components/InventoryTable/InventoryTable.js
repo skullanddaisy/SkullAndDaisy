@@ -25,7 +25,7 @@ export default class InventoryTable extends Component {
         <div className="row d-flex justify-content-center mb-4">
           <h2 className="mr-5">Inventory</h2>
         </div>
-        <Table dark>
+        <Table>
           <thead>
             <tr>
               <th></th>

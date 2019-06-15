@@ -1,9 +1,5 @@
 @import '../../../styles/variables.scss';
 
-body {
-    background: black;
-}
-
 .seller-management {
     text-align: center;
 }
@@ -12,9 +8,9 @@ body {
     background-color: $dark;
     min-height: 10vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
+    // align-items: center;
+    justify-content: space-between;
     font-size: calc(10px + 2vmin);
     color: white;
 }
@@ -25,4 +21,11 @@ body {
 
 .sm-tile {
     cursor: pointer;
+}
+
+.sticky {
+    bottom:0;
+    position:fixed;
+    z-index:150;
+    _position:absolute;
 }
