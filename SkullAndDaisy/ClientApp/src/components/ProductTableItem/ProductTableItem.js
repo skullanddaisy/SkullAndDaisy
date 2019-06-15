@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import productShape from '../../helpers/props/productShape';
 import formatPrice from '../../helpers/formatPrice';
+import formatProductType from '../../helpers/formatProductType';
+
+import './ProductTableItem.scss';
 
 export default class ProductTableItem extends Component {
   static propTypes = {
@@ -15,15 +18,15 @@ export default class ProductTableItem extends Component {
       <tr className="inventory-item">
         <td>
           <button className="btn btn-default">
-              <i className="fas fa-trash-alt"></i>
+              <i className="fas fa-trash-alt icon"></i>
           </button>
           <button className="btn btn-default">
-              <i className="fas fa-pencil-alt"></i>
+              <i className="fas fa-pencil-alt icon"></i>
           </button>
         </td>
         <th scope="row">{product.quantity}</th>
         <td>{product.title}</td>
-        <td>{product.productTypeId}</td>
+        <td>{formatProductType(product.productTypeId)}</td>
         <td>{formatPrice(product.price)}</td>
       </tr>
     );
