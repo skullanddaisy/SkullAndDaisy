@@ -5,19 +5,19 @@ import './Poisons.scss';
 
 class Poisons extends React.Component {
     state = {
-        filteredProducts: []
+        products: []
     }
     
     componentDidMount() {
         ProductRequest.getProductsByType(2)
-            .then((filteredProducts) => {
-                this.setState({filteredProducts});
+            .then((products) => {
+                this.setState({products});
             })
         .catch(err => console.error('error in getting filtered products', err));
     }
 
     render() {
-        const filteredProductItemComponents = this.state.filteredProducts.map(product => (
+        const productItemComponents = this.state.products.map(product => (
             <ProductCard
               product={product}
               key={product.id}
@@ -26,7 +26,7 @@ class Poisons extends React.Component {
             <div className='poisons-page'>
                 <h1>Poisons</h1>
                 <div className="poisonsContainer">
-                    {filteredProductItemComponents}
+                    {productItemComponents}
                 </div>
             </div>
         );
