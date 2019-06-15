@@ -91,13 +91,11 @@ class SellerManagement extends React.Component {
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
-          {/* <div className="card-body text-center mt-5"> */}
             <h1 className="card-subtitle mb-4 ml-4 text-muted">Seller Dashboard</h1>
             <div>
-              <p className="card-text mr-4">Sales this month: {formatPrice(this.state.totalSales)}</p>
+              <p className="card-text mr-4">Sales this month: {formatPrice(this.state.monthlySales)}</p>
               <p className="card-text mr-4 mb-1">Total sales: {formatPrice(this.state.totalSales)}</p>
             </div>
-          {/* </div> */}
         </header>
         <div className="dashboard-middle mt-4">
           <OrdersTable unshippedOrders={unshippedOrders} />

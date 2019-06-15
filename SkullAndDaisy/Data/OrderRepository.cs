@@ -191,10 +191,13 @@ namespace SkullAndDaisy.Data
             {
                 var monthlySum = db.ExecuteScalar<decimal>(
                     @"SELECT SUM(o.total)
-                      FROM orders o
-                      WHERE o.OrderDate >= DATEADD(month, -1, GETDATE())
-                     AND o.UserId = @userId",
-                     new { userId });
+                    FROM orders o
+                    join productorders po on po.orderId = o.Id
+                    join products p on p.id = po.productid
+                    WHERE o.OrderDate >= DATEADD(month, -1, GETDATE())
+                    AND p.UserId = @userId",
+
+                    new { userId });
 
                 return monthlySum;
             }
