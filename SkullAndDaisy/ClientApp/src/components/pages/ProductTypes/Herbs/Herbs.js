@@ -5,19 +5,19 @@ import './Herbs.scss';
 
 class Herbs extends React.Component {
     state = {
-        filteredProducts: []
+        products: []
     }
     
     componentDidMount() {
         ProductRequest.getProductsByType(3)
-            .then((filteredProducts) => {
-                this.setState({filteredProducts});
+            .then((products) => {
+                this.setState({products});
             })
         .catch(err => console.error('error in getting filtered products', err));
     }
 
     render() {
-        const filteredProductItemComponents = this.state.filteredProducts.map(product => (
+        const productItemComponents = this.state.products.map(product => (
             <ProductCard
               product={product}
               key={product.id}
@@ -26,7 +26,7 @@ class Herbs extends React.Component {
             <div className='herbs-page'>
                 <h1>Herbs</h1>
                 <div className="herbsContainer">
-                    {filteredProductItemComponents}
+                    {productItemComponents}
                 </div>
             </div>
         );

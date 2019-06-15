@@ -5,19 +5,19 @@ import './Crystals.scss';
 
 class Crystals extends React.Component {
     state = {
-        filteredProducts: []
+        products: []
     }
     
     componentDidMount() {
         ProductRequest.getProductsByType(4)
-            .then((filteredProducts) => {
-                this.setState({filteredProducts});
+            .then((products) => {
+                this.setState({products});
             })
         .catch(err => console.error('error in getting filtered products', err));
     }
 
     render() {
-        const filteredProductItemComponents = this.state.filteredProducts.map(product => (
+        const productItemComponents = this.state.products.map(product => (
             <ProductCard
               product={product}
               key={product.id}
@@ -26,7 +26,7 @@ class Crystals extends React.Component {
             <div className='crystals-page'>
                 <h1>Crystals</h1>
                 <div className="crystalsContainer">
-                    {filteredProductItemComponents}
+                    {productItemComponents}
                 </div>
             </div>
         );

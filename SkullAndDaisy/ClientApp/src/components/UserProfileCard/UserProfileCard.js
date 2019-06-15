@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './UserProfileCard.scss';
-import Cart from '../pages/Cart/Cart';
+import CartHomeView from '../CartHomeView/CartHomeView';
 
 class UserProfileCard extends React.Component {
   static propTypes = {
@@ -18,7 +18,7 @@ class UserProfileCard extends React.Component {
     return (
       <div className='user-profile-card'>
         <h2>User Profile Component</h2>
-        <Cart userId= {userId}/>
+        <CartHomeView userId= {userId}/>
       </div>
     );
   }
