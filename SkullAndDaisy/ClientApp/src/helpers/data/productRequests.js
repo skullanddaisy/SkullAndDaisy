@@ -15,18 +15,17 @@ const getAllProducts = () => new Promise((resolve, reject) => {
     });
 });
 
-const getProductsByType = (productTypeId) => new Promise((resolve, reject) => {
+const getProductsByType = productTypeId => new Promise((resolve, reject) => {
   axios
     .get(`${sadApiBaseUrl}/products/FilterProductByType/${productTypeId}`)
     .then((results) => {
       const productsFilteredByType = results.data;
-      console.log(productsFilteredByType);
       resolve(productsFilteredByType);
     })
     .catch((err) => {
       reject(err);
     });
-  });
+});
 
 const getSellersProducts = sellerId => new Promise((resolve, reject) => {
   axios
@@ -43,5 +42,5 @@ const getSellersProducts = sellerId => new Promise((resolve, reject) => {
 export default {
   getAllProducts,
   getSellersProducts,
-  getProductsByType
+  getProductsByType,
 };
