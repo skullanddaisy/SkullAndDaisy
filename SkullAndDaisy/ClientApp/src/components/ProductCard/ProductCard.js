@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import productShape from '../../helpers/props/productShape';
 import './ProductCard.scss';
 import { Link } from 'react-router-dom';
@@ -8,14 +7,7 @@ import { Link } from 'react-router-dom';
 class ProductCard extends React.Component {
   static propTypes = {
     product: productShape,
-    passProductToDetails: PropTypes.func,
   }
-
-  // productDetailView = (e) => {
-  //   e.preventDefault();
-  //   const productId = this.props.;
-  //   this.props.passProductToDetails(productId);
-  // }
 
   render() {
     const { product } = this.props;

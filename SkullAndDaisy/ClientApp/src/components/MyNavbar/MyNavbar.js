@@ -12,7 +12,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledDropdown
+  UncontrolledDropdown,
 } from 'reactstrap';
 
 import './MyNavbar.scss';
@@ -25,7 +25,7 @@ class MyNavbar extends React.Component {
 
   state = {
     isOpen: false,
-    dropdownOpen: false
+    dropdownOpen: false,
   };
 
   toggle() {
@@ -36,7 +36,7 @@ class MyNavbar extends React.Component {
 
   categoryToggle() {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropdownOpen: !this.state.dropdownOpen,
     });
   }
 
@@ -64,27 +64,27 @@ class MyNavbar extends React.Component {
 
     return (
       <div className="my-navbar">
-        <Navbar color="dark" dark expand="md">
+        <Navbar className="the-navbar" dark expand="md">
           <NavbarBrand href="/">Skull & Daisy</NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
           {/* Modal */}
-          <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
+          <div className="modal left fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
 
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Categories</h4>
+                <div className="modal-header">
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 className="modal-title" id="myModalLabel">Categories</h4>
                 </div>
 
-                <div class="modal-body">
-                  
+                <div className="modal-body">
+
                 </div>
 
-              </div> {/*modal-content*/}
-            </div> {/*modal-dialog*/}
-          </div> {/*modal*/}
+              </div> {/* modal-content */}
+            </div> {/* modal-dialog */}
+          </div> {/* modal */}
           <UncontrolledDropdown inNavbar>
                 <DropdownToggle id="categoryDropdown" nav caret>
                   Categories
