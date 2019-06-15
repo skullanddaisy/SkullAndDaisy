@@ -61,13 +61,13 @@ class SellerManagement extends React.Component {
   render() {
     return (
       <div className='seller-management'>
-        <h1>Seller Mananagement</h1>
-
+        <header className="dashboard-header">
           <div className="card-body text-center mt-5">
-            <h3 className="card-subtitle mb-2 text-muted">Seller Dashboard</h3>
+            <h1 className="card-subtitle mb-4 text-muted">Seller Dashboard</h1>
             <p className="card-text">Sales this month: {formatPrice(this.state.totalSales)}</p>
             <p className="card-text">Total sales: {formatPrice(this.state.totalSales)}</p>
           </div>
+        </header>
 
         <div className="seller-management-container mx-auto">
 
