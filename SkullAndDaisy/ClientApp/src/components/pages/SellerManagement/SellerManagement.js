@@ -1,5 +1,7 @@
 import React from 'react';
 import userRequests from '../../../helpers/data/userRequests';
+import OrdersTable from '../../OrdersTable/OrdersTable';
+import InventoryTable from '../../InventoryTable/InventoryTable';
 import './SellerManagement.scss';
 import orderRequests from '../../../helpers/data/orderRequests';
 import formatPrice from '../../../helpers/formatPrice';
@@ -8,8 +10,10 @@ class SellerManagement extends React.Component {
   state = {
     userId: 0,
     completedOrders: [],
+    unShippedOrders: [],
     totalSales: 0,
     monthlySales: 0,
+    myInventory: [],
   }
 
   getTotalSales = () => {
@@ -59,6 +63,7 @@ class SellerManagement extends React.Component {
   }
 
   render() {
+    const { unShippedOrders, myInventory } = this.props;
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
@@ -68,28 +73,10 @@ class SellerManagement extends React.Component {
             <p className="card-text">Total sales: {formatPrice(this.state.totalSales)}</p>
           </div>
         </header>
-
-        <div className="seller-management-container mx-auto">
-
-          <div className="card-deck mt-5 row">
-            <div className="card border-dark sm-tile" id="customerorders" onClick={this.changeView}>
-              <div className="card-body text-center">
-                <h4 className="card-title"><i className="fas fa-boxes fa-6x"></i></h4>
-                <h6 className="card-subtitle mb-2 text-muted">Customer Orders</h6>
-                <p className="card-text">See your individual sales</p>
-              </div>
-            </div>
-            <div className="card border-dark sm-tile" id='sellerproducts' onClick={this.changeView}>
-              <div className="card-body text-center">
-                <h4 className="card-title"><i className="fas fa-barcode fa-6x"></i></h4>
-                <h6 className="card-subtitle mb-2 text-muted">Product Management</h6>
-                <p className="card-text">Manage your products information</p>
-              </div>
-            </div>
-          </div>
-
+        <div className="dashboard-middle mt-4">
+          <OrdersTable unshippedOrders={unShippedOrders} />
+          <InventoryTable myInventory={myInventory} />
         </div>
-
       </div>
     );
   }

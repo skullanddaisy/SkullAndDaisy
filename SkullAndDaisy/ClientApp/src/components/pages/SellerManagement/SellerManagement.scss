@@ -1,5 +1,9 @@
 @import '../../../styles/variables.scss';
 
+.seller-management {
+    text-align: center;
+}
+
 .dashboard-header {
     background-color: $dark;
     min-height: 10vh;
@@ -11,15 +15,10 @@
     color: white;
 }
 
-.seller-management-container {
+.dashboard-middle {
     display: flex;
-    justify-content: center;
-}
+  }
 
 .sm-tile {
     cursor: pointer;
-}
-
-.seller-dashbpard {
-    width: 200px;
 }
