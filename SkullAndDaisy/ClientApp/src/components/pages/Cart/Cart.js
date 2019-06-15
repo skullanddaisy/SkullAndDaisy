@@ -24,6 +24,7 @@ class Cart extends Component {
     pendingOrder: defaultPendingOrder,
     numberOfProducts: 0,
     totalPriceOfOrder: 0,
+    cartHomeView: false,
   }
 
   componentDidMount() {
@@ -52,6 +53,7 @@ class Cart extends Component {
       numberOfProducts,
       totalPriceOfOrder,
       pendingOrder,
+      cartHomeView,
     } = this.state;
 
     return (
@@ -62,11 +64,11 @@ class Cart extends Component {
           <Card className='cartCard m-4'>
             <h3 className='d-flex align-self-start m-3'>Shopping Cart</h3>
             <div>
-              <CartTable products={pendingOrder.products}/>
+              <CartTable products={pendingOrder.products} cartHomeView={cartHomeView}/>
             </div>
             <div className='subTotalCard'>
               <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
-              <Button className='proceedButton btn-warning m-4'>Proceed To Checkout</Button>
+              <Button className='proceedButton btn-warning m-2'>Proceed To Checkout</Button>
             </div>
         </Card>
       </div>
