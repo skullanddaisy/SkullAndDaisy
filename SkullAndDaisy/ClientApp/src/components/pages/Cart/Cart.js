@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
-  Row,
   Card,
-  Col,
   Button,
 } from 'reactstrap';
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
-import CartProductItem from '../../CartProductItem/CartProductItem';
+import CartTable from '../../CartTable/CartTable';
 import './Cart.scss';
 
 const defaultPendingOrder = {
@@ -50,44 +48,26 @@ class Cart extends Component {
   }
 
   render() {
-    const { pendingOrder, numberOfProducts, totalPriceOfOrder } = this.state;
-
-    const CartProductItemComponents = pendingOrder.products.map(product => (
-      <CartProductItem
-        key={product.id}
-        product={product}
-      />
-    ));
+    const {
+      numberOfProducts,
+      totalPriceOfOrder,
+      pendingOrder,
+    } = this.state;
 
     return (
-      <div className = 'Cart pb-5'>
+      <div className = 'Cart'>
           <div className='cartHeader m-4'>
             <h1>Your Cart</h1>
           </div>
           <Card className='cartCard m-4'>
-            <h3 className='d-flex align-self-start ml-2'>Shopping Cart</h3>
-            <Row>
-              <Col className='col-3'></Col>
-              <Col className='col-2'>
-                <p>Quantity</p>
-              </Col>
-              <Col className='col-2'>
-                <p>Price</p>
-              </Col>
-              <Col className='col-2'>
-                <p>SubTotal ({numberOfProducts} items): ${totalPriceOfOrder}</p>
-              </Col>
-            </Row>
-              {CartProductItemComponents}
-            <Row>
-              <Col className='col-7'></Col>
-              <Col className='col-2'>
-                <div className='subTotalCard'>
-                  <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
-                  <Button className='proceedButton btn-warning m-4'>Proceed To Checkout</Button>
-                </div>
-              </Col>
-            </Row>
+            <h3 className='d-flex align-self-start m-3'>Shopping Cart</h3>
+            <div>
+              <CartTable products={pendingOrder.products}/>
+            </div>
+            <div className='subTotalCard'>
+              <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
+              <Button className='proceedButton btn-warning m-4'>Proceed To Checkout</Button>
+            </div>
         </Card>
       </div>
     );

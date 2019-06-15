@@ -1,6 +1,6 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 import productShape from '../../helpers/props/productShape';
+import formatPrice from '../../helpers/formatPrice';
 import './CartProductItem.scss';
 
 class CartProductItem extends React.Component {
@@ -11,23 +11,21 @@ class CartProductItem extends React.Component {
   render() {
     const { product } = this.props;
     return (
-      <div className='product-card mr-4 ml-4'>
-        <Row className="m-3">
-          <Col className='col-2'>
-            <img className='product-img' src={product.imageUrl} alt='this is a product' />
-          </Col>
-          <Col className='col-1'>
-            <h4>{product.title}</h4>
-            <p>{product.description}</p>
-          </Col>
-          <Col className='col-2'>
-            <p>{product.quantity}</p>
-          </Col>
-          <Col className='col-2'>
-            <p>${product.price}</p>
-          </Col>
-        </Row>
-      </div>
+      <tr className="cart-item">
+      <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+      <th scope="row"><div>{product.title}</div>{product.description}</th>
+      <td>{product.quantity}</td>
+      <td>{product.productTypeId}</td>
+      <td>{formatPrice(product.price)}</td>
+      <td>
+        <button className="btn btn-default">
+            <i className="fas fa-trash-alt"></i>
+        </button>
+        <button className="btn btn-default">
+            <i className="fas fa-pencil-alt"></i>
+        </button>
+      </td>
+    </tr>
     );
   }
 }
