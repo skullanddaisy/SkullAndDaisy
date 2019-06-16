@@ -18,12 +18,13 @@ class SellerManagement extends React.Component {
   }
 
   getTotalSales = () => {
-    const sellerOrders = this.state.completedOrders;
-    let mySales = 0;
-    sellerOrders.forEach((sellerOrder) => {
-      mySales = sellerOrder.total + mySales;
-    });
-    this.setState({ totalSales: mySales });
+    orderRequests.getTotalSales(this.state.userId)
+      .then((totalSales) => {
+        this.setState({ totalSales });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   getMonthly = () => {
