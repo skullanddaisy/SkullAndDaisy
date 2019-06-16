@@ -11,7 +11,7 @@ class SellerManagement extends React.Component {
   state = {
     userId: 0,
     completedOrders: [],
-    unshippedOrders: [],
+    unshippedItems: [],
     totalSales: 0,
     monthlySales: 0,
     myInventory: [],
@@ -47,15 +47,14 @@ class SellerManagement extends React.Component {
       });
   }
 
-  getUnshippedOrders = () => {
-    const unshippedOrders = [];
-    const { completedOrders } = this.state;
-    completedOrders.forEach((order) => {
-      if (order.orderStatus !== 'Shipped') {
-        unshippedOrders.push(order);
-      }
-      this.setState({ unshippedOrders });
-    });
+  getUnshippedItems = () => {
+    orderRequests.getUnshippedItems(this.state.userId)
+      .then((unshippedItems) => {
+        this.setState({ unshippedItems });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   componentDidMount() {
@@ -74,7 +73,7 @@ class SellerManagement extends React.Component {
             this.getTotalSales();
             this.getMonthly();
             this.getMyInventory();
-            this.getUnshippedOrders();
+            this.getUnshippedItems();
           });
       })
       .catch((error) => {
@@ -88,7 +87,7 @@ class SellerManagement extends React.Component {
   }
 
   render() {
-    const { unshippedOrders, myInventory } = this.state;
+    const { unshippedItems, myInventory } = this.state;
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
@@ -99,7 +98,7 @@ class SellerManagement extends React.Component {
             </div>
         </header>
         <div className="dashboard-middle mt-4">
-          <OrdersTable unshippedOrders={unshippedOrders} />
+          <OrdersTable unshippedItems={unshippedItems} />
           <InventoryTable myInventory={myInventory} />
         </div>
       </div>

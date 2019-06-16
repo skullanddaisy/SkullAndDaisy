@@ -18,6 +18,17 @@ const getMonthlySales = userId => new Promise((resolve, reject) => {
     });
 });
 
+const getUnshippedItems = userId => new Promise((resolve, reject) => {
+  axios.get(`${sadApiBaseUrl}/orders/getunshipped/${userId}`)
+    .then((result) => {
+      const unshippedItems = result.data;
+      resolve(unshippedItems);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
 const getTotalSales = userId => new Promise((resolve, reject) => {
   axios.get(`${sadApiBaseUrl}/orders/gettotalsales/${userId}`)
     .then((result) => {
@@ -48,4 +59,5 @@ export default {
   getSellerOrders,
   getMonthlySales,
   getTotalSales,
+  getUnshippedItems,
 };
