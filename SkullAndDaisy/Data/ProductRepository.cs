@@ -85,6 +85,20 @@ namespace SkullAndDaisy.Data
             }
         }
 
+        public IEnumerable<Product> GetLatestProducts()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var latestProducts = db.Query<Product>(@"SELECT TOP(20)
+                                                        *
+                                                        FROM
+                                                        Products
+                                                        ORDER BY
+                                                        Id desc").ToList();
+                return latestProducts;
+            }
+        }
+
         public Product UpdateProduct(Product productToUpdate)
         {
             using (var db = new SqlConnection(_connectionString))
