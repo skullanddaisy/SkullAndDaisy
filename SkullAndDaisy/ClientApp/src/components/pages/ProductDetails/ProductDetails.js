@@ -1,19 +1,28 @@
 import React from 'react';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
+import ProductCard from '../../ProductCard/ProductCard';
 import './ProductDetails.scss';
 import {
 	Button,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-	UncontrolledDropdown,
 } from 'reactstrap';
+import {
+	CarouselProvider,
+	Slider,
+	Slide,
+	ButtonBack,
+	ButtonNext
+} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css'
 
 class ProductDetails extends React.Component{
 	
 	state = {
 		product: productShape,
+		potions: [],
+		crystals: [],
+		poisons: [],
+		herbs: [],
 	}
 	
 	componentDidMount() {
@@ -22,11 +31,21 @@ class ProductDetails extends React.Component{
 		.then((productById) => {
 			this.setState({ product: productById});
 		})
+		ProductRequest.getProductsByType(1)
+			.then((potions) => {
+				this.setState({potions: potions});
+			})
+		.catch((err) => console.error("Wasn't able to get potions.", err));
 	}
 
 	render() {
 		
 		const { product } = this.state;
+		const carouselPotionComponents = this.state.potions.map(product => (
+			<ProductCard
+			  product={product}
+			  key={product.id}
+			  />));
 		return(
 			<div className="productDetailsContainer1">
 				<div className="productDetailsContainer">
@@ -53,6 +72,7 @@ class ProductDetails extends React.Component{
 							<Button className="productDetailsButton">Add to Wish List</Button>
 						</div>
 					</div>
+					<hr id="productDetailLine"></hr>
 				</div>
 			</div>
 		);

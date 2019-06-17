@@ -6,9 +6,14 @@
 	display: flex;
 	justify-content: center;
 	flex-flow: row wrap;
-	border: solid 1px white;
+	// border: solid 1px white;
 	border-radius: 1rem;
 	margin: 35px 20px;
+}
+
+#productDetailLine {
+	width: 95%;
+	background-color: white;
 }
 
 #leftCol {
@@ -51,6 +56,12 @@
 }
 
 
+#latestProductsSlider {
+	color:white;
+	background-color: lightgray;
+	width: 500px;
+	height: 100px;
+}
 
 #rightCol {
 	display: flex;
