@@ -10,7 +10,7 @@ class LatestProductsCard extends React.Component {
   
   
   componentDidMount(){
-    ProductRequest.getProductsByType(1)
+    ProductRequest.getLatestProducts()
       .then((products) => {
         this.setState({latestProducts: products})
       })
