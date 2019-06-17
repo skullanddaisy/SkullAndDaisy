@@ -22,7 +22,7 @@ class ProductCard extends React.Component {
               <img className='productImg' top src={product.imageUrl} alt={product.title} />
             </div>
             <div className="cardBody">
-              <a className="productTitle" href="">{product.title}</a>
+              <p className="productTitle">{product.title}</p>
               <div className="productPrice">${product.price}</div>
             </div>
           </div>

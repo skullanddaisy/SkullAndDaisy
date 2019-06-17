@@ -1,5 +1,5 @@
 .productCard {
-  min-width: 325px;
+  max-width: 325px;
   height: max-content;
   margin: 15px;
   border: solid gray 2px;
@@ -7,13 +7,19 @@
   border-radius: .5rem;
 }
 
+.imageDiv {
+  display: flex;
+  justify-content: center;
+}
+
 .productImg {
   width: 300px;
   height: 200px;
-  margin: 15px;
+  border-radius: 0.2rem;
 }
 
 .cardBody {
+  text-align: center;
   background-color: lightgray;
   border-radius: 0 0 .5rem .5rem;
   width: 100%;
@@ -24,11 +30,17 @@ a:hover {
 }
 
 .productTitle {
+  display: flex;
+  justify-content: center;
   color: blue;
+  font-size: 25px;
+  font-weight: bold;
+  margin: 0px;
 }
 
 .productPrice {
   color: red;
+  font-size: 20px;
   font-weight: bold;
 }
 
