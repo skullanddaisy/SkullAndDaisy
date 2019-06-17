@@ -23,6 +23,7 @@ const defaultPendingOrder = {
 class CartHomeView extends Component {
   static propTypes = {
     userId: PropTypes.number,
+    goToCart: PropTypes.func,
   }
 
   state = {
@@ -39,13 +40,14 @@ class CartHomeView extends Component {
         orderRequests.getPendingOrder(this.state.userId)
           .then((result) => {
             let numberOfProducts = 0;
-            let totalPriceOfOrder = 0;
+            let price = 0;
             const pendingOrder = result.data[0];
             const orderProducts = pendingOrder.products;
             for (let i = 0; i < orderProducts.length; i += 1) {
               numberOfProducts += 1;
-              totalPriceOfOrder += orderProducts[i].price;
+              price += orderProducts[i].price;
             }
+            const totalPriceOfOrder = Math.round(price * 100) / 100;
             this.setState({ pendingOrder, numberOfProducts, totalPriceOfOrder });
           });
       }).catch((error) => {
@@ -72,7 +74,11 @@ class CartHomeView extends Component {
               </div>
             </div>
             <div>
-              <CartTable products={pendingOrder.products} cartHomeView={cartHomeView}/>
+              <CartTable
+                products={pendingOrder.products}
+                cartHomeView={cartHomeView}
+                goToCart={this.props.goToCart}
+              />
             </div>
         </Card>
       </div>
