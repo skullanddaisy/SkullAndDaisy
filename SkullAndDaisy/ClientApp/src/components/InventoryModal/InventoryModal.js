@@ -86,7 +86,7 @@ class InventoryModal extends React.Component {
               <div className="form-group">
                 <label htmlFor="title">Title:</label>
                 <input
-                  maxlength="19"
+                  maxLength="19"
                   type="text"
                   className="form-control"
                   id="title"

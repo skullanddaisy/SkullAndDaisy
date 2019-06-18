@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import productShape from '../../helpers/props/productShape';
 import formatPrice from '../../helpers/formatPrice';
@@ -9,6 +10,13 @@ import './ProductTableItem.scss';
 export default class ProductTableItem extends Component {
   static propTypes = {
     product: productShape,
+    deleteSingleProduct: PropTypes.func,
+  }
+
+  deleteEvent = (e) => {
+    e.preventDefault();
+    const { deleteSingleProduct, product } = this.props;
+    deleteSingleProduct(product.id);
   }
 
   render() {
@@ -17,7 +25,7 @@ export default class ProductTableItem extends Component {
     return (
       <tr className="inventory-item">
         <td>
-          <button className="btn btn-default">
+          <button className="btn btn-default" onClick={this.deleteEvent}>
               <i className="fas fa-trash-alt icon"></i>
           </button>
           <button className="btn btn-default">

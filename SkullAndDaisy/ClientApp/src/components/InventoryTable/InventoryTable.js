@@ -10,15 +10,17 @@ export default class InventoryTable extends Component {
   static propTypes = {
     myInventory: PropTypes.arrayOf(productShape),
     onSubmit: PropTypes.func,
+    deleteSingleProduct: PropTypes.func,
   }
 
   render() {
-    const { myInventory } = this.props;
+    const { myInventory, deleteSingleProduct } = this.props;
 
     const productTableComponents = myInventory.map(product => (
       <ProductTableItem
         product={product}
         key={product.id}
+        deleteSingleProduct={deleteSingleProduct}
       />
     ));
 

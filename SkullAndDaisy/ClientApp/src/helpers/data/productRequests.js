@@ -53,10 +53,13 @@ const getSellersProducts = sellerId => new Promise((resolve, reject) => {
 
 const addNew = newProduct => axios.post(`${sadApiBaseUrl}/Products/CreateProduct`, newProduct);
 
+const deleteProduct = productId => axios.delete(`${sadApiBaseUrl}/products/DeleteProduct/${productId}`);
+
 export default {
   getAllProducts,
   getSellersProducts,
   getProductsByType,
   getProductById,
   addNew,
+  deleteProduct,
 };

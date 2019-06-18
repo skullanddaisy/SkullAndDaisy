@@ -65,6 +65,14 @@ class SellerManagement extends React.Component {
       .catch(err => console.error('error in product post', err));
   }
 
+  deleteOne = (productId) => {
+    productRequests.deleteProduct(productId)
+      .then(() => {
+        this.getMyInventory();
+      })
+      .catch(err => console.error('error in deleting', err));
+  }
+
   componentDidMount() {
     userRequests.getUserIdByEmail()
       .then((userId) => {
@@ -107,7 +115,11 @@ class SellerManagement extends React.Component {
         </header>
         <div className="dashboard-middle mt-4">
           <OrdersTable unshippedItems={unshippedItems} />
-          <InventoryTable myInventory={myInventory} onSubmit={this.formSubmitEvent} />
+          <InventoryTable
+            myInventory={myInventory}
+            onSubmit={this.formSubmitEvent}
+            deleteSingleProduct={this.deleteOne}
+          />
         </div>
       </div>
     );
