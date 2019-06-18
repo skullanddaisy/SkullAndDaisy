@@ -4,6 +4,7 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import userRequests from '../../helpers/data/userRequests';
+import productRequests from '../../helpers/data/productRequests';
 
 const defaultProduct = {
   title: '',
@@ -18,6 +19,12 @@ const defaultProduct = {
 class InventoryModal extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
+    isEditing: PropTypes.bool,
+    editId: PropTypes.string,
+  }
+
+  state = {
+    modal: 'false',
   }
 
   constructor(props) {
@@ -50,6 +57,23 @@ class InventoryModal extends React.Component {
     });
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({ modal: props.modal });
+    this.setState({ newProduct: this.props.productToEdit });
+  }
+
+
+  componentDidUpdate(prevProps) {
+    const { isEditing, editId } = this.props;
+    if (prevProps !== this.props && isEditing) {
+      productRequests.getSingleProduct(editId)
+        .then((product) => {
+          this.setState({ newProduct: product.data });
+        })
+        .catch(err => console.error('error with get single', err));
+    }
+  }
+
   titleChange = e => this.formFieldStringState('title', e);
 
   descriptionChange = e => this.formFieldStringState('description', e);
@@ -64,6 +88,7 @@ class InventoryModal extends React.Component {
 
   formSubmit = (e) => {
     const { onSubmit } = this.props;
+    this.setState({ modal: 'false' });
     const myProduct = { ...this.state.newProduct };
     userRequests.getUserIdByEmail()
       .then((userId) => {
@@ -72,15 +97,23 @@ class InventoryModal extends React.Component {
       })
       .catch((err) => {});
     this.setState({ newProduct: defaultProduct });
+    this.props.closeModal();
   }
 
   render() {
     const { newProduct } = this.state;
+    const { isEditing } = this.props;
+    const title = () => {
+      if (isEditing) {
+        return <h2>Edit Product</h2>;
+      }
+      return <h2>Add New Product</h2>;
+    };
     return (
       <div>
         <Button color="secondary" className="add-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Add Product to Your Inventory</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{title()}</ModalHeader>
           <ModalBody>
             <form>
               <div className="form-group">

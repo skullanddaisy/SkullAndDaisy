@@ -15,6 +15,9 @@ class SellerManagement extends React.Component {
     totalSales: 0,
     monthlySales: 0,
     myInventory: [],
+    isEditing: false,
+    productToEdit: {},
+    modal: false,
   }
 
   getTotalSales = () => {
@@ -58,12 +61,48 @@ class SellerManagement extends React.Component {
   }
 
   formSubmitEvent = (newProduct) => {
-    productRequests.addNew(newProduct)
-      .then(() => {
-        this.getMyInventory();
-      })
-      .catch(err => console.error('error in product post', err));
+    const { isEditing, editId } = this.state;
+    if (isEditing) {
+      productRequests.putRequest(editId, newProduct)
+        .then(() => {
+          this.getMyInventory();
+          this.setState({ isEditing: false, editId: '-1' });
+        })
+        .catch(err => console.error('error with product post', err));
+    } else {
+      productRequests.addNew(newProduct)
+        .then(() => {
+          this.getMyInventory();
+        })
+        .catch(err => console.error('error in product post', err));
+    }
   }
+
+  editProductItem = (productId) => {
+    productRequests.getSingleProduct(productId)
+      .then((product) => {
+        this.setState({ isEditing: true, productToEdit: product.data });
+        this.showModal();
+      })
+      .catch(error => console.error('There was an error in getting a single product', error));
+  }
+
+  showModal = (e) => {
+    this.setState({
+      hidden: !this.state.hidden,
+      modal: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      hidden: !this.state.hidden,
+      productToEdit: {},
+      modal: false,
+    });
+  };
+
+  passProductToEdit = productId => this.setState({ isEditing: true, editId: productId });
 
   deleteOne = (productId) => {
     productRequests.deleteProduct(productId)
@@ -103,7 +142,15 @@ class SellerManagement extends React.Component {
   }
 
   render() {
-    const { unshippedItems, myInventory } = this.state;
+    const {
+      unshippedItems,
+      myInventory,
+      isEditing,
+      editId,
+      productToEdit,
+      modal,
+    } = this.state;
+
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
@@ -119,6 +166,13 @@ class SellerManagement extends React.Component {
             myInventory={myInventory}
             onSubmit={this.formSubmitEvent}
             deleteSingleProduct={this.deleteOne}
+            productToEdit={productToEdit}
+            isEditing={isEditing}
+            editId={editId}
+            editForm={this.editProductItem}
+            modal={modal}
+            showModal={this.showModal}
+            closeModal={this.closeModal}
           />
         </div>
       </div>

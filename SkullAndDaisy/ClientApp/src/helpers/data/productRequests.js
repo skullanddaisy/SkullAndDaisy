@@ -55,6 +55,10 @@ const addNew = newProduct => axios.post(`${sadApiBaseUrl}/Products/CreateProduct
 
 const deleteProduct = productId => axios.delete(`${sadApiBaseUrl}/products/DeleteProduct/${productId}`);
 
+const putRequest = (productId, product) => axios.put(`${sadApiBaseUrl}/products/UpdateProduct/${productId}`, product);
+
+const getSingleProduct = productId => axios.get(`${sadApiBaseUrl}/products/${productId}`);
+
 export default {
   getAllProducts,
   getSellersProducts,
@@ -62,4 +66,6 @@ export default {
   getProductById,
   addNew,
   deleteProduct,
+  putRequest,
+  getSingleProduct,
 };
