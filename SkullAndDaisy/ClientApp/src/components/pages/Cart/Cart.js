@@ -32,10 +32,9 @@ class Cart extends Component {
       .then((userId) => {
         this.setState({ userId });
         orderRequests.getPendingOrder(this.state.userId)
-          .then((result) => {
+          .then((pendingOrder) => {
             let numberOfProducts = 0;
             let totalPriceOfOrder = 0;
-            const pendingOrder = result.data[0];
             const orderProducts = pendingOrder.products;
             for (let i = 0; i < orderProducts.length; i += 1) {
               numberOfProducts += 1;

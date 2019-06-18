@@ -7,6 +7,17 @@ const getPendingOrder = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrders
 
 const getCompletedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/complete`);
 
+const getShippedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrdersByStatus/${userId}/shipped`);
+
+const getAllMyOrders = userId => new Promise((resolve, reject) => {
+  axios.get(`${sadApiBaseUrl}/orders/getallmyorders/${userId}`)
+    .then((result) => {
+      resolve(result.data);
+    }).catch((error) => {
+      reject(error);
+    });
+});
+
 const getMonthlySales = userId => new Promise((resolve, reject) => {
   axios.get(`${sadApiBaseUrl}/orders/getmonthlysalestotal/${userId}`)
     .then((result) => {
@@ -36,4 +47,6 @@ export default {
   getCompletedOrders,
   getSellerOrders,
   getMonthlySales,
+  getShippedOrders,
+  getAllMyOrders,
 };
