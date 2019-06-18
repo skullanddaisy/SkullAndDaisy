@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RRNavLink } from 'react-router-dom';
+import ProductRequest from '../../helpers/data/productRequests';
+import SearchField from 'react-search-field';
 import {
   Collapse,
   Navbar,
@@ -26,7 +28,33 @@ class MyNavbar extends React.Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
+    searchFilter: [],
   };
+
+  componentDidMount() {
+    ProductRequest.getAllProducts()
+			.then((products) => {
+				this.setState({ searchFilter: products })
+			})
+  }
+
+  onChange = (value, e) => {
+		const { searchFilter } = this.state;
+		const searchResults = [];
+		e.preventDefault();
+		if (!value) {
+		  this.setState({ searchFilter: searchResults });
+		} else {
+		  searchFilter.forEach((result) => {
+			if (result.title.toLowerCase().includes(value.toLowerCase())
+			  || result.description.toLowerCase().includes(value.toLowerCase())
+			) {
+			  searchFilter.push(result);
+			}
+			this.setState({ searchFilter });
+		  });
+		}
+	  }
 
   toggle() {
     this.setState({
@@ -47,6 +75,12 @@ class MyNavbar extends React.Component {
       if (isAuthed) {
         return (
           <Nav className="ml-auto" navbar>
+            <SearchField
+              placeholder="Search Sweaters..."
+              onChange={this.onChange}
+              searchText=""
+              classNames="test-class w-50 mt-auto"
+            />
             <NavItem>
               <NavLink tag={RRNavLink} to='/useraccount'>User Account</NavLink>
             </NavItem>
