@@ -197,6 +197,7 @@ namespace SkullAndDaisy.Data
                     join productorders po on po.orderId = o.Id
                     join products p on p.id = po.productid
                     WHERE o.OrderDate >= DATEADD(month, -1, GETDATE())
+                    AND  o.OrderStatus != 'Pending'
                     AND p.UserId = @userId",
 
                     new { userId });
@@ -229,6 +230,43 @@ namespace SkullAndDaisy.Data
             }
 
             throw new Exception("Order did not update");
+        }
+        public decimal GetTotalCompletedSales (int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var totalSales = db.ExecuteScalar<decimal>(
+                    @"SELECT SUM(o.total)
+                    FROM orders o
+                    JOIN productorders po on po.orderId = o.Id
+                    JOIN products p on p.id = po.productid
+                    WHERE o.OrderStatus != 'Pending'
+                    AND p.UserId = @userId",
+
+                    new { userId });
+
+                return totalSales;
+            }
+            throw new Exception("Could not find sales.");
+        }
+
+        public List<Object> GetItemsToShip(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var unshippedItems = db.Query<Object>(
+                    @"select u.Id as SellerId, o.OrderDate, u.FirstName, u.LastName, u.Username, u.Email, p.Title, po.Quantity, p.Price, o.Total
+                      from orders o
+                      join productorders po on po.orderid = o.id
+                      join products p on p.id = po.ProductId
+                      join users u on u.Id = o.UserId
+                      where o.orderstatus = 'Complete'
+                      and p.UserId = @userId",
+                      new { userId }).ToList();
+
+                return unshippedItems;
+            }
+            throw new Exception("Could not find sales for this month.");
         }
     }
 }

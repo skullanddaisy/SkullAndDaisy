@@ -17,7 +17,7 @@ export default class OrdersTable extends Component {
     return (
       <div className="col ml-5 mr-5">
         <div className="row d-flex justify-content-center mb-4">
-          <h2 className="mr-5  table-contents">Unshipped Orders</h2>
+          <h2 className="mr-5  table-contents">Items to Ship</h2>
         </div>
         <Table className="table-contents">
           <thead>

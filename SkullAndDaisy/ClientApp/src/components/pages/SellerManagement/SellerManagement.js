@@ -57,6 +57,14 @@ class SellerManagement extends React.Component {
       });
   }
 
+  formSubmitEvent = (newProduct) => {
+    productRequests.addNew(newProduct)
+      .then(() => {
+        this.getMyInventory();
+      })
+      .catch(err => console.error('error in product post', err));
+  }
+
   componentDidMount() {
     userRequests.getUserIdByEmail()
       .then((userId) => {
@@ -99,7 +107,7 @@ class SellerManagement extends React.Component {
         </header>
         <div className="dashboard-middle mt-4">
           <OrdersTable unshippedItems={unshippedItems} />
-          <InventoryTable myInventory={myInventory} />
+          <InventoryTable myInventory={myInventory} onSubmit={this.formSubmitEvent} />
         </div>
       </div>
     );

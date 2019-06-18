@@ -15,7 +15,7 @@ const getAllProducts = () => new Promise((resolve, reject) => {
     });
 });
 
-const getProductById = (productId) => new Promise((resolve, reject) => {
+const getProductById = productId => new Promise((resolve, reject) => {
   axios
     .get(`${sadApiBaseUrl}/products/${productId}`)
     .then((results) => {
@@ -25,7 +25,7 @@ const getProductById = (productId) => new Promise((resolve, reject) => {
     .catch((err) => {
       reject(err);
     });
-})
+});
 
 const getProductsByType = productTypeId => new Promise((resolve, reject) => {
   axios
@@ -51,9 +51,12 @@ const getSellersProducts = sellerId => new Promise((resolve, reject) => {
     });
 });
 
+const addNew = newProduct => axios.post(`${sadApiBaseUrl}/Products/CreateProduct`, newProduct);
+
 export default {
   getAllProducts,
   getSellersProducts,
   getProductsByType,
-  getProductById
+  getProductById,
+  addNew,
 };
