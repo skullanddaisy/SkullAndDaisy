@@ -200,7 +200,7 @@ class InventoryModal extends React.Component {
                   onChange={this.imageUrlChange}
                 />
               </div>
-              <Button color="primary" onClick={(e) => {
+              <Button color="secondary" onClick={(e) => {
                 this.toggle();
                 this.formSubmit();
               }}>Save Product</Button>
