@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import ProductRequest from '../../helpers/data/productRequests';
+import SearchTable from '../SearchTable/SearchTable';
 import SearchField from 'react-search-field';
 import {
+  Card,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -28,33 +30,75 @@ class MyNavbar extends React.Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
-    searchFilter: [],
+    products: [],
+    filteredProducts: [],
   };
 
+getAllProducts = () => {
+  ProductRequest.getAllProducts()
+    .then((products) => {
+      this.setState({ products })
+    }
+  )
+}
+
   componentDidMount() {
-    ProductRequest.getAllProducts()
-			.then((products) => {
-				this.setState({ searchFilter: products })
-			})
+    this.getAllProducts();
   }
 
   onChange = (value, e) => {
-		const { searchFilter } = this.state;
-		const searchResults = [];
+    const { products } = this.state;
+    const filteredProducts = [];
 		e.preventDefault();
 		if (!value) {
-		  this.setState({ searchFilter: searchResults });
-		} else {
-		  searchFilter.forEach((result) => {
+      this.setState({ filteredProducts: [] });
+    } else {
+		  products.forEach((result) => {
 			if (result.title.toLowerCase().includes(value.toLowerCase())
 			  || result.description.toLowerCase().includes(value.toLowerCase())
 			) {
-			  searchFilter.push(result);
-			}
-			this.setState({ searchFilter });
+			  filteredProducts.push(result);
+      }
+			this.setState({ filteredProducts });
 		  });
 		}
-	  }
+  }
+    
+  onEnter = (value, e) => {
+		const { products } = this.state;
+    const filteredProducts = [];
+		e.preventDefault();
+		if (!value) {
+      this.setState({ filteredProducts: products });
+    } else {
+		  products.forEach((result) => {
+			if (result.title.toLowerCase().includes(value.toLowerCase())
+			  || result.description.toLowerCase().includes(value.toLowerCase())
+			) {
+			  filteredProducts.push(result);
+      }
+			this.setState({ filteredProducts });
+		  });
+		}
+  }
+
+  onSearchClick = (value, e) => {
+		const { products } = this.state;
+    const filteredProducts = [];
+		e.preventDefault();
+		if (!value) {
+      this.setState({ filteredProducts: products });
+    } else {
+		  products.forEach((result) => {
+			if (result.title.toLowerCase().includes(value.toLowerCase())
+			  || result.description.toLowerCase().includes(value.toLowerCase())
+			) {
+			  filteredProducts.push(result);
+      }
+			this.setState({ filteredProducts });
+		  });
+		}
+  }
 
   toggle() {
     this.setState({
@@ -71,15 +115,30 @@ class MyNavbar extends React.Component {
   render() {
     const { isAuthed, logoutClicky } = this.props;
 
+    const buildSearchResults = () => {
+      const {filteredProducts} = this.state;
+      if (filteredProducts.length > 0) {
+        return(
+          <div id="searchResults">
+            <div className='searchResultsCard'>
+              <SearchTable products={filteredProducts}/>
+            </div>
+          </div>
+        )
+      }
+    }
+
     const buildNavbar = () => {
       if (isAuthed) {
         return (
           <Nav className="ml-auto" navbar>
             <SearchField
-              placeholder="Search Sweaters..."
+              placeholder="Search Skull and Daisy..."
               onChange={this.onChange}
+              onEnter={this.onEnter}
+              onSearchClick={this.onSearchClick}
               searchText=""
-              classNames="test-class w-50 mt-auto"
+              classNames="searchBar"
             />
             <NavItem>
               <NavLink tag={RRNavLink} to='/useraccount'>User Account</NavLink>
@@ -144,6 +203,7 @@ class MyNavbar extends React.Component {
             {buildNavbar()}
           </Collapse>
         </Navbar>
+        {buildSearchResults()}
       </div>
     );
   }

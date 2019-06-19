@@ -28,6 +28,34 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
+.searchBar {
+    border: none !important;
+    border-radius: 1rem;
+    width: 650px;
+    margin-right: 115px;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.react-search-field-input {
+    border-radius: 1rem 0 0 1rem;
+    border: none;
+}
+
+.react-search-field-button {
+    border-radius: 0 1rem 1rem 0;
+}
+
+#searchResults {
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.searchResultsCard {
+    z-index: 100;
+    max-height: 300px;
+}
+
 /*******************************
 * MODAL AS LEFT SIDEBAR
 * Add "left" in modal parent div, after class="modal".
