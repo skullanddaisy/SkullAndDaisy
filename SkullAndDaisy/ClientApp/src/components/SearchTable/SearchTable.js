@@ -21,7 +21,7 @@ export default class SearchTable extends Component {
     ));
 
     return (
-        <Table striped className="searchTable">
+        <Table className="searchTable">
           <thead className="tableHeader">
             <tr>
               <th></th>
