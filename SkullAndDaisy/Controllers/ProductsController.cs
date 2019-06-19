@@ -52,6 +52,16 @@ namespace SkullAndDaisy.Controllers
             return Ok(products);
         }
 
+        // Get the latest products
+        [HttpGet("GetLatestProducts")]
+        [AllowAnonymous]
+        public ActionResult GetLatestProducts()
+        {
+            var latestProducts = _productRepository.GetLatestProducts();
+
+            return Ok(latestProducts);
+        }
+
         // Update single product method
         [HttpPut("UpdateProduct/{id}")]
         public ActionResult UpdateProduct(Product product)

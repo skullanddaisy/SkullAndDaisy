@@ -1,12 +1,14 @@
 @import '../../../styles/variables.scss';
 
 // .homeContainer {
-//     display: flex;
-//     justify-content: center;
+//     padding-left: 40px;
+//     padding-right: 40px;
 // }
 
 .homeUpper {
     display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
 }
 
@@ -15,26 +17,28 @@
     justify-content: center;
     flex-wrap:wrap;
     text-align: left;
-    
+    width: 91%;
+    margin-left: 4.7%;
+    margin-right: 4.7%;
 }
 
 .featuredListText {
     text-align: left;
-    width: 1400px;
+    width: 100%;
     margin-left: 10px;
     color:white;
 }
 
 .latestProductsText {
     text-align: left;
-    width: 1400px;
+    width: 100%;
     margin-left: 10px;
     color:white;
 }
 
 .productTypesText {
     text-align: left;
-    width: 1400px;
+    width: 100%;
     margin-left: 10px;
     color:white;
 }

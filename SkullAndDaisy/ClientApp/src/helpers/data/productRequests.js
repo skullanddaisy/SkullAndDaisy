@@ -15,6 +15,18 @@ const getAllProducts = () => new Promise((resolve, reject) => {
     });
 });
 
+const getLatestProducts = () => new Promise((resolve, reject) => {
+  axios
+    .get(`${sadApiBaseUrl}/products/GetLatestProducts`)
+    .then((results) => {
+      const latestProducts = results.data;
+      resolve(latestProducts);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+});
+
 const getProductById = productId => new Promise((resolve, reject) => {
   axios
     .get(`${sadApiBaseUrl}/products/${productId}`)
@@ -68,4 +80,5 @@ export default {
   deleteProduct,
   putRequest,
   getSingleProduct,
+  getLatestProducts,
 };
