@@ -109,6 +109,7 @@ class InventoryModal extends React.Component {
       }
       return <h2>Add New Product</h2>;
     };
+
     return (
       <div>
         <Button color="secondary" className="add-button" onClick={this.toggle}>{this.props.buttonLabel}</Button>
@@ -154,25 +155,25 @@ class InventoryModal extends React.Component {
                 <legend>Product Category</legend>
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="radio1" value="1" onChange={this.productTypeIdChange}/>{' '}
+                    <Input type="radio" name="radio1" value="1" checked={newProduct.productTypeId === 1} onChange={this.productTypeIdChange}/>{' '}
                     Potion
                   </Label>
                 </FormGroup>
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="radio1" value="2" onChange={this.productTypeIdChange}/>{' '}
+                    <Input type="radio" name="radio1" value="2" checked={newProduct.productTypeId === 2} onChange={this.productTypeIdChange}/>{' '}
                     Poison
                   </Label>
                 </FormGroup>
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="radio1" value="3" onChange={this.productTypeIdChange}/>{' '}
+                    <Input type="radio" name="radio1" value="3" checked={newProduct.productTypeId === 3} onChange={this.productTypeIdChange}/>{' '}
                     Herb
                   </Label>
                 </FormGroup>
                 <FormGroup check>
                   <Label check>
-                    <Input type="radio" name="radio1" value="4" onChange={this.productTypeIdChange}/>{' '}
+                    <Input type="radio" name="radio1" value="4" checked={newProduct.productTypeId === 4} onChange={this.productTypeIdChange}/>{' '}
                     Healing Crystal
                   </Label>
                 </FormGroup>
