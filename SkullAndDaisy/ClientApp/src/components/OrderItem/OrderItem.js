@@ -21,6 +21,14 @@ class OrderItem extends React.Component {
     this.countProducts();
   }
 
+  showMore = () => {
+    this.setState({ showMore: true });
+  }
+
+  showLess = () => {
+    this.setState({ showMore: false });
+  }
+
   countProducts = () => {
     let numberOfProducts = 0;
     const theProducts = this.props.order.products;
@@ -41,13 +49,6 @@ class OrderItem extends React.Component {
 
     const { numberOfProducts, firstProduct, showMore } = this.state;
 
-    const productItemComponents = firstProduct.map(product => (
-      <ProductItem
-        product={product}
-        key={product.id}
-      />
-    ));
-
     const makeProductItemComponents = () => {
       if (numberOfProducts === 1 || showMore === true) {
         const itemComponent = order.products.map(product => (
@@ -67,6 +68,17 @@ class OrderItem extends React.Component {
       return itemComponents;
     };
 
+    const makeShowButtons = () => {
+      if (showMore) {
+        return <div className='d-flex justify-content-end p-3'>
+                  <Button onClick={this.showLess}>Show Less</Button>
+               </div>;
+      }
+      return <div className='d-flex justify-content-end p-3'>
+               <Button onClick={this.showMore}>Show More</Button>
+             </div>;
+    };
+
     if (numberOfProducts === 1) {
       return (
         <div className='orderCard m-4'>
@@ -74,7 +86,7 @@ class OrderItem extends React.Component {
             <h3 className='text-left p-3'>Ordered {moment(order.orderDate).format('MMMM Do YYYY')}</h3>
             <h3 className='text-right p-3'>{numberOfProducts} item</h3>
           </div>
-         {productItemComponents}
+          {makeProductItemComponents()}
         </div>
       );
     }
@@ -86,7 +98,7 @@ class OrderItem extends React.Component {
           <h3 className='text-right p-3'>{numberOfProducts} items</h3>
         </div>
        {makeProductItemComponents()}
-       <Button>Show More</Button>
+       {makeShowButtons()}
       </div>
     );
   }
