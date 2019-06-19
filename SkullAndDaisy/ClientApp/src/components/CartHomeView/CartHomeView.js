@@ -44,7 +44,7 @@ class CartHomeView extends Component {
             const pendingOrder = result.data[0];
             const orderProducts = pendingOrder.products;
             for (let i = 0; i < orderProducts.length; i += 1) {
-              numberOfProducts += 1;
+              numberOfProducts += orderProducts[i].quantity;
               price += orderProducts[i].price;
             }
             const totalPriceOfOrder = Math.round(price * 100) / 100;

@@ -34,7 +34,9 @@ class Orders extends React.Component {
 
     return (
       <div className='orders'>
-        <h2>Order History</h2>
+        <div>
+          <h2 className='header m-4'>Order History</h2>
+        </div>
         <div>
           {OrderItemComponents}
         </div>

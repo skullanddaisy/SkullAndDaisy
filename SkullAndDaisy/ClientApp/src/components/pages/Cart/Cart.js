@@ -32,14 +32,16 @@ class Cart extends Component {
       .then((userId) => {
         this.setState({ userId });
         orderRequests.getPendingOrder(this.state.userId)
-          .then((pendingOrder) => {
+          .then((result) => {
             let numberOfProducts = 0;
-            let totalPriceOfOrder = 0;
+            let price = 0;
+            const pendingOrder = result.data[0];
             const orderProducts = pendingOrder.products;
             for (let i = 0; i < orderProducts.length; i += 1) {
-              numberOfProducts += 1;
-              totalPriceOfOrder += orderProducts[i].price;
+              numberOfProducts += orderProducts[i].quantity;
+              price += orderProducts[i].price;
             }
+            const totalPriceOfOrder = Math.round(price * 100) / 100;
             this.setState({ pendingOrder, numberOfProducts, totalPriceOfOrder });
           });
       }).catch((error) => {
@@ -57,9 +59,6 @@ class Cart extends Component {
 
     return (
       <div className = 'Cart'>
-          <div className='cartHeader m-4'>
-            <h1>Your Cart</h1>
-          </div>
           <Card className='cartCard m-4'>
             <h3 className='d-flex align-self-start m-3'>Shopping Cart</h3>
             <div>
