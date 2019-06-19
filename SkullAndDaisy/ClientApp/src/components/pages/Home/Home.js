@@ -16,6 +16,10 @@ class Home extends React.Component {
       this.props.history.push('/useraccount');
     }
 
+    goToCart = () => {
+      this.props.history.push('/cart');
+    }
+
     componentDidMount() {
       userRequests.getUserIdByEmail()
         .then((userId) => {
@@ -37,7 +41,11 @@ class Home extends React.Component {
       return (
             <div className='homeContainer'>
                 <div className="homeUpper">
-                    <UserProfileCard goToProfile={this.goToProfile} userId={userId}/>
+                    <UserProfileCard
+                      goToProfile={this.goToProfile}
+                      goToCart={this.goToCart}
+                      userId={userId}
+                    />
                     <DealOfTheDayCard />
                 </div>
                 <div className="homeMiddle">
