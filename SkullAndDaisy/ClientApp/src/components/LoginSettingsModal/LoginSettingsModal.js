@@ -7,7 +7,7 @@ import {
   ModalFooter,
 } from 'reactstrap';
 
-class LoginSettingsModal extends React.Component {
+class ModalExample extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,11 +26,11 @@ class LoginSettingsModal extends React.Component {
   render() {
     return (
       <div>
-        <Button color="secondary" onClick={this.toggle}>{this.props.buttonLabel} label="Edit"></Button>
+        <Button color="secondary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
           <ModalBody>
-            words
+            Lfd
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
@@ -42,4 +42,4 @@ class LoginSettingsModal extends React.Component {
   }
 }
 
-export default LoginSettingsModal;
+export default ModalExample;

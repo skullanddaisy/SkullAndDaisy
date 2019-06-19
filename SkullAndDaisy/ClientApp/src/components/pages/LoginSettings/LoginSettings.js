@@ -1,6 +1,6 @@
 import React from 'react';
-import LoginSettingsModal from '../../LoginSettingsModal/LoginSettingsModal';
 import userRequests from '../../../helpers/data/userRequests';
+import LoginSettingsModal from '../../LoginSettingsModal/LoginSettingsModal';
 import './LoginSettings.scss';
 
 class LoginSettings extends React.Component {
@@ -45,7 +45,7 @@ class LoginSettings extends React.Component {
             <h5 class="card-title">First Name: {currentUser.firstName}</h5>
             <h5 class="card-title">Last Name: {currentUser.lastName}</h5>
             <p class="card-text">Email: {currentUser.email}</p>
-            <LoginSettingsModal />
+            <LoginSettingsModal buttonLabel="Edit" />
           </div>
         </div>
       </div>
