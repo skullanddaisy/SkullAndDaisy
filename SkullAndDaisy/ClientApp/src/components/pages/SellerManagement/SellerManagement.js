@@ -11,19 +11,23 @@ class SellerManagement extends React.Component {
   state = {
     userId: 0,
     completedOrders: [],
-    unshippedOrders: [],
+    unshippedItems: [],
     totalSales: 0,
     monthlySales: 0,
     myInventory: [],
+    isEditing: false,
+    productToEdit: {},
+    modal: false,
   }
 
   getTotalSales = () => {
-    const sellerOrders = this.state.completedOrders;
-    let mySales = 0;
-    sellerOrders.forEach((sellerOrder) => {
-      mySales = sellerOrder.total + mySales;
-    });
-    this.setState({ totalSales: mySales });
+    orderRequests.getTotalSales(this.state.userId)
+      .then((totalSales) => {
+        this.setState({ totalSales });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   getMonthly = () => {
@@ -46,15 +50,66 @@ class SellerManagement extends React.Component {
       });
   }
 
-  getUnshippedOrders = () => {
-    const unshippedOrders = [];
-    const { completedOrders } = this.state;
-    completedOrders.forEach((order) => {
-      if (order.orderStatus !== 'Shipped') {
-        unshippedOrders.push(order);
-      }
-      this.setState({ unshippedOrders });
+  getUnshippedItems = () => {
+    orderRequests.getUnshippedItems(this.state.userId)
+      .then((unshippedItems) => {
+        this.setState({ unshippedItems });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  formSubmitEvent = (newProduct) => {
+    const { isEditing, editId } = this.state;
+    if (isEditing) {
+      productRequests.putRequest(editId, newProduct)
+        .then(() => {
+          this.getMyInventory();
+          this.setState({ isEditing: false, editId: '-1' });
+        })
+        .catch(err => console.error('error with product post', err));
+    } else {
+      productRequests.addNew(newProduct)
+        .then(() => {
+          this.getMyInventory();
+        })
+        .catch(err => console.error('error in product post', err));
+    }
+  }
+
+  editProductItem = (productId) => {
+    productRequests.getSingleProduct(productId)
+      .then((product) => {
+        this.setState({ isEditing: true, productToEdit: product.data });
+        this.showModal();
+      })
+      .catch(error => console.error('There was an error in getting a single product', error));
+  }
+
+  showModal = (e) => {
+    this.setState({
+      hidden: !this.state.hidden,
+      modal: true,
     });
+  };
+
+  closeModal = () => {
+    this.setState({
+      hidden: !this.state.hidden,
+      productToEdit: {},
+      modal: false,
+    });
+  };
+
+  passProductToEdit = productId => this.setState({ isEditing: true, editId: productId });
+
+  deleteOne = (productId) => {
+    productRequests.deleteProduct(productId)
+      .then(() => {
+        this.getMyInventory();
+      })
+      .catch(err => console.error('error in deleting', err));
   }
 
   componentDidMount() {
@@ -73,7 +128,7 @@ class SellerManagement extends React.Component {
             this.getTotalSales();
             this.getMonthly();
             this.getMyInventory();
-            this.getUnshippedOrders();
+            this.getUnshippedItems();
           });
       })
       .catch((error) => {
@@ -87,21 +142,38 @@ class SellerManagement extends React.Component {
   }
 
   render() {
-    const { unshippedOrders, myInventory } = this.state;
+    const {
+      unshippedItems,
+      myInventory,
+      isEditing,
+      editId,
+      productToEdit,
+      modal,
+    } = this.state;
+
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
-          {/* <div className="card-body text-center mt-5"> */}
             <h1 className="card-subtitle mb-4 ml-4 text-muted">Seller Dashboard</h1>
             <div>
-              <p className="card-text mr-4">Sales this month: {formatPrice(this.state.totalSales)}</p>
+              <p className="card-text mr-4">Sales this month: {formatPrice(this.state.monthlySales)}</p>
               <p className="card-text mr-4 mb-1">Total sales: {formatPrice(this.state.totalSales)}</p>
             </div>
-          {/* </div> */}
         </header>
         <div className="dashboard-middle mt-4">
-          <OrdersTable unshippedOrders={unshippedOrders} />
-          <InventoryTable myInventory={myInventory} />
+          <OrdersTable unshippedItems={unshippedItems} />
+          <InventoryTable
+            myInventory={myInventory}
+            onSubmit={this.formSubmitEvent}
+            deleteSingleProduct={this.deleteOne}
+            productToEdit={productToEdit}
+            isEditing={isEditing}
+            editId={editId}
+            editForm={this.editProductItem}
+            modal={modal}
+            showModal={this.showModal}
+            closeModal={this.closeModal}
+          />
         </div>
       </div>
     );

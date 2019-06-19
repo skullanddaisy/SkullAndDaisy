@@ -107,8 +107,10 @@ namespace SkullAndDaisy.Data
                 UPDATE [dbo].[Products]
                      SET[Price] = @price,
                         [Title] = @title,
+                        [ProductTypeId] = @productTypeId,
                         [Description] = @description,
-                        [Quantity] = @quantity
+                        [Quantity] = @quantity,
+                        [UserId] = @userId
                      WHERE id = @id";
 
                 var rowAffected = db.Execute(updateQuery, productToUpdate);

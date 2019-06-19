@@ -63,5 +63,21 @@ namespace SkullAndDaisy.Controllers
 
             return salesTotal;
         }
+
+        [HttpGet("getTotalSales/{userId}")]
+        public decimal GetTotalSales(int userId)
+        {
+            var salesTotal = _orderRepository.GetTotalCompletedSales(userId);
+
+            return salesTotal;
+        }
+
+        [HttpGet("getUnshipped/{userId}")]
+        public ActionResult GetItemsToShip(int userId)
+        {
+            var unshippedOrders = _orderRepository.GetItemsToShip(userId);
+
+            return Ok(unshippedOrders);
+        }
     }
 }

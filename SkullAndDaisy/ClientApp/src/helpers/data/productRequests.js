@@ -22,13 +22,12 @@ const getLatestProducts = () => new Promise((resolve, reject) => {
       const latestProducts = results.data;
       resolve(latestProducts);
     })
-  .catch((err) => {
-    reject(err);
-  })
-})
+    .catch((err) => {
+      reject(err);
+    });
+});
 
-
-const getProductById = (productId) => new Promise((resolve, reject) => {
+const getProductById = productId => new Promise((resolve, reject) => {
   axios
     .get(`${sadApiBaseUrl}/products/${productId}`)
     .then((results) => {
@@ -38,7 +37,7 @@ const getProductById = (productId) => new Promise((resolve, reject) => {
     .catch((err) => {
       reject(err);
     });
-})
+});
 
 const getProductsByType = productTypeId => new Promise((resolve, reject) => {
   axios
@@ -64,10 +63,22 @@ const getSellersProducts = sellerId => new Promise((resolve, reject) => {
     });
 });
 
+const addNew = newProduct => axios.post(`${sadApiBaseUrl}/Products/CreateProduct`, newProduct);
+
+const deleteProduct = productId => axios.delete(`${sadApiBaseUrl}/products/DeleteProduct/${productId}`);
+
+const putRequest = (productId, product) => axios.put(`${sadApiBaseUrl}/products/UpdateProduct/${productId}`, product);
+
+const getSingleProduct = productId => axios.get(`${sadApiBaseUrl}/products/${productId}`);
+
 export default {
   getAllProducts,
   getSellersProducts,
   getProductsByType,
   getProductById,
+  addNew,
+  deleteProduct,
+  putRequest,
+  getSingleProduct,
   getLatestProducts,
 };
