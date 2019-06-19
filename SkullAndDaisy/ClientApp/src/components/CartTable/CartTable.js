@@ -9,10 +9,11 @@ export default class CartTable extends Component {
   static propTypes = {
     products: PropTypes.arrayOf(productShape),
     cartHomeView: PropTypes.bool,
+    goToCart: PropTypes.func,
   }
 
   render() {
-    const { products, cartHomeView } = this.props;
+    const { products, cartHomeView, goToCart } = this.props;
 
     const cartProductItemComponents = products.map(product => (
       <CartProductItem
@@ -28,7 +29,7 @@ export default class CartTable extends Component {
           <Table striped>
             <thead>
               <tr>
-                <th><i class="fas fa-shopping-cart fa-2x"></i></th>
+                <th onClick={goToCart}><i className="fas fa-shopping-cart fa-2x"></i></th>
                 <th>Name</th>
                 <th>Qty</th>
                 <th>Price</th>

@@ -8,6 +8,7 @@ class UserProfileCard extends React.Component {
   static propTypes = {
     userId: PropTypes.number,
     goToUserProfile: PropTypes.func,
+    goToCart: PropTypes.func,
   }
 
   state = {
@@ -28,15 +29,15 @@ class UserProfileCard extends React.Component {
   }
 
   render() {
-    const { userId } = this.props;
+    const { userId, goToCart } = this.props;
     const { userFirstName } = this.state;
 
     return (
       <div className='user-profile-card'>
-        <div className='header' onClick={this.toUserProfileClickEvent}>
-          <h2 className='ml-2'><i className="fas fa-user-circle"></i>  Hi {userFirstName}!</h2>
+        <div className='header'>
+          <h2 className='ml-2'><i onClick={this.toUserProfileClickEvent} className="fas fa-user-circle"></i>  Hi {userFirstName}!</h2>
         </div>
-        <CartHomeView userId={userId}/>
+        <CartHomeView goToCart={goToCart} userId={userId}/>
       </div>
     );
   }
