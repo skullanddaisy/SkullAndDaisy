@@ -107,8 +107,10 @@ namespace SkullAndDaisy.Data
                 UPDATE [dbo].[Products]
                      SET[Price] = @price,
                         [Title] = @title,
+                        [ProductTypeId] = @productTypeId,
                         [Description] = @description,
-                        [Quantity] = @quantity
+                        [Quantity] = @quantity,
+                        [UserId] = @userId
                      WHERE id = @id";
 
                 var rowAffected = db.Execute(updateQuery, productToUpdate);
@@ -121,27 +123,23 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public bool DeleteProduct(int id)
+        public Product DeleteProduct(int productId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var deleteQuery = @"
-                DELETE FROM [dbo].[Products]
-                WHERE id = @id";
+                var deletedProduct = db.QueryFirstOrDefault<Product>(
+                    @"Delete from Products
+                        Output deleted.*
+                        Where Id = @productId",
+                        new { productId });
 
-                var parameter = new
+                if (deletedProduct != null)
                 {
-                    Id = id
-                };
-
-                var productToDelete = db.Execute(deleteQuery, parameter);
-
-                if (productToDelete == 1)
-                {
-                    return true;
+                    return deletedProduct;
                 }
-                throw new Exception("Could not delete product");
             }
+
+            throw new Exception("Product did not delete.");
         }
 
         public IEnumerable<Product> FilterProductByType(int productTypeId)
