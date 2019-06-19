@@ -100,7 +100,7 @@ class App extends React.Component {
                 <PrivateRoute path='/customerorders/' exact authed={this.state.authed} component={CustomerOrders} />
                 <PrivateRoute path='/sellerproducts/' exact authed={this.state.authed} component={SellerProducts} />
                 <PrivateRoute path='/productdetails/:id' exact authed={this.state.authed} component={ProductDetails} />
-                <PrivateRoute path='/sellermanagement/order/history' exact authed={this.state.authed} component={SellerOrderHistory} />
+                <PrivateRoute path='/order/history/seller' exact authed={this.state.authed} component={SellerOrderHistory} />
 
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>

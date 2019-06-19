@@ -1,4 +1,5 @@
 import React from 'react';
+import LoginSettingsModal from '../../LoginSettingsModal/LoginSettingsModal';
 import userRequests from '../../../helpers/data/userRequests';
 import './LoginSettings.scss';
 
@@ -37,14 +38,14 @@ class LoginSettings extends React.Component {
 
     return (
       <div className='login-settings'>
-        <div class="card text-white bg-dark mb-3 profile-card">
-          <div class="card-header">Login Settings</div>
+        <h1>Login Settings</h1>
+        <div class="card text-white bg-dark profile-card mt-4">
           <div class="card-body">
             <h4 class="card-title">Username: {currentUser.username}</h4>
             <h5 class="card-title">First Name: {currentUser.firstName}</h5>
             <h5 class="card-title">Last Name: {currentUser.lastName}</h5>
             <p class="card-text">Email: {currentUser.email}</p>
-            <button className="btn btn-primary">Edit</button>
+            <LoginSettingsModal />
           </div>
         </div>
       </div>

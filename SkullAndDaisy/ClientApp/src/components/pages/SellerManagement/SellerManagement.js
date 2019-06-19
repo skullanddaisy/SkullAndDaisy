@@ -138,7 +138,7 @@ class SellerManagement extends React.Component {
   }
 
   goToOrderHistory = (e) => {
-    this.props.history.push('/sellermanagement/order/history');
+    this.props.history.push('/order/history/seller');
   }
 
   render() {
