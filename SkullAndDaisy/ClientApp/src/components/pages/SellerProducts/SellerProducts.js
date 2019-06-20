@@ -21,7 +21,8 @@ class SellerProducts extends React.Component {
           .catch(err => console.error('error in getting products', err));
       }).catch((error) => {
         console.error(error);
-      });
+      }
+    );
   }
 
   render() {

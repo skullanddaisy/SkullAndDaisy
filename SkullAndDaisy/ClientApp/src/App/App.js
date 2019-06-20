@@ -29,6 +29,7 @@ import Poisons from '../components/pages/ProductTypes/Poisons/Poisons';
 import Crystals from '../components/pages/ProductTypes/Crystals/Crystals';
 import Herbs from '../components/pages/ProductTypes/Herbs/Herbs';
 import ProductDetails from '../components/pages/ProductDetails/ProductDetails';
+import SellerStore from '../components/pages/SellerStore/SellerStore';
 import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
@@ -105,6 +106,7 @@ class App extends React.Component {
                 <PrivateRoute path='/customerorders/'  component={CustomerOrders} authed={this.state.authed} />
                 <PrivateRoute path='/sellerproducts/'  component={SellerProducts} authed={this.state.authed} />
                 <PrivateRoute path='/productdetails/:id'  component={ProductDetails} authed={this.state.authed} />
+                <PrivateRoute path='/sellerstore'  component={SellerStore} authed={this.state.authed} />
 
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
