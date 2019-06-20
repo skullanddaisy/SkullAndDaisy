@@ -45,7 +45,7 @@ class LoginSettings extends React.Component {
             <h5 class="card-title">First Name: {currentUser.firstName}</h5>
             <h5 class="card-title">Last Name: {currentUser.lastName}</h5>
             <p class="card-text">Email: {currentUser.email}</p>
-            <LoginSettingsModal buttonLabel="Edit" />
+            <LoginSettingsModal buttonLabel="Edit" currentUser={currentUser}/>
           </div>
         </div>
       </div>
