@@ -37,6 +37,7 @@ class ProductDetails extends React.Component{
 			})
 		.catch((err) => console.error("Wasn't able to get potions.", err));
 	}
+	
 
 	render() {
 		

@@ -49,6 +49,7 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 class App extends React.Component {
   state = {
     authed: false,
+    pendingUser: true,
   }
 
   componentDidMount() {
@@ -58,11 +59,13 @@ class App extends React.Component {
       if (user) {
         this.setState({
           authed: true,
+          pendingUser: false,
         });
         authRequests.getCurrentUserJwt();
       } else {
         this.setState({
           authed: false,
+          pendingUser: false,
         });
       }
     });
@@ -79,6 +82,9 @@ class App extends React.Component {
       this.setState({ authed: false });
     };
 
+    if (this.state.pendingUser) {
+      return null;
+    }
     return (
       <div className="App">
         <BrowserRouter>
@@ -87,19 +93,19 @@ class App extends React.Component {
               <Switch>
                 <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
                 <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
-                <PrivateRoute path='/useraccount' exact authed={this.state.authed} component={UserAccount} />
-                <PrivateRoute path='/potions' exact authed={this.state.authed} component={Potions} />
-                <PrivateRoute path='/poisons' exact authed={this.state.authed} component={Poisons} />
-                <PrivateRoute path='/crystals' exact authed={this.state.authed} component={Crystals} />
-                <PrivateRoute path='/herbs' exact authed={this.state.authed} component={Herbs} />
-                <PrivateRoute path='/cart' exact component={Cart} authed={this.state.authed}/>
-                <PrivateRoute path='/orders/' exact authed={this.state.authed} component={Orders} />
-                <PrivateRoute path='/sellermanagement/' exact authed={this.state.authed} component={SellerManagement} />
-                <PrivateRoute path='/paymenttypes/' exact authed={this.state.authed} component={PaymentTypes} />
-                <PrivateRoute path='/loginsettings/' exact authed={this.state.authed} component={LoginSettings} />
-                <PrivateRoute path='/customerorders/' exact authed={this.state.authed} component={CustomerOrders} />
-                <PrivateRoute path='/sellerproducts/' exact authed={this.state.authed} component={SellerProducts} />
-                <PrivateRoute path='/productdetails/:id' exact authed={this.state.authed} component={ProductDetails} />
+                <PrivateRoute path='/useraccount' component={UserAccount} authed={this.state.authed} />
+                <PrivateRoute path='/potions' component={Potions} authed={this.state.authed} />
+                <PrivateRoute path='/poisons' component={Poisons} authed={this.state.authed} />
+                <PrivateRoute path='/crystals' component={Crystals} authed={this.state.authed} />
+                <PrivateRoute path='/herbs' component={Herbs} authed={this.state.authed} />
+                <PrivateRoute path='/cart' component={Cart} authed={this.state.authed} />
+                <PrivateRoute path='/orders/' component={Orders} authed={this.state.authed} />
+                <PrivateRoute path='/sellermanagement/' component={SellerManagement} authed={this.state.authed} />
+                <PrivateRoute path='/paymenttypes/' component={PaymentTypes} authed={this.state.authed} />
+                <PrivateRoute path='/loginsettings/' component={LoginSettings} authed={this.state.authed} />
+                <PrivateRoute path='/customerorders/' component={CustomerOrders} authed={this.state.authed} />
+                <PrivateRoute path='/sellerproducts/' component={SellerProducts} authed={this.state.authed} />
+                <PrivateRoute path='/productdetails/:id' component={ProductDetails} authed={this.state.authed} />
                 <PrivateRoute path='/order/history/seller' exact authed={this.state.authed} component={SellerOrderHistory} />
 
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
