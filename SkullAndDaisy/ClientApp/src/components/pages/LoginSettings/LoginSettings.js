@@ -28,6 +28,13 @@ class LoginSettings extends React.Component {
       });
   }
 
+  formSubmitEvent = (newUser, userId) => {
+    userRequests.updateUser(newUser, userId)
+      .then(() => {
+        this.getCurrentUser(this.state.userId);
+      });
+  }
+
   componentDidMount() {
     this.getUserId();
     this.getCurrentUser(this.state.userId);
@@ -45,7 +52,7 @@ class LoginSettings extends React.Component {
             <h5 class="card-title">First Name: {currentUser.firstName}</h5>
             <h5 class="card-title">Last Name: {currentUser.lastName}</h5>
             <p class="card-text">Email: {currentUser.email}</p>
-            <LoginSettingsModal buttonLabel="Edit" currentUser={currentUser}/>
+            <LoginSettingsModal buttonLabel="Edit" currentUser={currentUser} onSubmit={this.formSubmitEvent}/>
           </div>
         </div>
       </div>

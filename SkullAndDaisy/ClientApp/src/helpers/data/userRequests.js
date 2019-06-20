@@ -31,7 +31,6 @@ const getSingleUser = () => new Promise((resolve, reject) => {
     });
 });
 
-
 const getUserIdByEmail = () => new Promise((resolve, reject) => {
   const userEmail = authRequests.getUserEmail();
   getAllUsers()
@@ -44,9 +43,12 @@ const getUserIdByEmail = () => new Promise((resolve, reject) => {
     });
 });
 
+const updateUser = (user, id) => axios.put(`${sadApiBaseUrl}/users/updateuser/${id}`, user);
+
 export default {
   createUser,
   getAllUsers,
   getSingleUser,
   getUserIdByEmail,
+  updateUser,
 };

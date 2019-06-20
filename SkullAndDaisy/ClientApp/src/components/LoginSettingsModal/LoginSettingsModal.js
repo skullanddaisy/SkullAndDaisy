@@ -64,10 +64,10 @@ class LoginSettingsModal extends React.Component {
   passwordChange = e => this.formFieldStringState('password', e);
 
   formSubmit = (e) => {
-    e.preventDefault();
     const { onSubmit } = this.props;
     const myUser = { ...this.state.newUser };
-    onSubmit(myUser);
+    const userId = this.props.currentUser.id;
+    onSubmit(myUser, userId);
     this.setState({ newUser: defaultUser });
   }
 
