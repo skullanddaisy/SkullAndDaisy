@@ -9,6 +9,8 @@ class ProductCard extends React.Component {
     product: productShape,
   }
 
+
+
   render() {
     const { product } = this.props;
 
@@ -24,6 +26,7 @@ class ProductCard extends React.Component {
             <div className="cardBody">
               <p className="productTitle">{product.title}</p>
               <div className="productPrice">${product.price}</div>
+              {/* <div className="sellerName">${product.}</div> */}
             </div>
           </div>
         </div>

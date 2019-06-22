@@ -18,14 +18,14 @@ class LatestProductsCard extends React.Component {
   }
 
   render() {
-    const carouselItemComponents = this.state.latestProducts.map(product => (
+    const productItemComponents = this.state.latestProducts.map(product => (
       <ProductCard
         product={product}
         key={product.id}
       />));
     return (
       <div className='latest-products-card'>
-        {carouselItemComponents}
+        {productItemComponents}
       </div>
     );
   }
