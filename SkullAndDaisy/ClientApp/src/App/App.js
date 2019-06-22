@@ -35,14 +35,14 @@ import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
-    ? (<Component { ...props } {... rest} />)
+    ? (<Component { ...props } {... rest} key={props.location.pathname}/>)
     : (<Redirect to={{ pathname: '/home', state: { from: props.location } }}/>));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === true
-    ? (<Component {...props } />)
+    ? (<Component {...props } key={props.location.pathname} />)
     : (<Redirect to={{ pathname: '/auth', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };

@@ -7,12 +7,14 @@ import './ProductDetails.scss';
 import {
 	Button,
 } from 'reactstrap';
+import userRequests from '../../../helpers/data/userRequests';
 
 class ProductDetails extends React.Component{
 	
 	state = {
 		product: productShape,
-		user: {},
+		sellerId: 0,
+		seller: {},
 		potions: [],
 		crystals: [],
 		poisons: [],
@@ -20,10 +22,16 @@ class ProductDetails extends React.Component{
 	}
 	
 	componentDidMount() {
-		let productId = this.props.match.params.id;
+		const productId = this.props.match.params.id;
 		ProductRequest.getProductById(productId)
 		.then((productById) => {
-			this.setState({ product: productById});
+			this.setState({ product: productById });
+			this.setState({ sellerId: productById.userId })
+			userRequests.getUserById(this.state.sellerId)
+				.then((user) => {
+					console.log(user);
+					this.setState({ seller: user })
+				});
 		})
 		ProductRequest.getProductsByType(1)
 			.then((potions) => {
@@ -36,15 +44,15 @@ class ProductDetails extends React.Component{
 	render() {
 		
 		
-		const { product, user } = this.state;
+		const { product, seller } = this.state;
 		const productPotionComponents = this.state.potions.map(product => (
 			<ProductCard
 			key={product.id}
 			product={product}
-			user={user}
+			seller={seller}
 			/>));
 
-		UserRequests.getUserById(2)
+		UserRequests.getUserById()
 			.then((user) => {
 				console.log(user);
 				this.setState({user: user})

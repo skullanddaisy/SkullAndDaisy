@@ -9,6 +9,7 @@ export default class SellerStore extends Component {
 	state = {
 		products: [],
 		userId: 0,
+		seller: {}
 	}
 
 

@@ -14,7 +14,7 @@ class ProductCard extends React.Component {
   render() {
     const { product } = this.props;
 
-    const productDetails = `productdetails/${product.id}`
+    const productDetails = `/productdetails/${product.id}`
 
     return (
       <Link to={productDetails}>
