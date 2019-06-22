@@ -1,22 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import userRequests from '../../../helpers/data/userRequests';
 import UserProfileCard from '../../UserProfileCard/UserProfileCard';
 import DealOfTheDayCard from '../../DealOfTheDayCard/DealOfTheDayCard';
-import FeaturedListCard from '../../FeaturedListCard/FeaturedListCard';
 import LatestProductsCard from '../../LatestProductsCard/LatestProductsCard';
 import MyFooter from '../../MyFooter/MyFooter';
 import amethyst from '../../../img/amethyst_crystal.jpg';
 import herbs from '../../../img/herbs_1.jpeg';
-import poison from '../../../img/poison.jpeg';
 import potions from '../../../img/potions.png';
-import {
-  CarouselProvider,
-  Slider,
-  Slide,
-  ButtonBack,
-  ButtonNext
-} from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
+import poison from '../../../img/poisonCarousel.jpg';
+import Carousel from 'nuka-carousel';
 import './Home.scss';
 
 class Home extends React.Component {
@@ -43,7 +36,21 @@ class Home extends React.Component {
 
     render() {
       const { userId } = this.state;
-
+      const Decorators = [{
+          render() {
+            return (
+              <button
+                onClick={this.props.previousSlide}>
+                Previous Slide
+              </button>
+            )
+          },
+        position: 'CenterLeft',
+        style: {
+          padding: 20
+        }
+      }];
+      
       if (userId === 0) {
         return (
           <div><h1>Loading</h1></div>
@@ -64,22 +71,23 @@ class Home extends React.Component {
                     <div className="featuredListText">
                         <h1>Featured list</h1>
                     </div>
-                    <CarouselProvider
-                      id="theSlider"
-                      naturalSlideWidth={100}
-                      naturalSlideHeight={125}
-                      totalSlides={4}
-                    >
-                      <Slider>
-                        <Slide className="slideClass" index={0}><img className="featuredPics" src={amethyst} alt="amethyst" /></Slide>
-                        <Slide className="slideClass" index={1}><img className="featuredPics" src={potions} alt="potions" /></Slide>
-                        <Slide className="slideClass" index={2}><img className="featuredPics" src={poison} alt="poison" /></Slide>
-                        <Slide className="slideClass" index={3}><img className="featuredPics" src={herbs} alt="herbs" /></Slide>
-                      </Slider>
-                      <ButtonBack>Back</ButtonBack>
-                      <ButtonNext>Next</ButtonNext>
-                    </CarouselProvider>
-                    {/* <FeaturedListCard /> */}
+                    <Carousel slidesToShow={4} slidesToScroll={1} height={400} slideWidth={5} cellAlign="center" dragging={true} Decorators={Decorators}>
+                      <Link to='/crystals'>
+                        <img className="featuredPics" src={amethyst} alt="amethyst" />
+                      </Link>
+
+                      <Link to='/potions'>
+                        <img className="featuredPics" src={potions} alt="potions" />
+                      </Link>
+
+                      <Link to='/poisons'>
+                        <img className="featuredPics" src={poison} alt="poison" />
+                      </Link>
+
+                      <Link to='/herbs'>
+                        <img className="featuredPics" src={herbs} alt="herbs" />
+                      </Link>
+                    </Carousel>
                     <div className="latestProductsText">
                         <h1>Latest products</h1>
                     </div>

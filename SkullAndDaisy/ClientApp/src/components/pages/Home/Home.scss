@@ -29,7 +29,7 @@
 
 #theSlider {
     width: 97%;
-    // max-height: 400px;
+    max-height: 400px !important;
 }
 
 .slideInner___2mfX9 {
@@ -55,4 +55,8 @@
     width: 100%;
     margin-left: 10px;
     color:white;
+}
+
+.horizontalSlider___281Ls {
+    height: 500px;
 }
