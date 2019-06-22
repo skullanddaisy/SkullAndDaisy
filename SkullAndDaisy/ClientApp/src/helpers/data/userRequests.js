@@ -31,6 +31,23 @@ const getSingleUser = () => new Promise((resolve, reject) => {
     });
 });
 
+<<<<<<< HEAD
+=======
+
+const getUserById = (userId) => new Promise((resolve, reject) => {
+  axios.get(`${sadApiBaseUrl}/${userId}`)
+    .then((result) => {
+      if ( result != null) {
+        const user = result.data;
+        resolve(user);
+      } 
+    })
+    .catch((err) => {
+      reject(err);
+    })
+});
+
+>>>>>>> master
 const getUserIdByEmail = () => new Promise((resolve, reject) => {
   const userEmail = authRequests.getUserEmail();
   getAllUsers()
@@ -50,5 +67,9 @@ export default {
   getAllUsers,
   getSingleUser,
   getUserIdByEmail,
+<<<<<<< HEAD
   updateUser,
+=======
+  getUserById
+>>>>>>> master
 };

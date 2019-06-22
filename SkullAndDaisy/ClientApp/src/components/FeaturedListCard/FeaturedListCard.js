@@ -17,14 +17,14 @@ class FeaturedListCard extends React.Component {
   }
 
   render() {
-    const carouselItemComponents = this.state.featuredProducts.map(product => (
+    const productItemComponents = this.state.featuredProducts.map(product => (
       <ProductCard
         product={product}
         key={product.id}
       />));
     return (
       <div className='featured-list-card'>
-        {carouselItemComponents}
+        {productItemComponents}
       </div>
     );
   }
