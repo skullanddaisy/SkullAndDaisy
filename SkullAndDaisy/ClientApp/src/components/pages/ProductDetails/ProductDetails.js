@@ -7,7 +7,6 @@ import './ProductDetails.scss';
 import {
 	Button,
 } from 'reactstrap';
-import 'pure-react-carousel/dist/react-carousel.es.css'
 
 class ProductDetails extends React.Component{
 	
@@ -38,7 +37,7 @@ class ProductDetails extends React.Component{
 		
 		
 		const { product, user } = this.state;
-		const carouselPotionComponents = this.state.potions.map(product => (
+		const productPotionComponents = this.state.potions.map(product => (
 			<ProductCard
 			key={product.id}
 			product={product}
@@ -78,7 +77,7 @@ class ProductDetails extends React.Component{
 						</div>
 					</div>
 					<hr id="productDetailLine"></hr>
-					{carouselPotionComponents}
+					{productPotionComponents}
 				</div>
 			</div>
 		);
