@@ -11,6 +11,7 @@ export default class SellerStore extends Component {
 		userId: 0,
 	}
 
+
 	componentDidMount() {
 		userRequests.getUserIdByEmail()
 		  .then((userId) => {
@@ -22,9 +23,8 @@ export default class SellerStore extends Component {
 			  .catch(err => console.error('error in getting products', err));
 		  }).catch((error) => {
 			console.error(error);
-		  }
-		);
-	  }
+		});
+	}
 
 	render() {
 		const productItemComponents = this.state.products.map(product => (
