@@ -53,6 +53,25 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no Product Orders");
         }
 
+        public ProductOrder GetSingleByIds(int orderId, int productId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var singleProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
+                    select Id, ProductId, OrderId, Quantity
+                    from ProductOrders
+                    where OrderId = @orderId and ProductId = @productId",
+                    new { orderId, productId });
+
+                if (singleProductOrder != null)
+                {
+                    return singleProductOrder;
+                }
+            }
+
+            throw new Exception("Found no Product Orders");
+        }
+
         public ProductOrder AddProductOrder(int productId, int orderId, int quantity)
         {
             using (var db = new SqlConnection(_connectionString))
