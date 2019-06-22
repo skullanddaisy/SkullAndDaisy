@@ -29,6 +29,7 @@ import Poisons from '../components/pages/ProductTypes/Poisons/Poisons';
 import Crystals from '../components/pages/ProductTypes/Crystals/Crystals';
 import Herbs from '../components/pages/ProductTypes/Herbs/Herbs';
 import ProductDetails from '../components/pages/ProductDetails/ProductDetails';
+import SellerOrderHistory from '../components/pages/SellerOrderHistory/SellerOrderHistory';
 import SellerStore from '../components/pages/SellerStore/SellerStore';
 import './App.scss';
 
@@ -94,20 +95,20 @@ class App extends React.Component {
                 <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
                 <PrivateRoute path='/home' component={Home} authed={this.state.authed} />
                 <PrivateRoute path='/useraccount' component={UserAccount} authed={this.state.authed} />
-                <PrivateRoute path='/potions'  component={Potions} authed={this.state.authed} />
-                <PrivateRoute path='/poisons'  component={Poisons} authed={this.state.authed} />
-                <PrivateRoute path='/crystals'  component={Crystals} authed={this.state.authed} />
-                <PrivateRoute path='/herbs'  component={Herbs} authed={this.state.authed} />
+                <PrivateRoute path='/potions' component={Potions} authed={this.state.authed} />
+                <PrivateRoute path='/poisons' component={Poisons} authed={this.state.authed} />
+                <PrivateRoute path='/crystals' component={Crystals} authed={this.state.authed} />
+                <PrivateRoute path='/herbs' component={Herbs} authed={this.state.authed} />
                 <PrivateRoute path='/cart' component={Cart} authed={this.state.authed} />
-                <PrivateRoute path='/orders/'  component={Orders} authed={this.state.authed} />
-                <PrivateRoute path='/sellermanagement/'  component={SellerManagement} authed={this.state.authed} />
-                <PrivateRoute path='/paymenttypes/'  component={PaymentTypes} authed={this.state.authed} />
-                <PrivateRoute path='/loginsettings/'  component={LoginSettings} authed={this.state.authed} />
-                <PrivateRoute path='/customerorders/'  component={CustomerOrders} authed={this.state.authed} />
-                <PrivateRoute path='/sellerproducts/'  component={SellerProducts} authed={this.state.authed} />
-                <PrivateRoute path='/productdetails/:id'  component={ProductDetails} authed={this.state.authed} />
-                <PrivateRoute path='/sellerstore'  component={SellerStore} authed={this.state.authed} />
-
+                <PrivateRoute path='/orders/' component={Orders} authed={this.state.authed} />
+                <PrivateRoute path='/sellermanagement/' component={SellerManagement} authed={this.state.authed} />
+                <PrivateRoute path='/paymenttypes/' component={PaymentTypes} authed={this.state.authed} />
+                <PrivateRoute path='/loginsettings/' component={LoginSettings} authed={this.state.authed} />
+                <PrivateRoute path='/customerorders/' component={CustomerOrders} authed={this.state.authed} />
+                <PrivateRoute path='/sellerproducts/' component={SellerProducts} authed={this.state.authed} />
+                <PrivateRoute path='/productdetails/:id' component={ProductDetails} authed={this.state.authed} />
+                <PrivateRoute path='/sellerstore' component={SellerStore} authed={this.state.authed} />
+                <PrivateRoute path='/order/history/seller' exact authed={this.state.authed} component={SellerOrderHistory} />
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
           </React.Fragment>

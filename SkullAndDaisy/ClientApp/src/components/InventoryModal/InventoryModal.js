@@ -4,7 +4,6 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import userRequests from '../../helpers/data/userRequests';
-import productRequests from '../../helpers/data/productRequests';
 
 const defaultProduct = {
   title: '',
@@ -60,18 +59,6 @@ class InventoryModal extends React.Component {
   componentWillReceiveProps(props) {
     this.setState({ modal: props.modal });
     this.setState({ newProduct: this.props.productToEdit });
-  }
-
-
-  componentDidUpdate(prevProps) {
-    const { isEditing, editId } = this.props;
-    if (prevProps !== this.props && isEditing) {
-      productRequests.getSingleProduct(editId)
-        .then((product) => {
-          this.setState({ newProduct: product.data });
-        })
-        .catch(err => console.error('error with get single', err));
-    }
   }
 
   titleChange = e => this.formFieldStringState('title', e);

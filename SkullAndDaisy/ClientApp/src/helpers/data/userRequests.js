@@ -32,17 +32,17 @@ const getSingleUser = () => new Promise((resolve, reject) => {
 });
 
 
-const getUserById = (userId) => new Promise((resolve, reject) => {
+const getUserById = userId => new Promise((resolve, reject) => {
   axios.get(`${sadApiBaseUrl}/${userId}`)
     .then((result) => {
-      if ( result != null) {
+      if (result != null) {
         const user = result.data;
         resolve(user);
-      } 
+      }
     })
     .catch((err) => {
       reject(err);
-    })
+    });
 });
 
 const getUserIdByEmail = () => new Promise((resolve, reject) => {
@@ -57,10 +57,13 @@ const getUserIdByEmail = () => new Promise((resolve, reject) => {
     });
 });
 
+const updateUser = (user, id) => axios.put(`${sadApiBaseUrl}/users/updateuser/${id}`, user);
+
 export default {
   createUser,
   getAllUsers,
   getSingleUser,
   getUserIdByEmail,
-  getUserById
+  updateUser,
+  getUserById,
 };

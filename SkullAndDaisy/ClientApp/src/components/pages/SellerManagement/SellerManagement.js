@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import userRequests from '../../../helpers/data/userRequests';
 import OrdersTable from '../../OrdersTable/OrdersTable';
 import InventoryTable from '../../InventoryTable/InventoryTable';
@@ -136,9 +137,8 @@ class SellerManagement extends React.Component {
       });
   }
 
-  changeView = (e) => {
-    const view = e.currentTarget.id;
-    this.props.history.push(`/${view}`);
+  goToOrderHistory = (e) => {
+    this.props.history.push('/order/history/seller');
   }
 
   render() {
@@ -155,6 +155,9 @@ class SellerManagement extends React.Component {
       <div className='seller-management'>
         <header className="dashboard-header">
             <h1 className="card-subtitle mb-4 ml-4 text-muted">Seller Dashboard</h1>
+            <div>
+            <Button color="secondary" onClick={this.goToOrderHistory}>See Order History</Button>
+            </div>
             <div>
               <p className="card-text mr-4">Sales this month: {formatPrice(this.state.monthlySales)}</p>
               <p className="card-text mr-4 mb-1">Total sales: {formatPrice(this.state.totalSales)}</p>
