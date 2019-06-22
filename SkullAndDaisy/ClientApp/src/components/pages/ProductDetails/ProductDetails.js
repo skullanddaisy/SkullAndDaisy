@@ -72,12 +72,23 @@ class ProductDetails extends React.Component {
     orderRequests.getPendingOrder(this.state.userId)
       .then((result) => {
         const pendingOrder = result.data;
-        const newProductOrder = { ...this.state.newProductOrder };
-        newProductOrder.productId = this.state.product.id;
-        newProductOrder.orderId = pendingOrder[0].id;
-        newProductOrder.quantity = this.state.quantity;
-        this.setState({ newProductOrder, showAlert: true });
-        productOrderRequests.addProductOrder(this.state.newProductOrder).then();
+        const orderProducts = pendingOrder.products;
+        let matchingProduct;
+        for (let i = 0; i < orderProducts.length; i += 1) {
+          if (orderProducts[i].id === this.state.product.id) {
+            matchingProduct = orderProducts[i];
+          }
+        }
+        if (matchingProduct === null) {
+          const newProductOrder = { ...this.state.newProductOrder };
+          newProductOrder.productId = this.state.product.id;
+          newProductOrder.orderId = pendingOrder[0].id;
+          newProductOrder.quantity = this.state.quantity;
+          this.setState({ newProductOrder, showAlert: true });
+          productOrderRequests.addProductOrder(this.state.newProductOrder).then();
+        } else {
+          console.log('need to update quantity');
+        }
       }).catch();
 	}
 
