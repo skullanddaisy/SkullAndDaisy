@@ -61,7 +61,7 @@ class ProductDetails extends React.Component {
 
 	quantityChange = (e) => {
 		let quantity = { ...this.state.quantity };
-		quantity = e.target.value;
+		quantity = e.target.value * 1;
 		this.setState({ quantity });
 	};
 
@@ -69,14 +69,14 @@ class ProductDetails extends React.Component {
     orderRequests.getPendingOrder(this.state.userId)
       .then((result) => {
         const pendingOrder = result.data;
-        const orderProducts = pendingOrder.products;
+        const orderProducts = pendingOrder[0].products;
         let matchingProduct;
         for (let i = 0; i < orderProducts.length; i += 1) {
           if (orderProducts[i].id === this.state.product.id) {
             matchingProduct = orderProducts[i];
           }
         }
-        if (matchingProduct === null) {
+        if (matchingProduct === undefined) {
           const newProductOrder = { ...this.state.newProductOrder };
           newProductOrder.productId = this.state.product.id;
           newProductOrder.orderId = pendingOrder[0].id;
@@ -84,7 +84,12 @@ class ProductDetails extends React.Component {
           this.setState({ newProductOrder, showAlert: true });
           productOrderRequests.addProductOrder(this.state.newProductOrder).then();
         } else {
-          console.log('need to update quantity');
+          productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
+          .then((res) => {
+            const productOrder = res.data;
+            productOrder.quantity = this.state.quantity + productOrder.quantity;
+            productOrderRequests.updateProductOrder(productOrder).then();
+          }).catch();
         }
       }).catch();
     }
