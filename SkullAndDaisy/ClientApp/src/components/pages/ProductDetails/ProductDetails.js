@@ -2,23 +2,17 @@ import React from 'react';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
 import ProductCard from '../../ProductCard/ProductCard';
+import UserRequests from '../../../helpers/data/userRequests';
 import './ProductDetails.scss';
 import {
 	Button,
 } from 'reactstrap';
-import {
-	CarouselProvider,
-	Slider,
-	Slide,
-	ButtonBack,
-	ButtonNext
-} from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css'
 
 class ProductDetails extends React.Component{
 	
 	state = {
 		product: productShape,
+		user: {},
 		potions: [],
 		crystals: [],
 		poisons: [],
@@ -38,15 +32,24 @@ class ProductDetails extends React.Component{
 		.catch((err) => console.error("Wasn't able to get potions.", err));
 	}
 	
-
+	
 	render() {
 		
-		const { product } = this.state;
-		const carouselPotionComponents = this.state.potions.map(product => (
+		
+		const { product, user } = this.state;
+		const productPotionComponents = this.state.potions.map(product => (
 			<ProductCard
-			  product={product}
-			  key={product.id}
-			  />));
+			key={product.id}
+			product={product}
+			user={user}
+			/>));
+
+		UserRequests.getUserById(2)
+			.then((user) => {
+				console.log(user);
+				this.setState({user: user})
+			})
+
 		return(
 			<div className="productDetailsContainer1">
 				<div className="productDetailsContainer">
@@ -74,6 +77,7 @@ class ProductDetails extends React.Component{
 						</div>
 					</div>
 					<hr id="productDetailLine"></hr>
+					{productPotionComponents}
 				</div>
 			</div>
 		);
