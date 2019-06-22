@@ -24,6 +24,14 @@ namespace SkullAndDaisy.Controllers
             return Ok(allProductOrders);
         }
 
+        [HttpGet("getProductOrderByIds/{orderId}/{productId}")]
+        public ActionResult GetAllProductOrders(int orderId, int productId)
+        {
+            var singleProductOrders = _productOrderRepository.GetSingleByIds(orderId, productId);
+
+            return Ok(singleProductOrders);
+        }
+
         [HttpGet("GetProductOrdersByOrderId/{orderId}")]
         public ActionResult GetProductOrdersByOrderId(int orderId)
         {
