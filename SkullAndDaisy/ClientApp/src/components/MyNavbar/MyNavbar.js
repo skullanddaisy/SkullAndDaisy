@@ -1,11 +1,10 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-tabs */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import ProductRequest from '../../helpers/data/productRequests';
-import SearchTable from '../SearchTable/SearchTable';
 import SearchField from 'react-search-field';
 import {
-  Card,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -18,7 +17,8 @@ import {
   DropdownItem,
   UncontrolledDropdown,
 } from 'reactstrap';
-
+import ProductRequest from '../../helpers/data/productRequests';
+import SearchTable from '../SearchTable/SearchTable';
 import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
@@ -37,67 +37,66 @@ class MyNavbar extends React.Component {
 getAllProducts = () => {
   ProductRequest.getAllProducts()
     .then((products) => {
-      this.setState({ products })
-    }
-  )
+      this.setState({ products });
+    });
 }
 
-  componentDidMount() {
-    this.getAllProducts();
-  }
+componentDidMount() {
+  this.getAllProducts();
+}
 
   onChange = (value, e) => {
     const { products } = this.state;
     const filteredProducts = [];
-		e.preventDefault();
-		if (!value) {
+    e.preventDefault();
+    if (!value) {
       this.setState({ filteredProducts: [] });
     } else {
 		  products.forEach((result) => {
-			if (result.title.toLowerCase().includes(value.toLowerCase())
+        if (result.title.toLowerCase().includes(value.toLowerCase())
 			  || result.description.toLowerCase().includes(value.toLowerCase())
-			) {
+        ) {
 			  filteredProducts.push(result);
-      }
-			this.setState({ filteredProducts });
+        }
+        this.setState({ filteredProducts });
 		  });
-		}
+    }
   }
-    
+
   onEnter = (value, e) => {
-		const { products } = this.state;
+    const { products } = this.state;
     const filteredProducts = [];
-		e.preventDefault();
-		if (!value) {
+    e.preventDefault();
+    if (!value) {
       this.setState({ filteredProducts: products });
     } else {
 		  products.forEach((result) => {
-			if (result.title.toLowerCase().includes(value.toLowerCase())
+        if (result.title.toLowerCase().includes(value.toLowerCase())
 			  || result.description.toLowerCase().includes(value.toLowerCase())
-			) {
+        ) {
 			  filteredProducts.push(result);
-      }
-			this.setState({ filteredProducts });
+        }
+        this.setState({ filteredProducts });
 		  });
-		}
+    }
   }
 
   onSearchClick = (value, e) => {
-		const { products } = this.state;
+    const { products } = this.state;
     const filteredProducts = [];
-		e.preventDefault();
-		if (!value) {
+    e.preventDefault();
+    if (!value) {
       this.setState({ filteredProducts: products });
     } else {
 		  products.forEach((result) => {
-			if (result.title.toLowerCase().includes(value.toLowerCase())
+        if (result.title.toLowerCase().includes(value.toLowerCase())
 			  || result.description.toLowerCase().includes(value.toLowerCase())
-			) {
+        ) {
 			  filteredProducts.push(result);
-      }
-			this.setState({ filteredProducts });
+        }
+        this.setState({ filteredProducts });
 		  });
-		}
+    }
   }
 
   toggle() {
@@ -116,17 +115,18 @@ getAllProducts = () => {
     const { isAuthed, logoutClicky } = this.props;
 
     const buildSearchResults = () => {
-      const {filteredProducts} = this.state;
+      const { filteredProducts } = this.state;
       if (filteredProducts.length > 0) {
-        return(
+        return (
           <div id="searchResults">
             <div className='searchResultsCard'>
               <SearchTable products={filteredProducts}/>
             </div>
           </div>
-        )
+        );
       }
-    }
+      return <div></div>;
+    };
 
     const buildNavbar = () => {
       if (isAuthed) {
