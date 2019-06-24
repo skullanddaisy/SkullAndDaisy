@@ -12,6 +12,7 @@ export default class CartTable extends Component {
     cartHomeView: PropTypes.bool,
     goToCart: PropTypes.func,
     deleteProduct: PropTypes.func,
+    updateProduct: PropTypes.func,
     pendingOrder: orderShape,
   }
 
@@ -22,6 +23,7 @@ export default class CartTable extends Component {
       goToCart,
       deleteProduct,
       pendingOrder,
+      updateProduct,
     } = this.props;
 
     const cartProductItemComponents = products.map(product => (
@@ -30,6 +32,7 @@ export default class CartTable extends Component {
         key={product.id}
         cartHomeView={cartHomeView}
         deleteProduct={deleteProduct}
+        updateProduct={updateProduct}
         pendingOrder={pendingOrder}
       />
     ));

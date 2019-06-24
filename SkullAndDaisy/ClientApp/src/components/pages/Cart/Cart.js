@@ -67,6 +67,16 @@ class Cart extends Component {
       });
   }
 
+  updateProduct = (productOrderObject) => {
+    productOrderRequests.updateProductOrder(productOrderObject)
+      .then(() => {
+        this.setProductStates();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   render() {
     const {
       numberOfProducts,
@@ -84,6 +94,7 @@ class Cart extends Component {
               products={pendingOrder.products}
               cartHomeView={cartHomeView}
               deleteProduct={this.deleteProduct}
+              updateProduct={this.updateProduct}
               pendingOrder={pendingOrder}
               />
             </div>
