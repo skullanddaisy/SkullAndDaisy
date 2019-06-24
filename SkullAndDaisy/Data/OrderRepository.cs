@@ -135,10 +135,9 @@ namespace SkullAndDaisy.Data
                         {
                             var matchingProducts = products.Where(product => product.Id == productOrder.ProductId).FirstOrDefault();
 
-                            matchingProducts.Quantity = productOrder.Quantity;
-
                             if (matchingProducts != null)
                             {
+                                matchingProducts.Quantity = productOrder.Quantity;
                                 theProducts.Add(matchingProducts);
                             }
                         }
