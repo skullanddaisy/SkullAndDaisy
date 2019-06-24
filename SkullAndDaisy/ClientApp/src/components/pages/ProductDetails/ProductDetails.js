@@ -5,6 +5,7 @@ import {
 	Button,
 	Alert,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
 import ProductCard from '../../ProductCard/ProductCard';
@@ -24,8 +25,10 @@ class ProductDetails extends React.Component{
 	
 	state = {
 		product: productShape,
+		products: [],
 		sellerId: 0,
 		seller: {},
+		user: {},
 		potions: [],
 		crystals: [],
 		poisons: [],
@@ -37,23 +40,25 @@ class ProductDetails extends React.Component{
 	}
 
 	componentDidMount() {
+		// const { sellerId } = this.state;
 		const productId = this.props.match.params.id;
 		ProductRequest.getProductById(productId)
 		.then((productById) => {
 			this.setState({ product: productById });
 			this.setState({ sellerId: productById.userId })
 			userRequests.getUserById(this.state.sellerId)
-				.then((user) => {
-					console.log(user);
-					this.setState({ seller: user })
+				.then((theSeller) => {
+					console.log(theSeller);
+					this.setState({ seller: theSeller });
+					ProductRequest.getSellersProducts(theSeller.id)
+						.then((productsByUserId) => {
+							console.log(productsByUserId);
+							this.setState({ products: productsByUserId });
+						})
+					.catch((err) => {
+				  console.error("Wasn't able to get seller products.", err);
 				});
 			})
-			ProductRequest.getProductsByType(1)
-				.then((potions) => {
-					this.setState({ potions });
-				})
-			.catch((err) => {
-		  console.error("Wasn't able to get potions.", err);
 		});
 		UserRequests.getUserIdByEmail()
 		  .then((userId) => {
@@ -61,7 +66,7 @@ class ProductDetails extends React.Component{
 		  }).catch((error) => {
 			console.error(error);
 		  });
-	  }
+	}
 
   onDismiss = () => {
     this.setState({ showAlert: false });
@@ -105,12 +110,15 @@ class ProductDetails extends React.Component{
 	render() {
 		
 		const {
+			products,
 			product,
 			seller,
 			showAlert,
 			quantity } = this.state;
+		
+		const sellerStore = `/sellerstore/${seller.id}`;
 
-		const productPotionComponents = this.state.potions.map(product => (
+		const productPotionComponents = products.map(product => (
 			<ProductCard
 			key={product.id}
 			product={product}
@@ -119,8 +127,8 @@ class ProductDetails extends React.Component{
 
 		UserRequests.getUserById(2)
 			.then((theUser) => {
-				this.setState({ seller: theUser });
-      });
+				this.setState({ user: theUser });
+		});
 
       const makeAlert = () => {
         if (showAlert) {
@@ -151,6 +159,12 @@ class ProductDetails extends React.Component{
                         onChange={this.quantityChange}>
                       </input>
 							</div>
+						</div>
+						<div id="soldBy">
+							<div className="mr-3">Sold by: </div>
+							<Link to={sellerStore}>
+								{seller.username}
+							</Link>
 						</div>
 						<div id="descriptionHeader">Description:</div>
 						<div id="productDetails">{product.description}</div>

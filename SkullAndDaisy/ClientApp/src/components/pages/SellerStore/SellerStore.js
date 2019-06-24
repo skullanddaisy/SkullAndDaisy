@@ -31,7 +31,7 @@ export default class SellerStore extends Component {
 		const productItemComponents = this.state.products.map(product => (
             <ProductCard
               product={product}
-              key={product.id}
+			  key={product.id}
 			  />));
 			  
 		return (

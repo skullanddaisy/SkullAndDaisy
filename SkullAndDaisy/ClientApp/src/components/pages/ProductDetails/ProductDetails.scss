@@ -114,6 +114,11 @@
 	height: 35px; 
 }
 
+#soldBy {
+	display: flex;
+	justify-content: left;
+}
+
 .alert {
 	z-index: 1 !important; 
 }
