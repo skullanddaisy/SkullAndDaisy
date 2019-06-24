@@ -1,14 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import productShape from '../../helpers/props/productShape';
+import orderShape from '../../helpers/props/orderShape';
 import formatPrice from '../../helpers/formatPrice';
 import formatProductType from '../../helpers/formatProductType';
+import productOrderRequests from '../../helpers/data/productOrderRequests';
 import './CartProductItem.scss';
 
 class CartProductItem extends React.Component {
   static propTypes = {
     product: productShape,
     cartHomeView: PropTypes.bool,
+    deleteProduct: PropTypes.func,
+    pendingOrder: orderShape,
+  }
+
+  deleteProductEvent = () => {
+    const { product, pendingOrder, deleteProduct } = this.props;
+    const productId = product.id;
+    const orderId = pendingOrder.id;
+    productOrderRequests.getProductOrderByIds(orderId, productId)
+      .then((result) => {
+        const productOrder = result.data;
+        deleteProduct(productOrder.id);
+      }).catch();
   }
 
   render() {
@@ -33,7 +48,7 @@ class CartProductItem extends React.Component {
       <td>{formatProductType(product.productTypeId)}</td>
       <td>{formatPrice(product.price)}</td>
       <td>
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick={this.deleteProductEvent}>
             <i className="fas fa-trash-alt"></i>
         </button>
         <button className="btn btn-default">

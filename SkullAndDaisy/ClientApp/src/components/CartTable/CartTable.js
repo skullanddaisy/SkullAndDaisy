@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'reactstrap';
 import productShape from '../../helpers/props/productShape';
+import orderShape from '../../helpers/props/orderShape';
 import CartProductItem from '../CartProductItem/CartProductItem';
 import './CartTable.scss';
 
@@ -10,16 +11,26 @@ export default class CartTable extends Component {
     products: PropTypes.arrayOf(productShape),
     cartHomeView: PropTypes.bool,
     goToCart: PropTypes.func,
+    deleteProduct: PropTypes.func,
+    pendingOrder: orderShape,
   }
 
   render() {
-    const { products, cartHomeView, goToCart } = this.props;
+    const {
+      products,
+      cartHomeView,
+      goToCart,
+      deleteProduct,
+      pendingOrder,
+    } = this.props;
 
     const cartProductItemComponents = products.map(product => (
       <CartProductItem
         product={product}
         key={product.id}
         cartHomeView={cartHomeView}
+        deleteProduct={deleteProduct}
+        pendingOrder={pendingOrder}
       />
     ));
 
