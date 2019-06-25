@@ -65,6 +65,7 @@ class SoldItem extends React.Component {
       numberOfProducts,
       firstProduct,
       showMore,
+      customer,
     } = this.state;
 
     const makeProductItemComponents = () => {
@@ -73,6 +74,7 @@ class SoldItem extends React.Component {
           <ProductItem
             product={product}
             key={product.id}
+            customer={customer}
           />
         ));
         return itemComponent;
@@ -81,6 +83,7 @@ class SoldItem extends React.Component {
         <ProductItem
           product={product}
           key={product.id}
+          customer={customer}
         />
       ));
       return itemComponents;
@@ -104,6 +107,9 @@ class SoldItem extends React.Component {
             <h3 className='text-left p-3'>Ordered {moment(order.orderDate).format('MMMM Do YYYY')}</h3>
             <h3 className='text-right p-3'>{numberOfProducts} item</h3>
           </div>
+          <div className='d-flex flex-wrap justify-content-between ml-3 mb-4'>
+            <h5>Customer: {customer.firstName} {customer.lastName}</h5>
+          </div>
           {makeProductItemComponents()}
         </div>
       );
@@ -114,6 +120,9 @@ class SoldItem extends React.Component {
         <div className='d-flex flex-wrap justify-content-between'>
         <h3 className='text-left p-3'>Ordered {moment(order.orderDate).format('MMMM Do YYYY')}</h3>
           <h3 className='text-right p-3'>{numberOfProducts} items</h3>
+        </div>
+        <div className='d-flex flex-wrap justify-content-between ml-3 mb-4'>
+            <h5>Customer: {customer.firstName} {customer.lastName}</h5>
         </div>
         {makeProductItemComponents()}
         {makeShowButtons()}
