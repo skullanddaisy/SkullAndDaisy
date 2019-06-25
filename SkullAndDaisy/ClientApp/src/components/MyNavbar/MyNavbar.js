@@ -18,6 +18,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import ProductRequest from '../../helpers/data/productRequests';
+import userRequests from '../../helpers/data/userRequests';
 import SearchTable from '../SearchTable/SearchTable';
 import './MyNavbar.scss';
 
@@ -32,6 +33,8 @@ class MyNavbar extends React.Component {
     dropdownOpen: false,
     products: [],
     filteredProducts: [],
+    sellers: [],
+    nonSellers: [],
   };
 
 getAllProducts = () => {
@@ -41,8 +44,19 @@ getAllProducts = () => {
     });
 }
 
+getAllSellers = () => {
+  userRequests.getAllUsers()
+    .then((users) => {
+      const mySellers = users.filter(x => x.products.length >= 1);
+      const nonSellers = users.filter(x => x.products.length === 0);
+      this.setState({ sellers: mySellers });
+      this.setState({ nonSellers });
+    });
+}
+
 componentDidMount() {
   this.getAllProducts();
+  this.getAllSellers();
 }
 
   onChange = (value, e) => {
