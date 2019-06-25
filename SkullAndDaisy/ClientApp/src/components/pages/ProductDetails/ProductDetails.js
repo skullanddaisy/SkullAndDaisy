@@ -14,6 +14,8 @@ import orderRequests from '../../../helpers/data/orderRequests';
 import productOrderRequests from '../../../helpers/data/productOrderRequests';
 import './ProductDetails.scss';
 import userRequests from '../../../helpers/data/userRequests';
+import LatestProducts from '../../../components/LatestProductsCard/LatestProductsCard';
+
 
 const defaultProductOrder = {
 	orderId: 0,
@@ -174,7 +176,9 @@ class ProductDetails extends React.Component{
 						</div>
 					</div>
 					<hr id="productDetailLine"></hr>
-					{productPotionComponents}
+					<h1 className="latestProductsTextx">Latest Products</h1>
+					<LatestProducts />
+					{/* {productPotionComponents} */}
 				</div>
 			</div>
 		);

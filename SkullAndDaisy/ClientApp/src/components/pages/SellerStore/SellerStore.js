@@ -58,7 +58,7 @@ export default class SellerStore extends Component {
 				</div>
 				<hr id="sellerProductsLine"></hr>
 				<div>
-					<h1>Products</h1>
+					<h3 id="moreProducts">More from {seller.username}</h3>
 					<div className="potionsContainer">
 						{productItemComponents}
 					</div>

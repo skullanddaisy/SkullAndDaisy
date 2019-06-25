@@ -18,6 +18,17 @@
   border-radius: 0.2rem;
 }
 
+#soldOutDiv {
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+}
+
+#theStamp {
+  width: 250px;
+  height: 250px;
+}
+
 .cardBody {
   text-align: center;
   background-color: lightgray;
