@@ -57,7 +57,11 @@ class CartProductItem extends React.Component {
   };
 
   saveChanges = () => {
-    this.updateProduct();
+    if (this.state.quantity === 0) {
+      this.deleteProductEvent();
+    } else {
+      this.updateProduct();
+    }
   }
 
   cancelChanges = () => {
