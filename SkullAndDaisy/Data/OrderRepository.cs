@@ -137,6 +137,7 @@ namespace SkullAndDaisy.Data
 
                             if (matchingProducts != null)
                             {
+                                matchingProducts.Quantity = productOrder.Quantity;
                                 theProducts.Add(matchingProducts);
                             }
                         }
