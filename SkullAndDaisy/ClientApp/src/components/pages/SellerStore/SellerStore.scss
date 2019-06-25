@@ -4,9 +4,8 @@
 }
 
 .sellerImageDiv {
-	width: 200px;
-	height: 200px;
-	background-color: black;
+	width: 350px;
+	height: 350px;
 	border-radius: 9em;
 	margin: 10px;
 }
@@ -31,9 +30,7 @@
 .sellerCard {
 	display: flex;
 	flex-direction: column;
-	flex-wrap:wrap;
-	justify-content: center;
-	padding-top: 30px;
+	color: black;
 	width: 30%;
 	height: 350px;
 	background-color: white;
@@ -42,6 +39,5 @@
 
 .sellerName {
 	color: black;
-	// text-align: left;
 	margin: 10px;
 }

@@ -41,7 +41,7 @@ export default class SellerStore extends Component {
 			  key={product.id}
 			  seller={seller}
 			/>));
-			  
+		const sellerEmail = `mailto: ${seller.email}`;
 		return (
 			<div className="sellerStoreContainer">
 				<h1>Seller Store</h1>
@@ -50,6 +50,9 @@ export default class SellerStore extends Component {
 						<h1 className="sellerName">{seller.username}</h1>
 						<div className="sellerImageDiv">
 							<img className='sellerStoreImg' src='https://www.greenmangaming.com/newsroom/wp-content/uploads/2019/05/SonicAlt2.jpg' alt='the devil' />
+						</div>
+						<div>
+							<a href={sellerEmail} >Send Email</a>
 						</div>
 					</div>
 				</div>
