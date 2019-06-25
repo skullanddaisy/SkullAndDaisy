@@ -47,7 +47,9 @@ export default class SellerStore extends Component {
 				<h1>Seller Store</h1>
 				<div className="cardContainer">
 					<div className="sellerCard">
-						<h1 className="sellerName">{seller.username}</h1>
+						<div id="sellerCardHeader">
+							<h1 className="sellerName">{seller.username}</h1>
+						</div>
 						<div className="sellerImageDiv">
 							<img className='sellerStoreImg' src='https://www.greenmangaming.com/newsroom/wp-content/uploads/2019/05/SonicAlt2.jpg' alt='the devil' />
 						</div>

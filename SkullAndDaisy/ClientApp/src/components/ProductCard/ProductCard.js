@@ -18,11 +18,10 @@ class ProductCard extends React.Component {
     if(product.quantity === 0) {
       return(
         <Link to={productDetails}>
-        <div id="soldOutDiv">
-          <img id="theStamp" src={soldOutStamp} alt="sold out"></img>
+          <div id="soldOutDiv">
+            <img id="theStamp" src={soldOutStamp} alt="sold out"></img>
           </div>
           <div id={product.id} className="productCard" onClick={this.setProductId}>
-            <div>
               <div className="imageDiv">
                 <img className='productImg' top src={product.imageUrl} alt={product.title} />
               </div>
@@ -32,7 +31,6 @@ class ProductCard extends React.Component {
                 {/* <div className="sellerName">${product.}</div> */}
               </div>
             </div>
-          </div>
       </Link>
       )
     }
