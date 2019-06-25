@@ -144,14 +144,24 @@ componentDidMount() {
       return <div></div>;
     };
 
+    const productsMode = (e) => {
+      e.preventDefault();
+      this.setState({ searchStatus: 'products' });
+    };
+
+    const sellersMode = (e) => {
+      e.preventDefault();
+      this.setState({ searchStatus: 'sellers' });
+    };
+
     const buildFilterButton = () => {
       if (this.state.searchStatus === 'products') {
         return (
-          <Button color="primary">Products</Button>
+          <Button color="primary" onClick={sellersMode}>Products</Button>
         );
       } if (this.state.searchStatus === 'sellers') {
         return (
-          <Button color="primary">Sellers</Button>
+          <Button color="warning" onClick={productsMode}>Sellers</Button>
         );
       }
       return '';
