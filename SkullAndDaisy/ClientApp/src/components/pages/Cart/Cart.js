@@ -9,9 +9,11 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
+  DropdownItem,
 } from 'reactstrap';
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
+import paymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
 import CartTable from '../../CartTable/CartTable';
 import './Cart.scss';
 import productOrderRequests from '../../../helpers/data/productOrderRequests';
@@ -35,6 +37,8 @@ class Cart extends Component {
     cartHomeView: false,
     modal: false,
     dropdownOpen: false,
+    dropDownValue: 'Choose Payment Method',
+    paymentMethods: [],
   }
 
   toggle = () => {
@@ -43,11 +47,21 @@ class Cart extends Component {
     });
   }
 
+  changeValue(e) {
+    this.setState({ dropDownValue: e.currentTarget.textContent });
+    this.toggle();
+  }
+
   componentDidMount() {
     userRequests.getUserIdByEmail()
       .then((userId) => {
         this.setState({ userId });
         this.setProductStates();
+        paymentTypeRequests.getPaymentTypesByUserId(userId)
+          .then((result) => {
+            const paymentMethods = result.data;
+            this.setState({ paymentMethods });
+          });
       }).catch((error) => {
         console.error(error);
       });
@@ -107,7 +121,18 @@ class Cart extends Component {
       pendingOrder,
       cartHomeView,
       modal,
+      dropDownValue,
+      paymentMethods,
     } = this.state;
+
+    const paymentMethodItems = paymentMethods.map(paymentMethod => (
+        <DropdownItem
+        key={paymentMethod.id}
+        value={paymentMethod.name}
+        onClick={this.changeValue}>
+        {paymentMethod.name}
+        </DropdownItem>
+    ));
 
     const makeModal = () => {
       if (modal) {
@@ -123,13 +148,10 @@ class Cart extends Component {
                   data-toggle="dropdown"
                   aria-expanded={this.state.dropdownOpen}
                 >
-                  Choose Payment Method
+                  {dropDownValue}
                 </DropdownToggle>
                 <DropdownMenu>
-                  <div onClick={this.toggle}>Payment 1</div>
-                  <div onClick={this.toggle}>Payment 2</div>
-                  <div onClick={this.toggle}>Payment 3</div>
-                  <div onClick={this.toggle}>Payment 4</div>
+                  {paymentMethodItems}
                 </DropdownMenu>
               </Dropdown>
               <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
