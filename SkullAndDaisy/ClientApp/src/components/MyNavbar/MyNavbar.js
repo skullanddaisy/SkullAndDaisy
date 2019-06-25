@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import SearchField from 'react-search-field';
 import {
+  Button,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -35,6 +36,7 @@ class MyNavbar extends React.Component {
     filteredProducts: [],
     sellers: [],
     nonSellers: [],
+    searchStatus: 'products',
   };
 
 getAllProducts = () => {
@@ -142,10 +144,24 @@ componentDidMount() {
       return <div></div>;
     };
 
+    const buildFilterButton = () => {
+      if (this.state.searchStatus === 'products') {
+        return (
+          <Button color="primary">Products</Button>
+        );
+      } if (this.state.searchStatus === 'sellers') {
+        return (
+          <Button color="primary">Sellers</Button>
+        );
+      }
+      return '';
+    };
+
     const buildNavbar = () => {
       if (isAuthed) {
         return (
           <Nav className="ml-auto" navbar>
+            {buildFilterButton()}
             <SearchField
               placeholder="Search Skull and Daisy..."
               onChange={this.onChange}
