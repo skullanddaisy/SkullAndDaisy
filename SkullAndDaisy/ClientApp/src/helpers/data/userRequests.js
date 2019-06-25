@@ -33,7 +33,7 @@ const getSingleUser = () => new Promise((resolve, reject) => {
 
 
 const getUserById = userId => new Promise((resolve, reject) => {
-  axios.get(`${sadApiBaseUrl}/${userId}`)
+  axios.get(`${sadApiBaseUrl}/users/${userId}`)
     .then((result) => {
       if (result != null) {
         const user = result.data;

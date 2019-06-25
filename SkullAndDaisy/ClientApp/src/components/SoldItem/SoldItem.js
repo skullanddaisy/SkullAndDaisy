@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Button } from 'reactstrap';
 import ProductItem from '../ProductItem/ProductItem';
 import orderShape from '../../helpers/props/orderShape';
+import userRequests from '../../helpers/data/userRequests';
 import './SoldItem.scss';
 
 class SoldItem extends React.Component {
@@ -12,13 +13,26 @@ class SoldItem extends React.Component {
 
   state = {
     orderProducts: [],
+    customer: {},
     numberOfProducts: 0,
     firstProduct: [],
     showMore: false,
   }
 
+  getCustomer = () => {
+    const customerId = this.props.order.userId;
+    userRequests.getUserById(customerId)
+      .then((customer) => {
+        this.setState({ customer });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   componentDidMount() {
     this.countProducts();
+    this.getCustomer();
   }
 
   showMore = () => {
@@ -47,7 +61,11 @@ class SoldItem extends React.Component {
   render() {
     const { order } = this.props;
 
-    const { numberOfProducts, firstProduct, showMore } = this.state;
+    const {
+      numberOfProducts,
+      firstProduct,
+      showMore,
+    } = this.state;
 
     const makeProductItemComponents = () => {
       if (numberOfProducts === 1 || showMore === true) {
