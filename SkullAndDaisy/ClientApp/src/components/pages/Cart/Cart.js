@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import {
   Card,
   Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
 } from 'reactstrap';
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
@@ -26,6 +33,14 @@ class Cart extends Component {
     numberOfProducts: 0,
     totalPriceOfOrder: 0,
     cartHomeView: false,
+    modal: false,
+    dropdownOpen: false,
+  }
+
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
+    });
   }
 
   componentDidMount() {
@@ -36,6 +51,14 @@ class Cart extends Component {
       }).catch((error) => {
         console.error(error);
       });
+  }
+
+  openProcessOrder = () => {
+    this.setState({ modal: true });
+  }
+
+  closeModal = () => {
+    this.setState({ modal: false });
   }
 
   setProductStates = () => {
@@ -83,10 +106,48 @@ class Cart extends Component {
       totalPriceOfOrder,
       pendingOrder,
       cartHomeView,
+      modal,
     } = this.state;
+
+    const makeModal = () => {
+      if (modal) {
+        return (
+          <div>
+            <Modal isOpen={this.state.modal} className={this.props.className}>
+              <ModalHeader toggle={this.toggle}>Checkout</ModalHeader>
+              <ModalBody>
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle
+                  tag="span"
+                  onClick={this.toggle}
+                  data-toggle="dropdown"
+                  aria-expanded={this.state.dropdownOpen}
+                >
+                  Choose Payment Method
+                </DropdownToggle>
+                <DropdownMenu>
+                  <div onClick={this.toggle}>Payment 1</div>
+                  <div onClick={this.toggle}>Payment 2</div>
+                  <div onClick={this.toggle}>Payment 3</div>
+                  <div onClick={this.toggle}>Payment 4</div>
+                </DropdownMenu>
+              </Dropdown>
+              <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.toggle}>Process Order</Button>{' '}
+                <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </div>
+        );
+      }
+      return <div></div>;
+    };
 
     return (
       <div className = 'Cart'>
+        {makeModal()}
           <Card className='cartCard m-4'>
             <h3 className='d-flex align-self-start m-3'>Shopping Cart</h3>
             <div>
@@ -100,7 +161,7 @@ class Cart extends Component {
             </div>
             <div className='subTotalCard'>
               <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
-              <Button className='proceedButton btn-warning m-2'>Proceed To Checkout</Button>
+              <Button className='proceedButton btn-warning m-2' onClick={this.openProcessOrder}>Proceed To Checkout</Button>
             </div>
         </Card>
       </div>
