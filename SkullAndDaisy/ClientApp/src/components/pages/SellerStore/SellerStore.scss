@@ -8,7 +8,7 @@
 	height: 200px;
 	background-color: black;
 	border-radius: 9em;
-	margin-left: 40px;
+	margin: 10px;
 }
 
 .sellerStoreImg {
@@ -29,9 +29,19 @@
 }
 
 .sellerCard {
+	display: flex;
+	flex-direction: column;
+	flex-wrap:wrap;
+	justify-content: center;
 	padding-top: 30px;
-	width: 90%;
-	height: 300px;
+	width: 30%;
+	height: 350px;
 	background-color: white;
 	border-radius: 1rem;
+}
+
+.sellerName {
+	color: black;
+	// text-align: left;
+	margin: 10px;
 }
