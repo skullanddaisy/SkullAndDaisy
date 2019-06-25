@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import userRequests from '../../../helpers/data/userRequests';
 import orderRequests from '../../../helpers/data/orderRequests';
+import SoldItem from '../../SoldItem/SoldItem';
+import './SellerOrderHistory.scss';
 
 export default class SellerOrderHistory extends Component {
   state = {
     userId: 0,
-    sellerOrders: [],
+    mySales: [],
   }
 
   componentDidMount() {
@@ -20,7 +22,7 @@ export default class SellerOrderHistory extends Component {
                 sales.push(sellerOrder);
               }
             });
-            this.setState({ sellerOrders: sales });
+            this.setState({ mySales: sales });
           });
       })
       .catch((error) => {
@@ -29,9 +31,23 @@ export default class SellerOrderHistory extends Component {
   }
 
   render() {
+    const { mySales } = this.state;
+
+    const SalesItemComponents = mySales.map(order => (
+      <SoldItem
+        order={order}
+        key={order.id}
+      />
+    ));
+
     return (
-      <div>
-        <h2>Your Sales</h2>
+      <div className='orders'>
+        <div>
+          <h2 className='header m-4'>Seller Order History</h2>
+        </div>
+        <div>
+          {SalesItemComponents}
+        </div>
       </div>
     );
   }
