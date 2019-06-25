@@ -81,14 +81,18 @@ class ProductDetails extends React.Component {
           newProductOrder.productId = this.state.product.id;
           newProductOrder.orderId = pendingOrder[0].id;
           newProductOrder.quantity = this.state.quantity;
-          this.setState({ newProductOrder, showAlert: true });
-          productOrderRequests.addProductOrder(this.state.newProductOrder).then();
+          this.setState({ newProductOrder });
+          productOrderRequests.addProductOrder(this.state.newProductOrder).then(() => {
+           this.setState({ showAlert: true });
+          });
         } else {
           productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
           .then((res) => {
             const productOrder = res.data;
             productOrder.quantity = this.state.quantity + productOrder.quantity;
-            productOrderRequests.updateProductOrder(productOrder).then();
+            productOrderRequests.updateProductOrder(productOrder).then(() => {
+              this.setState({ showAlert: true });
+            });
           }).catch();
         }
       }).catch();
