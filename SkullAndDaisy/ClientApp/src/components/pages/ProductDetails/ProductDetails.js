@@ -15,7 +15,7 @@ import productOrderRequests from '../../../helpers/data/productOrderRequests';
 import './ProductDetails.scss';
 import userRequests from '../../../helpers/data/userRequests';
 import LatestProducts from '../../../components/LatestProductsCard/LatestProductsCard';
-
+import soldOutStamp from '../../../img/sold-out-stamp-1.png';
 
 const defaultProductOrder = {
 	orderId: 0,
@@ -146,6 +146,9 @@ class ProductDetails extends React.Component{
           {makeAlert()}
 				<div className="productDetailsContainer">
 					<div id="leftCol" className="leftCol">
+					<div id="soldOutDiv">
+						<img id="theStamp" src={soldOutStamp} alt="sold out"></img>
+					</div>
 						<div className="imageDiv">
 							<img className='productDetailImg' top src={product.imageUrl} alt={product.title} />
 						</div>
