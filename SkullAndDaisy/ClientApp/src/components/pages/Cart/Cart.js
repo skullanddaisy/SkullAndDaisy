@@ -91,7 +91,7 @@ class Cart extends Component {
       orderRequests.updateOrder(myOrder)
         .then(() => {
           console.log('order has been placed');
-          this.setProductStates();
+          this.createNewPendingOrder();
         })
         .catch((error) => {
           console.error(error);
@@ -99,12 +99,29 @@ class Cart extends Component {
     }
   }
 
+  createNewPendingOrder = () => {
+    const { pendingOrder, userId, paymentMethodKey } = this.state;
+    const newPendingOrder = { ...pendingOrder };
+    newPendingOrder.orderstatus = 'Pending';
+    newPendingOrder.total = 0.00;
+    newPendingOrder.orderDate = new Date();
+    newPendingOrder.paymentTypeId = paymentMethodKey;
+    newPendingOrder.userId = userId;
+    orderRequests.addOrder(newPendingOrder)
+      .then(() => {
+        this.setProductStates();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   setProductStates = () => {
     orderRequests.getPendingOrder(this.state.userId)
       .then((result) => {
+        const pendingOrder = result.data[0];
         let numberOfProducts = 0;
         let price = 0;
-        const pendingOrder = result.data[0];
         const orderProducts = pendingOrder.products;
         for (let i = 0; i < orderProducts.length; i += 1) {
           numberOfProducts += orderProducts[i].quantity;
@@ -195,12 +212,11 @@ class Cart extends Component {
       return <div></div>;
     };
 
-    return (
-      <div className = 'Cart'>
-        {makeModal()}
-          <Card className='cartCard m-4'>
-            <h3 className='d-flex align-self-start m-3'>Shopping Cart</h3>
-            <div>
+    const makeCartTable = () => {
+      if (pendingOrder.products.length === 0) {
+        return <h4>You have no items in your cart.</h4>;
+      }
+      return <div>
               <CartTable
               products={pendingOrder.products}
               cartHomeView={cartHomeView}
@@ -208,7 +224,15 @@ class Cart extends Component {
               updateProduct={this.updateProduct}
               pendingOrder={pendingOrder}
               />
-            </div>
+            </div>;
+    };
+
+    return (
+      <div className = 'Cart'>
+        {makeModal()}
+          <Card className='cartCard m-4'>
+            <h3 className='d-flex align-self-start m-3'>Shopping Cart</h3>
+            {makeCartTable()}
             <div className='subTotalCard'>
               <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
               <Button className='proceedButton btn-warning m-2' onClick={this.openProcessOrder}>Proceed To Checkout</Button>

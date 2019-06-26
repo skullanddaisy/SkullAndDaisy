@@ -80,7 +80,7 @@ class CartProductItem extends React.Component {
     if (cartHomeView === true) {
       return (
         <tr className="cart-item">
-        <tb><img className='cartHomeImg' src={product.imageUrl} alt='this is a product' /></tb>
+        <th><img className='cartHomeImg' src={product.imageUrl} alt='this is a product' /></th>
           <th>{product.title}</th>
           <td>{product.quantity}</td>
           <td>{formatPrice(product.price)}</td>
@@ -91,7 +91,7 @@ class CartProductItem extends React.Component {
     if (isEditing === true) {
       return (
         <tr className="cart-item">
-        <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+        <th><img className='product-img' src={product.imageUrl} alt='this is a product' /></th>
         <th><div className='mb-2'>{product.title}</div>{product.description}</th>
         <td>
           <input
@@ -116,7 +116,7 @@ class CartProductItem extends React.Component {
 
     return (
       <tr className="cart-item">
-      <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+      <th><img className='product-img' src={product.imageUrl} alt='this is a product' /></th>
       <th><div className='mb-2'>{product.title}</div>{product.description}</th>
       <td>{product.quantity}</td>
       <td>{formatProductType(product.productTypeId)}</td>

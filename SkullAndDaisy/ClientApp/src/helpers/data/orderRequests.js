@@ -11,6 +11,8 @@ const getShippedOrders = userId => axios.get(`${sadApiBaseUrl}/orders/getMyOrder
 
 const updateOrder = orderObject => axios.put(`${sadApiBaseUrl}/orders/updateOrder`, orderObject);
 
+const addOrder = orderObject => axios.post(`${sadApiBaseUrl}/orders/addorder`, orderObject);
+
 const getAllMyOrders = userId => new Promise((resolve, reject) => {
   axios.get(`${sadApiBaseUrl}/orders/getallmyorders/${userId}`)
     .then((result) => {
@@ -76,4 +78,5 @@ export default {
   getTotalSales,
   getUnshippedItems,
   updateOrder,
+  addOrder,
 };
