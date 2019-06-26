@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import SearchField from 'react-search-field';
 import {
+  Button,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -18,7 +19,9 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import ProductRequest from '../../helpers/data/productRequests';
+import userRequests from '../../helpers/data/userRequests';
 import SearchTable from '../SearchTable/SearchTable';
+import SearchTableSellers from '../SearchTableSellers/SearchTableSellers';
 import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
@@ -32,6 +35,10 @@ class MyNavbar extends React.Component {
     dropdownOpen: false,
     products: [],
     filteredProducts: [],
+    sellers: [],
+    filteredSellers: [],
+    nonSellers: [],
+    searchStatus: 'products',
   };
 
 getAllProducts = () => {
@@ -41,8 +48,19 @@ getAllProducts = () => {
     });
 }
 
+getAllSellers = () => {
+  userRequests.getAllUsers()
+    .then((users) => {
+      const mySellers = users.filter(x => x.products.length >= 1);
+      const nonSellers = users.filter(x => x.products.length === 0);
+      this.setState({ sellers: mySellers });
+      this.setState({ nonSellers });
+    });
+}
+
 componentDidMount() {
   this.getAllProducts();
+  this.getAllSellers();
 }
 
   onChange = (value, e) => {
@@ -60,6 +78,25 @@ componentDidMount() {
         }
         this.setState({ filteredProducts });
 		  });
+    }
+  }
+
+  onChangeSellers = (value, e) => {
+    const { sellers } = this.state;
+    const filteredSellers = [];
+    e.preventDefault();
+    if (!value) {
+      this.setState({ filteredSellers: [] });
+    } else {
+      sellers.forEach((result) => {
+        if (result.firstName.toLowerCase().includes(value.toLowerCase())
+        || result.lastName.toLowerCase().includes(value.toLowerCase())
+        || result.username.toLowerCase().includes(value.toLowerCase())
+        ) {
+          filteredSellers.push(result);
+        }
+        this.setState({ filteredSellers });
+      });
     }
   }
 
@@ -81,6 +118,25 @@ componentDidMount() {
     }
   }
 
+  onEnterSellers = (value, e) => {
+    const { sellers } = this.state;
+    const filteredSellers = [];
+    e.preventDefault();
+    if (!value) {
+      this.setState({ filteredSellers: sellers });
+    } else {
+      sellers.forEach((result) => {
+        if (result.firstName.toLowerCase().includes(value.toLowerCase())
+        || result.lastName.toLowerCase().includes(value.toLowerCase())
+        || result.username.toLowerCase().includes(value.toLowerCase())
+        ) {
+          filteredSellers.push(result);
+        }
+        this.setState({ filteredSellers });
+      });
+    }
+  }
+
   onSearchClick = (value, e) => {
     const { products } = this.state;
     const filteredProducts = [];
@@ -96,6 +152,25 @@ componentDidMount() {
         }
         this.setState({ filteredProducts });
 		  });
+    }
+  }
+
+  onSearchClickSellers = (value, e) => {
+    const { sellers } = this.state;
+    const filteredSellers = [];
+    e.preventDefault();
+    if (!value) {
+      this.setState({ filteredSellers: sellers });
+    } else {
+      sellers.forEach((result) => {
+        if (result.firstName.toLowerCase().includes(value.toLowerCase())
+        || result.lastName.toLowerCase().includes(value.toLowerCase())
+        || result.username.toLowerCase().includes(value.toLowerCase())
+        ) {
+          filteredSellers.push(result);
+        }
+        this.setState({ filteredSellers });
+      });
     }
   }
 
@@ -128,15 +203,77 @@ componentDidMount() {
       return <div></div>;
     };
 
+    const buildSearchResultsSellers = () => {
+      const { filteredSellers } = this.state;
+      if (filteredSellers.length > 0) {
+        return (
+          <div id="searchResults">
+            <div className='searchResultsCard'>
+              <SearchTableSellers sellers={filteredSellers} />
+            </div>
+          </div>
+        );
+      }
+      return <div></div>;
+    };
+
+    const productsMode = (e) => {
+      e.preventDefault();
+      this.setState({ searchStatus: 'products' });
+    };
+
+    const sellersMode = (e) => {
+      e.preventDefault();
+      this.setState({ searchStatus: 'sellers' });
+    };
+
+    const buildFilterButton = () => {
+      if (this.state.searchStatus === 'products') {
+        return (
+          <Button color="primary" onClick={sellersMode}>Products</Button>
+        );
+      } if (this.state.searchStatus === 'sellers') {
+        return (
+          <Button color="warning" onClick={productsMode}>Sellers</Button>
+        );
+      }
+      return '';
+    };
+
     const buildNavbar = () => {
-      if (isAuthed) {
+      const { searchStatus } = this.state;
+      if (isAuthed && searchStatus === 'products') {
         return (
           <Nav className="ml-auto" navbar>
+            {buildFilterButton()}
             <SearchField
               placeholder="Search Skull and Daisy..."
               onChange={this.onChange}
               onEnter={this.onEnter}
               onSearchClick={this.onSearchClick}
+              searchText=""
+              classNames="searchBar"
+            />
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/useraccount'>User Account</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/cart'>Cart</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className='logout-link' onClick={logoutClicky}>Logout</NavLink>
+            </NavItem>
+          </Nav>
+        );
+      } if (isAuthed && searchStatus === 'sellers') {
+        return (
+          <Nav className="ml-auto" navbar>
+            {buildFilterButton()}
+            <SearchField
+              placeholder="Search Skull and Daisy..."
+              onChange={this.onChangeSellers}
+              onEnter={this.onEnterSellers}
+              onSearchClick={this.onSearchClickSellers}
               searchText=""
               classNames="searchBar"
             />
@@ -204,6 +341,7 @@ componentDidMount() {
           </Collapse>
         </Navbar>
         {buildSearchResults()}
+        {buildSearchResultsSellers()}
       </div>
     );
   }

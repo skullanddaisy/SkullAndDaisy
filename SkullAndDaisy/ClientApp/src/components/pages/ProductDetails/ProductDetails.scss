@@ -20,6 +20,16 @@
 	width: max-content;
 }
 
+#soldOutDiv {
+	position: absolute;
+	margin-left: 120px;
+}
+
+#theStamp {
+	width: 300px;
+	height: 300px;
+}
+
 #middleCol {
 	display: flex;
 	justify-content: left;
@@ -105,7 +115,7 @@
 .productDetailsButtonContainer {
 	display: flex;
 	justify-content: center;
-	margin-top: 200px; 
+	margin-top: 100px; 
 }
 
 .productDetailsButton {
@@ -114,6 +124,15 @@
 	height: 35px; 
 }
 
+#soldBy {
+	display: flex;
+	justify-content: left;
+}
+
 .alert {
 	z-index: 1 !important; 
+}
+
+.latestProductsTextx {
+
 }
