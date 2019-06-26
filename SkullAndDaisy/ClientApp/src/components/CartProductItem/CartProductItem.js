@@ -5,6 +5,7 @@ import orderShape from '../../helpers/props/orderShape';
 import formatPrice from '../../helpers/formatPrice';
 import formatProductType from '../../helpers/formatProductType';
 import productOrderRequests from '../../helpers/data/productOrderRequests';
+import { Link } from 'react-router-dom';
 import './CartProductItem.scss';
 
 class CartProductItem extends React.Component {
@@ -76,12 +77,21 @@ class CartProductItem extends React.Component {
   render() {
     const { product, cartHomeView } = this.props;
     const { isEditing, quantity } = this.state;
+    const productDetails = `/productdetails/${product.id}`
 
     if (cartHomeView === true) {
       return (
         <tr className="cart-item">
-        <tb><img className='cartHomeImg' src={product.imageUrl} alt='this is a product' /></tb>
-          <th>{product.title}</th>
+          <tb>
+            <Link to={productDetails}>
+              <img className='cartHomeImg' src={product.imageUrl} alt='this is a product' />
+            </Link>
+          </tb>
+          <th>
+            <Link to={productDetails}>
+              {product.title}
+            </Link>
+          </th>
           <td>{product.quantity}</td>
           <td>{formatPrice(product.price)}</td>
         </tr>
@@ -116,20 +126,26 @@ class CartProductItem extends React.Component {
 
     return (
       <tr className="cart-item">
-      <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
-      <th><div className='mb-2'>{product.title}</div>{product.description}</th>
-      <td>{product.quantity}</td>
-      <td>{formatProductType(product.productTypeId)}</td>
-      <td>{formatPrice(product.price)}</td>
-      <td>
-        <button className="btn btn-default" onClick={this.deleteProductEvent}>
-            <i className="fas fa-trash-alt"></i>
-        </button>
-        <button className="btn btn-default" onClick={this.showEditForm}>
-            <i className="fas fa-pencil-alt"></i>
-        </button>
-      </td>
-    </tr>
+        <Link to={productDetails}>
+          <tb><img clasName='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+        </Link>
+        <th>
+          <Link to={productDetails}>
+          <div className='mb-2'>{product.title}</div>{product.description}
+          </Link>
+        </th>
+        <td>{product.quantity}</td>
+        <td>{formatProductType(product.productTypeId)}</td>
+        <td>{formatPrice(product.price)}</td>
+        <td>
+          <button className="btn btn-default" onClick={this.deleteProductEvent}>
+              <i className="fas fa-trash-alt"></i>
+          </button>
+          <button className="btn btn-default" onClick={this.showEditForm}>
+              <i className="fas fa-pencil-alt"></i>
+          </button>
+          </td>
+        </tr>
     );
   }
 }
