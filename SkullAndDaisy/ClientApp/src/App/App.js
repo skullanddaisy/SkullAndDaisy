@@ -35,14 +35,14 @@ import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
-    ? (<Component { ...props } {... rest} />)
+    ? (<Component { ...props } {... rest} key={props.location.pathname}/>)
     : (<Redirect to={{ pathname: '/home', state: { from: props.location } }}/>));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === true
-    ? (<Component {...props } />)
+    ? (<Component {...props } key={props.location.pathname} />)
     : (<Redirect to={{ pathname: '/auth', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
@@ -107,7 +107,7 @@ class App extends React.Component {
                 <PrivateRoute path='/customerorders/' component={CustomerOrders} authed={this.state.authed} />
                 <PrivateRoute path='/sellerproducts/' component={SellerProducts} authed={this.state.authed} />
                 <PrivateRoute path='/productdetails/:id' component={ProductDetails} authed={this.state.authed} />
-                <PrivateRoute path='/sellerstore' component={SellerStore} authed={this.state.authed} />
+                <PrivateRoute path='/sellerstore/:id' component={SellerStore} authed={this.state.authed} />
                 <PrivateRoute path='/order/history/seller' exact authed={this.state.authed} component={SellerOrderHistory} />
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
