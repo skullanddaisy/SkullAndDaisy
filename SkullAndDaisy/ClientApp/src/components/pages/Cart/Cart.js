@@ -37,8 +37,9 @@ class Cart extends Component {
     cartHomeView: false,
     modal: false,
     dropdownOpen: false,
-    dropDownValue: 'Choose Payment Method',
+    dropDownValue: 'Choose...',
     paymentMethods: [],
+    paymentMethodKey: 0,
   }
 
   toggle = () => {
@@ -47,9 +48,11 @@ class Cart extends Component {
     });
   }
 
-  changeValue(e) {
-    this.setState({ dropDownValue: e.currentTarget.textContent });
-    this.toggle();
+  changeValue = (e) => {
+    const dropDownValue = e.target.value;
+    let paymentMethodKey = e.target.id;
+    paymentMethodKey *= 1;
+    this.setState({ dropDownValue, paymentMethodKey });
   }
 
   componentDidMount() {
@@ -73,6 +76,27 @@ class Cart extends Component {
 
   closeModal = () => {
     this.setState({ modal: false });
+  }
+
+  processOrder = () => {
+    const { paymentMethodKey, pendingOrder, totalPriceOfOrder } = this.state;
+    if (paymentMethodKey === 0) {
+      console.log('choose a payment method');
+    } else {
+      const myOrder = { ...pendingOrder };
+      myOrder.paymentTypeId = paymentMethodKey;
+      myOrder.orderStatus = 'Complete';
+      myOrder.total = totalPriceOfOrder;
+      myOrder.orderDate = new Date();
+      orderRequests.updateOrder(myOrder)
+        .then(() => {
+          console.log('order has been placed');
+          this.setProductStates();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }
 
   setProductStates = () => {
@@ -127,7 +151,7 @@ class Cart extends Component {
 
     const paymentMethodItems = paymentMethods.map(paymentMethod => (
         <DropdownItem
-        key={paymentMethod.id}
+        id={paymentMethod.id}
         value={paymentMethod.name}
         onClick={this.changeValue}>
         {paymentMethod.name}
@@ -139,17 +163,21 @@ class Cart extends Component {
         return (
           <div>
             <Modal isOpen={this.state.modal} className={this.props.className}>
-              <ModalHeader toggle={this.toggle}>Checkout</ModalHeader>
+              <ModalHeader>Checkout</ModalHeader>
               <ModalBody>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <div className='p-1'>
+                  <strong className='p-1'>Payment Method:</strong>
                 <DropdownToggle
                   tag="span"
                   onClick={this.toggle}
                   data-toggle="dropdown"
                   aria-expanded={this.state.dropdownOpen}
+                  caret
                 >
                   {dropDownValue}
                 </DropdownToggle>
+                </div>
                 <DropdownMenu>
                   {paymentMethodItems}
                 </DropdownMenu>
@@ -157,7 +185,7 @@ class Cart extends Component {
               <p className='subTotalText mt-3'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={this.toggle}>Process Order</Button>{' '}
+                <Button color="primary" onClick={this.processOrder}>Process Order</Button>{' '}
                 <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
               </ModalFooter>
             </Modal>
