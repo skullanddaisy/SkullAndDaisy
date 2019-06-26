@@ -5,6 +5,7 @@ import {
 	Button,
 	Alert,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
 import ProductCard from '../../ProductCard/ProductCard';
@@ -12,48 +13,62 @@ import UserRequests from '../../../helpers/data/userRequests';
 import orderRequests from '../../../helpers/data/orderRequests';
 import productOrderRequests from '../../../helpers/data/productOrderRequests';
 import './ProductDetails.scss';
+import userRequests from '../../../helpers/data/userRequests';
+import LatestProducts from '../../../components/LatestProductsCard/LatestProductsCard';
 
 
 const defaultProductOrder = {
-  orderId: 0,
-  productId: 0,
-  quantity: 0,
-};
+	orderId: 0,
+	productId: 0,
+	quantity: 0
+  };
 
-class ProductDetails extends React.Component {
-  state = {
-    product: productShape,
+class ProductDetails extends React.Component{
+	
+	state = {
+		product: productShape,
+		products: [],
+		sellerId: 0,
+		seller: {},
 		user: {},
 		potions: [],
 		crystals: [],
 		poisons: [],
 		herbs: [],
-    userId: 0,
-    newProductOrder: defaultProductOrder,
+		userId: 0,
+		newProductOrder: defaultProductOrder,
 		quantity: 1,
 		showAlert: false,
-  }
+	}
 
-  componentDidMount() {
-    const productId = this.props.match.params.id;
+	componentDidMount() {
+		// const { sellerId } = this.state;
+		const productId = this.props.match.params.id;
 		ProductRequest.getProductById(productId)
 		.then((productById) => {
 			this.setState({ product: productById });
-		});
-		ProductRequest.getProductsByType(1)
-			.then((potions) => {
-				this.setState({ potions });
+			this.setState({ sellerId: productById.userId })
+			userRequests.getUserById(this.state.sellerId)
+				.then((theSeller) => {
+					console.log(theSeller);
+					this.setState({ seller: theSeller });
+					ProductRequest.getSellersProducts(theSeller.id)
+						.then((productsByUserId) => {
+							console.log(productsByUserId);
+							this.setState({ products: productsByUserId });
+						})
+					.catch((err) => {
+				  console.error("Wasn't able to get seller products.", err);
+				});
 			})
-		.catch((err) => {
-      console.error("Wasn't able to get potions.", err);
-    });
-    UserRequests.getUserIdByEmail()
-      .then((userId) => {
-        this.setState({ userId });
-      }).catch((error) => {
-        console.error(error);
-      });
-  }
+		});
+		UserRequests.getUserIdByEmail()
+		  .then((userId) => {
+			this.setState({ userId });
+		  }).catch((error) => {
+			console.error(error);
+		  });
+	}
 
   onDismiss = () => {
     this.setState({ showAlert: false });
@@ -65,58 +80,57 @@ class ProductDetails extends React.Component {
 		this.setState({ quantity });
 	};
 
-  addToCart = () => {
-    orderRequests.getPendingOrder(this.state.userId)
-      .then((result) => {
-        const pendingOrder = result.data;
-        const orderProducts = pendingOrder[0].products;
-        let matchingProduct;
-        for (let i = 0; i < orderProducts.length; i += 1) {
-          if (orderProducts[i].id === this.state.product.id) {
-            matchingProduct = orderProducts[i];
-          }
-        }
-        if (matchingProduct === undefined) {
-          const newProductOrder = { ...this.state.newProductOrder };
-          newProductOrder.productId = this.state.product.id;
-          newProductOrder.orderId = pendingOrder[0].id;
-          newProductOrder.quantity = this.state.quantity;
-          this.setState({ newProductOrder });
-          productOrderRequests.addProductOrder(this.state.newProductOrder).then(() => {
-           this.setState({ showAlert: true });
-          });
-        } else {
-          productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
-          .then((res) => {
-            const productOrder = res.data;
-            productOrder.quantity = this.state.quantity + productOrder.quantity;
-            productOrderRequests.updateProductOrder(productOrder).then(() => {
-              this.setState({ showAlert: true });
-            });
-          }).catch();
-        }
-      }).catch();
-    }
+	addToCart = () => {
+		orderRequests.getPendingOrder(this.state.userId)
+		  .then((result) => {
+			const pendingOrder = result.data;
+			const orderProducts = pendingOrder[0].products;
+			let matchingProduct;
+			for (let i = 0; i < orderProducts.length; i += 1) {
+			  if (orderProducts[i].id === this.state.product.id) {
+				matchingProduct = orderProducts[i];
+			  }
+			}
+			if (matchingProduct === undefined) {
+			  const newProductOrder = { ...this.state.newProductOrder };
+			  newProductOrder.productId = this.state.product.id;
+			  newProductOrder.orderId = pendingOrder[0].id;
+			  newProductOrder.quantity = this.state.quantity;
+			  this.setState({ newProductOrder, showAlert: true });
+			  productOrderRequests.addProductOrder(this.state.newProductOrder).then();
+			} else {
+			  productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
+			  .then((res) => {
+				const productOrder = res.data;
+				productOrder.quantity = this.state.quantity + productOrder.quantity;
+				productOrderRequests.updateProductOrder(productOrder).then();
+			  }).catch();
+			}
+		  }).catch();
+		}
 
 	render() {
+		
 		const {
-      product,
-      user,
-      showAlert,
-      quantity,
-    } = this.state;
+			products,
+			product,
+			seller,
+			showAlert,
+			quantity } = this.state;
+		
+		const sellerStore = `/sellerstore/${seller.id}`;
 
-		const productPotionComponents = this.state.potions.map(theProduct => (
+		const productPotionComponents = products.map(product => (
 			<ProductCard
-			key={theProduct.id}
-			product={theProduct}
-			user={user}
+			key={product.id}
+			product={product}
+			seller={seller}
 			/>));
 
 		UserRequests.getUserById(2)
 			.then((theUser) => {
 				this.setState({ user: theUser });
-      });
+		});
 
       const makeAlert = () => {
         if (showAlert) {
@@ -148,6 +162,12 @@ class ProductDetails extends React.Component {
                       </input>
 							</div>
 						</div>
+						<div id="soldBy">
+							<div className="mr-3">Sold by: </div>
+							<Link to={sellerStore}>
+								{seller.username}
+							</Link>
+						</div>
 						<div id="descriptionHeader">Description:</div>
 						<div id="productDetails">{product.description}</div>
 						<div className="productDetailsButtonContainer">
@@ -156,11 +176,12 @@ class ProductDetails extends React.Component {
 						</div>
 					</div>
 					<hr id="productDetailLine"></hr>
-					{productPotionComponents}
+					<h1 className="latestProductsTextx">Latest Products</h1>
+					<LatestProducts />
+					{/* {productPotionComponents} */}
 				</div>
 			</div>
 		);
 	}
 }
-
 export default ProductDetails;

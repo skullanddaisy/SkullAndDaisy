@@ -4,17 +4,21 @@
 }
 
 .sellerImageDiv {
-	width: 200px;
-	height: 200px;
-	background-color: black;
 	border-radius: 9em;
-	margin-left: 40px;
+	margin: 15px 0;
 }
 
 .sellerStoreImg {
+
 	width: 200px;
 	height: 200px;
 	border-radius: 9em;
+}
+
+#sellerCardHeader {
+	height: 80px;
+	background-color: lightgray;
+	border-radius: 1rem 1rem 0rem 0rem;
 }
 
 // .sellerStoreContainer {
@@ -29,9 +33,20 @@
 }
 
 .sellerCard {
-	padding-top: 30px;
-	width: 90%;
-	height: 300px;
+	display: flex;
+	flex-direction: column;
+	color: black;
+	width: 60%;
+	height: 350px;
 	background-color: white;
 	border-radius: 1rem;
+}
+
+#moreProducts {
+	color: white;
+}
+
+.sellerName {
+	color: black;
+	margin: 10px;
 }
