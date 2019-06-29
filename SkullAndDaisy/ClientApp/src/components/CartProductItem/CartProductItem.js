@@ -83,11 +83,11 @@ class CartProductItem extends React.Component {
     if (cartHomeView === true) {
       return (
         <tr className="cart-item">
-          <tb>
+          <th>
             <Link to={productDetails}>
               <img className='cartHomeImg' src={product.imageUrl} alt='this is a product' />
             </Link>
-          </tb>
+          </th>
           <th>
             <Link to={productDetails}>
               {product.title}
@@ -128,7 +128,7 @@ class CartProductItem extends React.Component {
     return (
       <tr className="cart-item">
         <Link to={productDetails}>
-          <tb><img clasName='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+          <th><img className='product-img' src={product.imageUrl} alt='this is a product' /></th>
         </Link>
         <th>
           <Link to={productDetails}>
