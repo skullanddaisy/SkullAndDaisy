@@ -1,15 +1,20 @@
 import React from 'react';
 import userRequests from '../../../helpers/data/userRequests';
-import { Dropdown } from 'semantic-ui-react';
+import {
+  UncontrolledDropdown,
+  DropdownMenu,
+  DropdownToggle
+} from 'reactstrap';
+import PaymentType from '../../PaymentType/PaymentType';
 import './PaymentTypes.scss';
 
 class PaymentTypes extends React.Component {
   state = {
     currentUser: {},
     paymentTypes: [],
-    singlePaymentType: {}
+    singlePaymentType: {},
   }
-
+  
   componentDidMount() {
     userRequests.getSingleUser()
       .then((user) => {
@@ -21,12 +26,18 @@ class PaymentTypes extends React.Component {
   render() {
     const {
       currentUser,
-      paymentTypes
+      paymentTypes,
     } = this.state;
 
     const firstName = currentUser.firstName;
     const lastName = currentUser.lastName;
-    console.log(paymentTypes)
+
+    const paymentComponents = paymentTypes.map(paymentType => (
+      <PaymentType 
+        key={paymentType.id}
+        paymentType={paymentType}
+      />
+    ));
 
     return (
       <div className='payment-types'>
@@ -35,12 +46,14 @@ class PaymentTypes extends React.Component {
           <div id="paymentCard">
             <p>{firstName}</p>
             <p>{lastName}</p>
-            <Dropdown 
-              id="paymentDropdown"
-              placeholder="Payment Options"
-              selection
-              options={paymentTypes}
-            />
+            <UncontrolledDropdown>
+              <DropdownToggle id="paymentDropdown" caret>
+                {}
+              </DropdownToggle>
+              <DropdownMenu right>
+                {paymentComponents}
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </div>
         </div>
       </div>
