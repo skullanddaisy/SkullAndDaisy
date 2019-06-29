@@ -131,7 +131,7 @@ class Cart extends Component {
         const orderProducts = pendingOrder.products;
         for (let i = 0; i < orderProducts.length; i += 1) {
           numberOfProducts += orderProducts[i].quantity;
-          price += orderProducts[i].price;
+          price += orderProducts[i].price * orderProducts[i].quantity;
         }
         const totalPriceOfOrder = Math.round(price * 100) / 100;
         this.setState({ pendingOrder, numberOfProducts, totalPriceOfOrder });

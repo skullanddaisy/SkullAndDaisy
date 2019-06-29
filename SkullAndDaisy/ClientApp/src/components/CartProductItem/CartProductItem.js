@@ -21,6 +21,7 @@ class CartProductItem extends React.Component {
   state = {
     isEditing: false,
     quantity: 0,
+    price: 0.00,
   }
 
   componentDidMount() {
@@ -79,6 +80,7 @@ class CartProductItem extends React.Component {
     const { product, cartHomeView } = this.props;
     const { isEditing, quantity } = this.state;
     const productDetails = `/productdetails/${product.id}`;
+    const productPrice = product.price * product.quantity;
 
     if (cartHomeView === true) {
       return (
@@ -94,7 +96,7 @@ class CartProductItem extends React.Component {
             </Link>
           </th>
           <td>{product.quantity}</td>
-          <td>{formatPrice(product.price)}</td>
+          <td>{formatPrice(productPrice)}</td>
         </tr>
       );
     }
@@ -112,7 +114,7 @@ class CartProductItem extends React.Component {
           </input>
         </td>
         <td>{formatProductType(product.productTypeId)}</td>
-        <td>{formatPrice(product.price)}</td>
+        <td>{formatPrice(productPrice)}</td>
         <td>
           <button className="btn btn-default" onClick={this.saveChanges}>
             <i class="fas fa-check-circle"></i>
@@ -137,7 +139,7 @@ class CartProductItem extends React.Component {
         </th>
         <td>{product.quantity}</td>
         <td>{formatProductType(product.productTypeId)}</td>
-        <td>{formatPrice(product.price)}</td>
+        <td>{formatPrice(productPrice)}</td>
         <td>
           <button className="btn btn-default" onClick={this.deleteProductEvent}>
               <i className="fas fa-trash-alt"></i>
