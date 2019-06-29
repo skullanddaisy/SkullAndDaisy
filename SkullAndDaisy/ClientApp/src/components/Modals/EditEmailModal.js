@@ -8,6 +8,7 @@ import {
   Form,
   FormGroup,
   Label,
+  Input,
 } from 'reactstrap';
 
 const defaultUser = {
@@ -15,16 +16,26 @@ const defaultUser = {
   email: '',
   firstName: '',
   lastName: '',
-  password: '',
   id: 0,
 };
 
 class EditEmailModal extends React.Component {
+  state = {
+    user: {
+      email: '',
+      password: '',
+    },
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
       newUser: defaultUser,
+      user: {
+        email: '',
+        password: '',
+      },
     };
 
     this.toggle = this.toggle.bind(this);
@@ -37,13 +48,24 @@ class EditEmailModal extends React.Component {
     this.setState({ newUser: tempUser });
   }
 
+  emailChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.email = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
+  passwordChange = (e) => {
+    const tempUser = { ...this.state.user };
+    tempUser.password = e.target.value;
+    this.setState({ user: tempUser });
+  };
+
   toggle() {
     const tempUser = {};
     tempUser.username = this.props.currentUser.username;
     tempUser.email = this.props.currentUser.email;
     tempUser.firstName = this.props.currentUser.firstName;
     tempUser.lastName = this.props.currentUser.lastName;
-    tempUser.password = this.props.currentUser.password;
     tempUser.id = this.props.currentUser.id;
     this.setState(prevState => ({
       modal: !prevState.modal,
@@ -51,18 +73,20 @@ class EditEmailModal extends React.Component {
     }));
   }
 
-  usernameChange = e => this.formFieldStringState('username', e);
-
   formSubmit = (e) => {
-    const { onSubmit } = this.props;
+    const { onSubmit, changeEmail } = this.props;
+    const user = { ...this.state.user };
     const myUser = { ...this.state.newUser };
+    myUser.email = user.email;
+    myUser.password = user.password;
     const userId = this.props.currentUser.id;
     onSubmit(myUser, userId);
+    changeEmail(user.password, user.email);
     this.setState({ newUser: defaultUser });
   }
 
   render() {
-    const { newUser } = this.state;
+    const { user } = this.state;
     return (
       <div>
         <Button color="secondary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
@@ -71,14 +95,26 @@ class EditEmailModal extends React.Component {
           <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="examplePassword">Provide password to continue</Label>
-              <input
-                  type="text"
+              <Label htmlFor="inputPassword">Verify password to continue</Label>
+              <Input
+                  type="password"
                   className="form-control"
-                  id="password"
+                  id="inputPassword"
                   aria-describedby="passwordHelp"
-                  value=""
-                  onChange={this.usernameChange}
+                  value={user.password}
+                  onChange={this.passwordChange}
+                />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Email:</Label>
+              <input
+                  type="email"
+                  className="form-control"
+                  id="inputEmail"
+                  aria-describedby="emailHelp"
+                  placeholder="email"
+                  value={user.email}
+                  onChange={this.emailChange}
                 />
             </FormGroup>
           </Form>

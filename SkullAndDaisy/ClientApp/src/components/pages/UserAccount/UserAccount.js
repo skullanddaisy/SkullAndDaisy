@@ -1,11 +1,32 @@
 import React from 'react';
+import userRequests from '../../../helpers/data/userRequests';
 
 import './UserAccount.scss';
 
 class UserAccount extends React.Component {
+    state = {
+      userId: 0,
+    }
+
     changeView = (e) => {
+      // eslint-disable-next-line prefer-destructuring
+      const userId = this.state.userId;
       const view = e.currentTarget.id;
-      this.props.history.push(`/${view}`);
+      const location = {
+        pathname: `/${view}`,
+        // eslint-disable-next-line object-shorthand
+        state: { userId: userId },
+      };
+      this.props.history.push(location);
+    }
+
+    componentDidMount() {
+      userRequests.getUserIdByEmail()
+        .then((userId) => {
+          this.setState({ userId });
+        }).catch((error) => {
+          console.error(error);
+        });
     }
 
     render() {

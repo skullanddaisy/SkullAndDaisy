@@ -17,13 +17,14 @@ class LoginSettings extends React.Component {
     userRequests.getUserIdByEmail()
       .then((userId) => {
         this.setState({ userId });
+        this.getCurrentUser(userId);
       }).catch((error) => {
         console.error(error);
       });
   }
 
   getCurrentUser = (userId) => {
-    userRequests.getSingleUser(userId)
+    userRequests.getUserById(userId)
       .then((currentUser) => {
         this.setState({ currentUser });
       })
@@ -66,8 +67,14 @@ class LoginSettings extends React.Component {
   }
 
   componentDidMount() {
+    // userRequests.getUserIdByEmail()
+    //   .then((userId) => {
+    //     this.setState({ userId });
+    //   }).catch((error) => {
+    //     console.error(error);
+    //   });
     this.getUserId();
-    this.getCurrentUser(this.state.userId);
+    // this.getCurrentUser(this.state.userId);
   }
 
   render() {
