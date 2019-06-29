@@ -1,0 +1,19 @@
+#paymentCardContainer {
+	display: flex;
+	justify-content: center;
+}
+
+
+#paymentCard {
+	background-color: gray;
+	width: 400px;
+	height: 150px;
+	border-radius: 1rem;
+	color: white;
+}
+
+#paymentDropdown {
+	border: solid white 1px;
+	background-color: yellow;
+	color: black;
+}
