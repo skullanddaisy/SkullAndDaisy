@@ -3,9 +3,14 @@ import userRequests from '../../../helpers/data/userRequests';
 import {
   UncontrolledDropdown,
   DropdownMenu,
-  DropdownToggle
+  DropdownToggle,
+  Modal,
+  ModalHeader,
+  ModalBody
 } from 'reactstrap';
 import PaymentType from '../../PaymentType/PaymentType';
+// import Collapsible from 'react-collapsible';
+import PaymentTypeCard from '../../PaymentTypeCard/PaymentTypeCard';
 import './PaymentTypes.scss';
 
 class PaymentTypes extends React.Component {
@@ -13,6 +18,7 @@ class PaymentTypes extends React.Component {
     currentUser: {},
     paymentTypes: [],
     singlePaymentType: {},
+    modalDisplayed: false,
   }
   
   componentDidMount() {
@@ -33,11 +39,41 @@ class PaymentTypes extends React.Component {
     const lastName = currentUser.lastName;
 
     const paymentComponents = paymentTypes.map(paymentType => (
-      <PaymentType 
+      <PaymentType
         key={paymentType.id}
         paymentType={paymentType}
       />
     ));
+
+    const displayModal = () => {
+      return (
+        <div>
+          <Modal isOpen={this.state.modal} className={this.props.className}>
+            <ModalHeader>Checkout</ModalHeader>
+            <ModalBody>
+            <h4>Name on card</h4>
+            <p>{firstName} {lastName}</p>
+            </ModalBody>
+            {/* <ModalFooter> */}
+              {/* <Button color="primary" onClick={this.processOrder}>Process Order</Button>{' '}
+              <Button color="secondary" onClick={this.closeModal}>Cancel</Button> */}
+            {/* </ModalFooter> */}
+          </Modal>
+        </div>
+      );
+    };
+
+    // closeModal = () => {
+    //   this.setState({ modal: false });
+    // }
+
+    const paymentCardComponents = paymentTypes.map(paymentType =>(
+      <PaymentTypeCard 
+        key={paymentType.id}
+        paymentType={paymentType}
+        onClick={displayModal()}
+      />
+    ))
 
     return (
       <div className='payment-types'>
@@ -54,6 +90,12 @@ class PaymentTypes extends React.Component {
                 {paymentComponents}
               </DropdownMenu>
             </UncontrolledDropdown>
+          </div>
+          <div>
+            {paymentCardComponents}
+            {/* <Collapsible trigger="Master Card" className="paymentType">
+              <p>Collapsible shit..</p>
+            </Collapsible> */}
           </div>
         </div>
       </div>

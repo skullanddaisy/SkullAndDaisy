@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import paymentTypeShape from '../../helpers/props/paymentTypeShape';
-
+import './PaymentTypeCard.scss';
 
 export default class PaymentTypeCard extends Component {
 	static propTypes = {
@@ -10,7 +10,7 @@ export default class PaymentTypeCard extends Component {
 		const { paymentType } = this.props;
 		return (
 			<div id="paymentTypeCardContainer">
-				<div>
+				<div className="paymentTypeCard">
 					<p>{paymentType.name} ending in ....</p>
 				</div>
 			</div>
