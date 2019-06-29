@@ -14,9 +14,11 @@ class Orders extends React.Component {
     userRequests.getUserIdByEmail()
       .then((userId) => {
         this.setState({ userId });
-        orderRequests.getAllMyOrders(this.state.userId).then((myOrders) => {
-          this.setState({ myOrders });
-        });
+        orderRequests.getAllMyOrders(this.state.userId)
+          .then((orders) => {
+            const myOrders = orders.filter(order => order.orderStatus !== 'Pending');
+            this.setState({ myOrders });
+          });
       }).catch((error) => {
         console.error(error);
       });
