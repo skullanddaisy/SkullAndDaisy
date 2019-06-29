@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button } from 'reactstrap';
 import EditUserNameModal from '../../Modals/EditUsernameModal';
+import EditFirstAndLastNameModal from '../../Modals/EditFirstAndLastNameModal';
+import EditEmailModal from '../../Modals/EditEmailModal';
+import EditPasswordModal from '../../Modals/EditPasswordModal';
 import userRequests from '../../../helpers/data/userRequests';
 import './LoginSettings.scss';
 
@@ -68,7 +70,11 @@ class LoginSettings extends React.Component {
               <p>{currentUser.firstName} {currentUser.lastName}</p>
             </div>
             <div class="m-3 ml-5">
-              <Button color="secondary">Edit</Button>
+            <EditFirstAndLastNameModal
+                buttonLabel='Edit'
+                currentUser={currentUser}
+                onSubmit={this.formSubmitEvent}
+              />
             </div>
           </div>
 
@@ -78,7 +84,6 @@ class LoginSettings extends React.Component {
               <p>{currentUser.email}</p>
             </div>
             <div class="m-3 ml-5">
-              <Button color="secondary">Edit</Button>
             </div>
           </div>
 
@@ -88,7 +93,6 @@ class LoginSettings extends React.Component {
               <p>********</p>
             </div>
             <div class="m-3 ml-5">
-              <Button color="secondary">Edit</Button>
             </div>
           </div>
 
