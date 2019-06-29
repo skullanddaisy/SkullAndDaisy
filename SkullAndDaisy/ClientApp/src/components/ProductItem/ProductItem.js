@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import productShape from '../../helpers/props/productShape';
-import {Link} from 'react-router-dom';
+import formatPrice from '../../helpers/formatPrice';
+
 
 class ProductItem extends React.Component {
   static propTypes = {
@@ -10,6 +12,7 @@ class ProductItem extends React.Component {
   render() {
     const { product } = this.props;
     const productDetails = `/productdetails/${product.id}`;
+    const productPrice = product.price * product.quantity;
 
     return (
      <div className='d-flex flex-wrap'>
@@ -24,7 +27,7 @@ class ProductItem extends React.Component {
           </Link>
           <p>{product.description}</p>
           <p>Qty: {product.quantity}</p>
-          <h5>${product.price}</h5>
+          <h5>{formatPrice(productPrice)}</h5>
         </div>
      </div>
     );

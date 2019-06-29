@@ -13,6 +13,7 @@ class OrderItem extends React.Component {
   state = {
     orderProducts: [],
     numberOfProducts: 0,
+    productQuantity: 0,
     firstProduct: [],
     showMore: false,
   }
@@ -31,26 +32,31 @@ class OrderItem extends React.Component {
 
   countProducts = () => {
     let numberOfProducts = 0;
+    let productQuantity = 0;
     const theProducts = this.props.order.products;
     for (let i = 0; i < theProducts.length; i += 1) {
-      numberOfProducts += theProducts[i].quantity;
+      numberOfProducts += 1;
+      productQuantity += theProducts[i].quantity;
     }
-    this.setState({ numberOfProducts });
-    if (numberOfProducts > 1) {
-      const productObject = theProducts[0];
-      const firstProduct = [];
-      firstProduct.push(productObject);
-      this.setState({ firstProduct });
-    }
+    this.setState({ numberOfProducts, productQuantity });
+    const productObject = theProducts[0];
+    const firstProduct = [];
+    firstProduct.push(productObject);
+    this.setState({ firstProduct });
   }
 
   render() {
     const { order } = this.props;
 
-    const { numberOfProducts, firstProduct, showMore } = this.state;
+    const {
+      numberOfProducts,
+      firstProduct,
+      showMore,
+      productQuantity,
+    } = this.state;
 
     const makeProductItemComponents = () => {
-      if (numberOfProducts === 1 || showMore === true) {
+      if (showMore === true) {
         const itemComponent = order.products.map(product => (
           <ProductItem
             product={product}
@@ -79,12 +85,19 @@ class OrderItem extends React.Component {
              </div>;
     };
 
+    const showQuantity = () => {
+      if (productQuantity === 1) {
+        return <h3 className='text-right p-3'>{productQuantity} item</h3>;
+      }
+      return <h3 className='text-right p-3'>{productQuantity} items</h3>;
+    };
+
     if (numberOfProducts === 1) {
       return (
         <div className='orderCard m-4'>
           <div className='d-flex flex-wrap justify-content-between'>
             <h3 className='text-left p-3'>Ordered {moment(order.orderDate).format('MMMM Do YYYY')}</h3>
-            <h3 className='text-right p-3'>{numberOfProducts} item</h3>
+            {showQuantity()}
           </div>
           {makeProductItemComponents()}
         </div>
@@ -95,7 +108,7 @@ class OrderItem extends React.Component {
       <div className='orderCard m-4'>
         <div className='d-flex flex-wrap justify-content-between'>
           <h3 className='text-left p-3'>Ordered {moment(order.orderDate).format('MMMM Do YYYY')}</h3>
-          <h3 className='text-right p-3'>{numberOfProducts} items</h3>
+          {showQuantity()}
         </div>
        {makeProductItemComponents()}
        {makeShowButtons()}
