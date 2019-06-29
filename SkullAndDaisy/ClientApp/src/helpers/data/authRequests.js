@@ -32,25 +32,6 @@ const loginUser = (user) => {
   });
 };
 
-const getOldEmail = () => {
-  return firebase.auth().currentUser.email;
-};
-
-const getOldPassword = () => {
-  return firebase.auth().currentUser.password;
-};
-
-const makeCredential = (oldEmail, oldPassword) => {
-  return firebase.auth.EmailAuthProvider.credential(oldEmail, oldPassword);
-};
-
-const updateEmailAndPassword = (credential, newEmail, newPassword) => {
-  firebase.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
-    firebase.auth().currentUser.updatePassword(newPassword);
-    firebase.auth().currentUser.updateEmail(newEmail);
-  });
-};
-
 const logoutUser = () => {
   return firebase.auth().signOut();
 };
@@ -76,6 +57,4 @@ export default {
   logoutUser,
   registerUser,
   getCurrentUserJwt,
-  makeCredential,
-  updateEmailAndPassword,
 };

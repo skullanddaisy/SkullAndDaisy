@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import EditUserNameModal from '../../Modals/EditUsernameModal';
 import EditFirstAndLastNameModal from '../../Modals/EditFirstAndLastNameModal';
 import EditEmailModal from '../../Modals/EditEmailModal';
@@ -29,6 +30,32 @@ class LoginSettings extends React.Component {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  reauthenticate = (currentPassword) => {
+    const user = firebase.auth().currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+      user.email, currentPassword,
+    );
+    return user.reauthenticateWithCredential(cred);
+  }
+
+  changePassword = (currentPassword, newPassword) => {
+    this.reauthenticate(currentPassword).then(() => {
+      const user = firebase.auth().currentUser;
+      user.updatePassword(newPassword).then(() => {
+        console.log('Password updated!');
+      }).catch((error) => { console.log(error); });
+    }).catch((error) => { console.log(error); });
+  }
+
+  changeEmail = (currentPassword, newEmail) => {
+    this.reauthenticate(currentPassword).then(() => {
+      const user = firebase.auth().currentUser;
+      user.updateEmail(newEmail).then(() => {
+        console.log('Email updated!');
+      }).catch((error) => { console.log(error); });
+    }).catch((error) => { console.log(error); });
   }
 
   formSubmitEvent = (newUser, userId) => {
@@ -84,6 +111,13 @@ class LoginSettings extends React.Component {
               <p>{currentUser.email}</p>
             </div>
             <div class="m-3 ml-5">
+            <EditEmailModal
+                buttonLabel='Edit'
+                currentUser={currentUser}
+                changeEmail={this.changeEmail}
+                reauthenticate={this.reauthenticate}
+                onSubmit={this.formSubmitEvent}
+              />
             </div>
           </div>
 
