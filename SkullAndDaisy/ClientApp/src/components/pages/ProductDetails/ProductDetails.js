@@ -50,11 +50,9 @@ class ProductDetails extends React.Component{
 			this.setState({ sellerId: productById.userId })
 			userRequests.getUserById(this.state.sellerId)
 				.then((theSeller) => {
-					console.log(theSeller);
 					this.setState({ seller: theSeller });
 					ProductRequest.getSellersProducts(theSeller.id)
 						.then((productsByUserId) => {
-							console.log(productsByUserId);
 							this.setState({ products: productsByUserId });
 						})
 					.catch((err) => {
@@ -151,7 +149,7 @@ class ProductDetails extends React.Component{
 							<img id="theStamp" src={soldOutStamp} alt="sold out"></img>
 						</div>
 						<div className="imageDiv">
-							<img className='productDetailImg' top src={product.imageUrl} alt={product.title} />
+							<img className='productDetailImg' src={product.imageUrl} alt={product.title} />
 						</div>
 					</div>
 					<div id="middleCol" className="middleCol">

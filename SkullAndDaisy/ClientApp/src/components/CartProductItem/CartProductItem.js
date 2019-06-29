@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import productShape from '../../helpers/props/productShape';
 import orderShape from '../../helpers/props/orderShape';
 import formatPrice from '../../helpers/formatPrice';
 import formatProductType from '../../helpers/formatProductType';
 import productOrderRequests from '../../helpers/data/productOrderRequests';
-import { Link } from 'react-router-dom';
+
 import './CartProductItem.scss';
 
 class CartProductItem extends React.Component {
@@ -77,16 +78,16 @@ class CartProductItem extends React.Component {
   render() {
     const { product, cartHomeView } = this.props;
     const { isEditing, quantity } = this.state;
-    const productDetails = `/productdetails/${product.id}`
+    const productDetails = `/productdetails/${product.id}`;
 
     if (cartHomeView === true) {
       return (
         <tr className="cart-item">
-          <tb>
+          <th>
             <Link to={productDetails}>
               <img className='cartHomeImg' src={product.imageUrl} alt='this is a product' />
             </Link>
-          </tb>
+          </th>
           <th>
             <Link to={productDetails}>
               {product.title}
@@ -101,7 +102,7 @@ class CartProductItem extends React.Component {
     if (isEditing === true) {
       return (
         <tr className="cart-item">
-        <tb><img className='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+        <th><img className='product-img' src={product.imageUrl} alt='this is a product' /></th>
         <th><div className='mb-2'>{product.title}</div>{product.description}</th>
         <td>
           <input
@@ -127,7 +128,7 @@ class CartProductItem extends React.Component {
     return (
       <tr className="cart-item">
         <Link to={productDetails}>
-          <tb><img clasName='product-img' src={product.imageUrl} alt='this is a product' /></tb>
+          <th><img className='product-img' src={product.imageUrl} alt='this is a product' /></th>
         </Link>
         <th>
           <Link to={productDetails}>

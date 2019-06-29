@@ -20,7 +20,6 @@ export default class CartTable extends Component {
     const {
       products,
       cartHomeView,
-      goToCart,
       deleteProduct,
       pendingOrder,
       updateProduct,
@@ -43,7 +42,7 @@ export default class CartTable extends Component {
           <Table striped>
             <thead>
               <tr>
-                <th onClick={goToCart}><i className="fas fa-shopping-cart fa-2x"></i></th>
+                <th>Product</th>
                 <th>Name</th>
                 <th>Qty</th>
                 <th>Price</th>
