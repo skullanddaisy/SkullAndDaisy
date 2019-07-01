@@ -20,13 +20,6 @@ const defaultUser = {
 };
 
 class EditEmailModal extends React.Component {
-  state = {
-    user: {
-      email: '',
-      password: '',
-    },
-  }
-
   constructor(props) {
     super(props);
     this.state = {
