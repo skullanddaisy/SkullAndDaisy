@@ -39,9 +39,9 @@ class CartHomeView extends Component {
         this.setState({ userId });
         orderRequests.getPendingOrder(this.state.userId)
           .then((result) => {
+            const pendingOrder = result.data[0];
             let numberOfProducts = 0;
             let price = 0;
-            const pendingOrder = result.data[0];
             const orderProducts = pendingOrder.products;
             for (let i = 0; i < orderProducts.length; i += 1) {
               numberOfProducts += orderProducts[i].quantity;
@@ -63,6 +63,18 @@ class CartHomeView extends Component {
       cartHomeView,
     } = this.state;
 
+    const makeCartTable = () => {
+      if (pendingOrder.products.length === 0) {
+        return <h4>You have no items in your cart.</h4>;
+      }
+      return <div>
+              <CartTable
+              products={pendingOrder.products}
+              cartHomeView={cartHomeView}
+              />
+            </div>;
+    };
+
     return (
       <div className = 'CartHomeView'>
           <Card className='cartCard m-4'>
@@ -70,16 +82,10 @@ class CartHomeView extends Component {
               <div><h4>Your Cart</h4></div>
               <div className='subTotalCard d-flex flex-wrap'>
                 <p className='subTotalText mt-2 m-1'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
-                <Button className='proceedButton btn-warning m-1'>Proceed To Checkout</Button>
+                <Button onClick={this.props.goToCart} className='proceedButton btn-warning m-1'>Proceed To Cart</Button>
               </div>
             </div>
-            <div>
-              <CartTable
-                products={pendingOrder.products}
-                cartHomeView={cartHomeView}
-                goToCart={this.props.goToCart}
-              />
-            </div>
+           {makeCartTable()}
         </Card>
       </div>
     );
