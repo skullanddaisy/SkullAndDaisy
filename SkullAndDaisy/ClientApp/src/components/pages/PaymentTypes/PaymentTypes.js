@@ -1,26 +1,29 @@
 import React from 'react';
 import userRequests from '../../../helpers/data/userRequests';
-import {
-  UncontrolledDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  Modal,
-  ModalHeader,
-  ModalBody
-} from 'reactstrap';
-import PaymentType from '../../PaymentType/PaymentType';
-// import Collapsible from 'react-collapsible';
 import PaymentTypeCard from '../../PaymentTypeCard/PaymentTypeCard';
+// import PaymentType from '../../PaymentType/PaymentType';
+// import PaymentTypeModal from '../../PaymentTypeModal/PaymentTypeModal';
+import PaymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
 import './PaymentTypes.scss';
 
+
+const defaultPaymentType = {
+  name: '',
+  accountNumber: 0,
+  userId: 0,
+  isActive: false,
+}
+
 class PaymentTypes extends React.Component {
+
   state = {
     currentUser: {},
     paymentTypes: [],
     singlePaymentType: {},
-    modalDisplayed: false,
+    modal: false,
+    newPaymentType: defaultPaymentType,
   }
-  
+
   componentDidMount() {
     userRequests.getSingleUser()
       .then((user) => {
@@ -29,49 +32,63 @@ class PaymentTypes extends React.Component {
       })
   }
 
+  addPaymentType = (newPaymentType) => {
+    const userId = this.state.currentUser.userId;
+    PaymentTypeRequests.addPaymentType(newPaymentType)
+      .then(() => {
+        PaymentTypeRequests.getAllPaymentTypes(userId)
+          .then((paymentTypes) => {
+            this.setState({ paymentTypes });
+            this.props.history.push(`/paymenttypes`);
+          })
+        .catch(err => console.error(`error with getting payment types`, err));
+      })
+  }
+
+  formFieldStringState = (name, e) => {
+    const tempPaymentType = { ...this.state.newPaymentType };
+    tempPaymentType[name] = e.target.value;
+    this.setState({ newPaymentType: tempPaymentType });
+  }
+
+  formFieldNumberState = (name, e) => {
+    const tempPaymentType = { ...this.state.newPaymentType };
+    tempPaymentType[name] = e.target.value * 1;
+    this.setState({ newPaymentType: tempPaymentType });
+  }
+
+  formSubmit = () => {
+    const myPaymentType = { ...this.state.newPaymentType };
+    this.addPaymentType(myPaymentType);
+    this.setState({ newPaymentType: defaultPaymentType})
+  }
+
+  nameChange = e => this.formFieldStringState('name', e);
+
+  accountNumberChange = e => this.formFieldStringState('accountNumber', e);
+
   render() {
     const {
       currentUser,
       paymentTypes,
+      newPaymentType
     } = this.state;
 
     const firstName = currentUser.firstName;
     const lastName = currentUser.lastName;
 
-    const paymentComponents = paymentTypes.map(paymentType => (
-      <PaymentType
-        key={paymentType.id}
-        paymentType={paymentType}
-      />
-    ));
-
     const displayModal = () => {
       return (
         <div>
-          <Modal isOpen={this.state.modal} className={this.props.className}>
-            <ModalHeader>Checkout</ModalHeader>
-            <ModalBody>
-            <h4>Name on card</h4>
-            <p>{firstName} {lastName}</p>
-            </ModalBody>
-            {/* <ModalFooter> */}
-              {/* <Button color="primary" onClick={this.processOrder}>Process Order</Button>{' '}
-              <Button color="secondary" onClick={this.closeModal}>Cancel</Button> */}
-            {/* </ModalFooter> */}
-          </Modal>
+
         </div>
       );
     };
-
-    // closeModal = () => {
-    //   this.setState({ modal: false });
-    // }
 
     const paymentCardComponents = paymentTypes.map(paymentType =>(
       <PaymentTypeCard 
         key={paymentType.id}
         paymentType={paymentType}
-        onClick={displayModal()}
       />
     ))
 
@@ -82,20 +99,37 @@ class PaymentTypes extends React.Component {
           <div id="paymentCard">
             <p>{firstName}</p>
             <p>{lastName}</p>
-            <UncontrolledDropdown>
-              <DropdownToggle id="paymentDropdown" caret>
-                {}
-              </DropdownToggle>
-              <DropdownMenu right>
-                {paymentComponents}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+          </div>
+          <div>
+          <form>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input
+                  maxLength="55"
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  aria-describedby="nameHelp"
+                  value={newPaymentType.name}
+                  onChange={this.nameChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="accountNumber">Account Number:</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="accountNumber"
+                  aria-describedby="accountNumberHelp"
+                  value={newPaymentType.accountNumber}
+                  onChange={this.accountNumberChange}
+                />
+              </div>
+              <button color="primary" onClick={this.formSubmit()}>Save Payment Type</button>
+            </form>
           </div>
           <div>
             {paymentCardComponents}
-            {/* <Collapsible trigger="Master Card" className="paymentType">
-              <p>Collapsible shit..</p>
-            </Collapsible> */}
           </div>
         </div>
       </div>

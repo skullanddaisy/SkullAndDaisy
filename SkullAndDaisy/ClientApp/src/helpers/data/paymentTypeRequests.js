@@ -29,6 +29,8 @@ const getSinglePaymentType = (userId) => new Promise((resolve, reject) => {
 		})
 })
 
+const addPaymentType = paymentType => axios.post(`${sadApiBaseUrl}/paymenttypes/create`, paymentType);
+
 const deletePaymentType = (paymentTypeId) => axios.put(`${sadApiBaseUrl}/paymenttypes/delete/${paymentTypeId}`);
 
 const updatePaymentType = (paymentTypeId) => axios.put(`${sadApiBaseUrl}/paymenttypes/update${paymentTypeId}`);
@@ -41,4 +43,5 @@ export default {
 	deletePaymentType,
 	updatePaymentType,
 	getPaymentTypesByUserId,
+	addPaymentType
 }
