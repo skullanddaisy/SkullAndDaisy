@@ -47,8 +47,8 @@ namespace SkullAndDaisy.Controllers
                 createRequest.FirstName,
                 createRequest.LastName,
                 createRequest.Username,
-                createRequest.Email,
-                createRequest.Password);
+                createRequest.Email
+                );
 
             return Created($"/api/user/{newUser.Id}", newUser);
         }
