@@ -15,7 +15,6 @@ const defaultUser = {
   email: '',
   firstName: '',
   lastName: '',
-  password: '',
   id: 0,
 };
 
@@ -43,7 +42,6 @@ class EditFirstAndLastNameModal extends React.Component {
     tempUser.email = this.props.currentUser.email;
     tempUser.firstName = this.props.currentUser.firstName;
     tempUser.lastName = this.props.currentUser.lastName;
-    tempUser.password = this.props.currentUser.password;
     tempUser.id = this.props.currentUser.id;
     this.setState(prevState => ({
       modal: !prevState.modal,
