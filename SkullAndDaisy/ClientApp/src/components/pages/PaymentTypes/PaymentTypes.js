@@ -11,7 +11,7 @@ const defaultPaymentType = {
   name: '',
   accountNumber: 0,
   userId: 0,
-  isActive: false,
+  isActive: true,
 }
 
 class PaymentTypes extends React.Component {
@@ -33,9 +33,14 @@ class PaymentTypes extends React.Component {
   }
 
   addPaymentType = (newPaymentType) => {
-    const userId = this.state.currentUser.userId;
+    const userId = this.state.currentUser.id;
+    newPaymentType.userId = userId;
     PaymentTypeRequests.addPaymentType(newPaymentType)
       .then(() => {
+        userRequests.getSingleUser()
+          .then((user) => {
+            this.setState({currentUser: user});
+          })
         PaymentTypeRequests.getAllPaymentTypes(userId)
           .then((paymentTypes) => {
             this.setState({ paymentTypes });
@@ -57,7 +62,8 @@ class PaymentTypes extends React.Component {
     this.setState({ newPaymentType: tempPaymentType });
   }
 
-  formSubmit = () => {
+  formSubmit = (e) => {
+    e.preventDefault();
     const myPaymentType = { ...this.state.newPaymentType };
     this.addPaymentType(myPaymentType);
     this.setState({ newPaymentType: defaultPaymentType})
@@ -77,13 +83,13 @@ class PaymentTypes extends React.Component {
     const firstName = currentUser.firstName;
     const lastName = currentUser.lastName;
 
-    const displayModal = () => {
-      return (
-        <div>
+    // const displayModal = () => {
+    //   return (
+    //     <div>
 
-        </div>
-      );
-    };
+    //     </div>
+    //   );
+    // };
 
     const paymentCardComponents = paymentTypes.map(paymentType =>(
       <PaymentTypeCard 
@@ -125,7 +131,7 @@ class PaymentTypes extends React.Component {
                   onChange={this.accountNumberChange}
                 />
               </div>
-              <button color="primary" onClick={this.formSubmit()}>Save Payment Type</button>
+              <button color="primary" onClick={this.formSubmit}>Save Payment Type</button>
             </form>
           </div>
           <div>
