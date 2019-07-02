@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'nuka-carousel';
 import userRequests from '../../../helpers/data/userRequests';
+import orderRequests from '../../../helpers/data/orderRequests';
 import UserProfileCard from './UserProfileCard/UserProfileCard';
 import DealOfTheDayCard from './DealOfTheDayCard/DealOfTheDayCard';
 import LatestProductsCard from './LatestProductsCard/LatestProductsCard';
@@ -12,9 +13,21 @@ import potions from '../../../img/potions.png';
 import poison from '../../../img/poisonCarousel.jpg';
 import './Home.scss';
 
+
+const defaultPendingOrder = {
+  id: 0,
+  orderDate: '',
+  orderStatus: '',
+  paymentTypeId: null,
+  total: 0.00,
+  userId: 0,
+  products: [],
+};
+
 class Home extends React.Component {
     state = {
       userId: 0,
+      pendingOrder: defaultPendingOrder,
     }
 
     goToProfile = () => {
@@ -29,7 +42,22 @@ class Home extends React.Component {
       userRequests.getUserIdByEmail()
         .then((userId) => {
           this.setState({ userId });
+          this.createNewPendingOrder();
         }).catch((error) => {
+          console.error(error);
+        });
+    }
+
+    createNewPendingOrder = () => {
+      const { pendingOrder, userId } = this.state;
+      const newPendingOrder = { ...pendingOrder };
+      newPendingOrder.orderstatus = 'Pending';
+      newPendingOrder.total = 0.00;
+      newPendingOrder.orderDate = new Date();
+      newPendingOrder.userId = userId;
+      orderRequests.addOrder(newPendingOrder)
+        .then()
+        .catch((error) => {
           console.error(error);
         });
     }
