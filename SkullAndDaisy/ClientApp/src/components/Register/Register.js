@@ -1,5 +1,4 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
 import {
   Button,
   Form,
@@ -43,16 +42,21 @@ class Register extends React.Component {
     this.setState({ user: tempUser });
   }
 
-  registerClickEvent = e => {
+  registerClickEvent = (e) => {
     const { user } = this.state;
+    const newUser = {};
+    newUser.email = this.state.user.email;
+    newUser.firstname = this.state.user.firstname;
+    newUser.lastname = this.state.user.lastname;
+    newUser.username = this.state.user.username;
     e.preventDefault();
     authRequests
       .registerUser(user)
       .then(() => {
         authRequests.getCurrentUserJwt();
-        userRequests.createUser(user);
+        userRequests.createUser(newUser);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('there was an error in registering', error);
       });
   };
@@ -64,7 +68,7 @@ class Register extends React.Component {
     this.setState({ user: tempUser });
   }
 
-  
+
   emailChange = e => this.formFieldStringState('email', e);
 
   usernameChange = e => this.formFieldStringState('username', e);
@@ -75,7 +79,7 @@ class Register extends React.Component {
 
   lastnameChange = e => this.formFieldStringState('lastname', e);
 
-  render () {
+  render() {
     const { user } = this.state;
     const buildModal = () => (
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -159,8 +163,8 @@ class Register extends React.Component {
       </div>
         </ModalBody>
         </Modal>
-      );
-      return (
+    );
+    return (
         <div className="register">
         <div className='account'>
           <p><strong>Don't have an account?</strong> <Button className='btn btn-dark' onClick={this.toggle}>Register</Button></p>
