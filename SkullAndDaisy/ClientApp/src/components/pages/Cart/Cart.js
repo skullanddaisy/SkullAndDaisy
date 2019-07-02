@@ -15,7 +15,7 @@ import {
 import orderRequests from '../../../helpers/data/orderRequests';
 import userRequests from '../../../helpers/data/userRequests';
 import paymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
-import CartTable from '../../CartTable/CartTable';
+import CartTable from './CartTable/CartTable';
 import './Cart.scss';
 import productOrderRequests from '../../../helpers/data/productOrderRequests';
 

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from 'nuka-carousel';
 import userRequests from '../../../helpers/data/userRequests';
-import UserProfileCard from '../../UserProfileCard/UserProfileCard';
-import DealOfTheDayCard from '../../DealOfTheDayCard/DealOfTheDayCard';
-import LatestProductsCard from '../../LatestProductsCard/LatestProductsCard';
+import UserProfileCard from './UserProfileCard/UserProfileCard';
+import DealOfTheDayCard from './DealOfTheDayCard/DealOfTheDayCard';
+import LatestProductsCard from './LatestProductsCard/LatestProductsCard';
 import MyFooter from '../../MyFooter/MyFooter';
 import amethyst from '../../../img/amethyst_crystal.jpg';
 import herbs from '../../../img/herbs_1.jpeg';
 import potions from '../../../img/potions.png';
 import poison from '../../../img/poisonCarousel.jpg';
-import Carousel from 'nuka-carousel';
 import './Home.scss';
 
 class Home extends React.Component {
@@ -37,20 +37,20 @@ class Home extends React.Component {
     render() {
       const { userId } = this.state;
       const Decorators = [{
-          render() {
-            return (
+        render() {
+          return (
               <button
                 onClick={this.props.previousSlide}>
                 Previous Slide
               </button>
-            )
-          },
+          );
+        },
         position: 'CenterLeft',
         style: {
-          padding: 20
-        }
+          padding: 20,
+        },
       }];
-      
+
       if (userId === 0) {
         return (
           <div><h1>Loading</h1></div>

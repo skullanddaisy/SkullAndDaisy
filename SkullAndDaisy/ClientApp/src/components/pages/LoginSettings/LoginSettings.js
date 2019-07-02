@@ -1,6 +1,6 @@
 import React from 'react';
 import userRequests from '../../../helpers/data/userRequests';
-import LoginSettingsModal from '../../LoginSettingsModal/LoginSettingsModal';
+import LoginSettingsModal from './LoginSettingsModal/LoginSettingsModal';
 import './LoginSettings.scss';
 
 class LoginSettings extends React.Component {

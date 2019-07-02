@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderItem from '../../OrderItem/OrderItem';
+import OrderItem from './OrderItem/OrderItem';
 import userRequests from '../../../helpers/data/userRequests';
 import './Orders.scss';
 import orderRequests from '../../../helpers/data/orderRequests';

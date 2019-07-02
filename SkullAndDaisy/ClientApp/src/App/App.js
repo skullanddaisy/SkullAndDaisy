@@ -21,7 +21,6 @@ import Orders from '../components/pages/Orders/Orders';
 import SellerManagement from '../components/pages/SellerManagement/SellerManagement';
 import PaymentTypes from '../components/pages/PaymentTypes/PaymentTypes';
 import LoginSettings from '../components/pages/LoginSettings/LoginSettings';
-import CustomerOrders from '../components/pages/CustomerOrders/CustomerOrders';
 import SellerProducts from '../components/pages/SellerProducts/SellerProducts';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import Potions from '../components/pages/ProductTypes/Potions/Potions';
@@ -104,7 +103,6 @@ class App extends React.Component {
                 <PrivateRoute path='/sellermanagement/' component={SellerManagement} authed={this.state.authed} />
                 <PrivateRoute path='/paymenttypes/' component={PaymentTypes} authed={this.state.authed} />
                 <PrivateRoute path='/loginsettings/' component={LoginSettings} authed={this.state.authed} />
-                <PrivateRoute path='/customerorders/' component={CustomerOrders} authed={this.state.authed} />
                 <PrivateRoute path='/sellerproducts/' component={SellerProducts} authed={this.state.authed} />
                 <PrivateRoute path='/productdetails/:id' component={ProductDetails} authed={this.state.authed} />
                 <PrivateRoute path='/sellerstore/:id' component={SellerStore} authed={this.state.authed} />
