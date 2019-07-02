@@ -42,7 +42,18 @@ class Home extends React.Component {
       userRequests.getUserIdByEmail()
         .then((userId) => {
           this.setState({ userId });
-          this.createNewPendingOrder();
+          orderRequests.getPendingOrder(userId)
+            .then((result) => {
+              if (result.data.length === 0) {
+                this.createNewPendingOrder();
+              } else {
+                const pendingOrder = result.data;
+                this.setState({ pendingOrder });
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         }).catch((error) => {
           console.error(error);
         });
@@ -56,14 +67,16 @@ class Home extends React.Component {
       newPendingOrder.orderDate = new Date();
       newPendingOrder.userId = userId;
       orderRequests.addOrder(newPendingOrder)
-        .then()
+        .then((result) => {
+          this.setState({ pendingOrder: result.data });
+        })
         .catch((error) => {
           console.error(error);
         });
     }
 
     render() {
-      const { userId } = this.state;
+      const { pendingOrder, userId } = this.state;
       const Decorators = [{
         render() {
           return (
@@ -79,7 +92,7 @@ class Home extends React.Component {
         },
       }];
 
-      if (userId === 0) {
+      if (pendingOrder.orderStatus === '') {
         return (
           <div><h1>Loading</h1></div>
         );

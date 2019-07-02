@@ -9,7 +9,6 @@ import userRequests from '../../../../helpers/data/userRequests';
 import CartTable from '../../Cart/CartTable/CartTable';
 import './CartHomeView.scss';
 
-
 const defaultPendingOrder = {
   id: 0,
   orderDate: '',

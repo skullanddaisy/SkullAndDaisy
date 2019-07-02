@@ -13,7 +13,7 @@ import {
 import authRequests from '../../../../helpers/data/authRequests';
 import userRequests from '../../../../helpers/data/userRequests';
 
-const defaultUser = {
+const tempUser = {
   email: '',
   username: '',
   password: '',
@@ -25,7 +25,7 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: defaultUser,
+      user: tempUser,
       modal: false,
     };
 
@@ -39,7 +39,7 @@ class Register extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ user: defaultUser });
+    this.setState({ user: tempUser });
   }
 
   registerClickEvent = (e) => {
@@ -67,6 +67,7 @@ class Register extends React.Component {
     tempUser[name] = e.target.value;
     this.setState({ user: tempUser });
   }
+
 
   emailChange = e => this.formFieldStringState('email', e);
 
@@ -173,5 +174,4 @@ class Register extends React.Component {
     );
   }
 }
-
 export default Register;
