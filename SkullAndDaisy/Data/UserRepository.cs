@@ -76,7 +76,7 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public User AddUser(string firstName, string lastName, string username, string email, string password)
+        public User AddUser(string firstName, string lastName, string username, string email)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -85,10 +85,9 @@ namespace SkullAndDaisy.Data
                         [FirstName],
                         [LastName],
                         [Username],
-                        [Email],
-                        [Password])
+                        [Email])
                     Output inserted.*
-                    Values(@firstname, @lastname, @username, @email, @password)";
+                    Values(@firstname, @lastname, @username, @email)";
 
                 var parameters = new
                 {
@@ -96,7 +95,6 @@ namespace SkullAndDaisy.Data
                     LastName = lastName,
                     Username = username,
                     Email = email,
-                    Password = password,
                 };
 
                 var newUser = db.QueryFirstOrDefault<User>(insertQuery, parameters);
@@ -119,8 +117,7 @@ namespace SkullAndDaisy.Data
                         Set firstName = @firstname,
                             lastName = @lastname,
                             username = @username,
-                            email = @email,
-                            password = @password
+                            email = @email
                         Where id = @id";
 
                 var rowsAffected = db.Execute(updateQuery, userToUpdate);
@@ -140,8 +137,7 @@ namespace SkullAndDaisy.Data
                     Update Users
                     Set firstname = null,
                         lastname = null,
-                        email = null,
-                        password = null
+                        email = null
                     Where id = @id";
 
                 var rowsAffected = db.Execute(updateQuery, userToUpdate);
