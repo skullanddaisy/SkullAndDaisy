@@ -10,8 +10,7 @@ namespace SkullAndDaisy.Validators
     {
         public bool Validate(CreateUserRequest requestToValidate)
         {
-            return string.IsNullOrEmpty(requestToValidate.Username)
-                   || string.IsNullOrEmpty(requestToValidate.Password);
+            return string.IsNullOrEmpty(requestToValidate.Username);
         }
     }
 }
