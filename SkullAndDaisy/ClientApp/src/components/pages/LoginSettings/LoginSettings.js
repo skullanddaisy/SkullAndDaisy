@@ -5,8 +5,6 @@ import EditFirstAndLastNameModal from '../../Modals/EditFirstAndLastNameModal';
 import EditEmailModal from '../../Modals/EditEmailModal';
 import EditPasswordModal from '../../Modals/EditPasswordModal';
 import userRequests from '../../../helpers/data/userRequests';
-import LoginSettingsModal from './LoginSettingsModal/LoginSettingsModal';
-
 import './LoginSettings.scss';
 
 class LoginSettings extends React.Component {
