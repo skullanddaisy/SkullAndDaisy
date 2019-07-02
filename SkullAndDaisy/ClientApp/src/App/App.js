@@ -12,7 +12,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import authRequests from '../helpers/data/authRequests';
 import connection from '../helpers/data/connection';
-
 import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
 import Cart from '../components/pages/Cart/Cart';
