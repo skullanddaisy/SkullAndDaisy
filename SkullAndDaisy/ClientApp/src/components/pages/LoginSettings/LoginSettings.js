@@ -69,14 +69,7 @@ class LoginSettings extends React.Component {
   }
 
   componentDidMount() {
-    // userRequests.getUserIdByEmail()
-    //   .then((userId) => {
-    //     this.setState({ userId });
-    //   }).catch((error) => {
-    //     console.error(error);
-    //   });
     this.getUserId();
-    // this.getCurrentUser(this.state.userId);
   }
 
   render() {
@@ -136,6 +129,11 @@ class LoginSettings extends React.Component {
               <p>********</p>
             </div>
             <div class="m-3 ml-5">
+              <EditPasswordModal
+                buttonLabel='Edit'
+                changePassword={this.changePassword}
+                reauthenticate={this.reauthenticate}
+              />
             </div>
           </div>
 

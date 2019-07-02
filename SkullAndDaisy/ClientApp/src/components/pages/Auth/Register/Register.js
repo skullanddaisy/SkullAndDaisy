@@ -44,12 +44,17 @@ class Register extends React.Component {
 
   registerClickEvent = (e) => {
     const { user } = this.state;
+    const newUser = {};
+    newUser.email = this.state.user.email;
+    newUser.firstname = this.state.user.firstname;
+    newUser.lastname = this.state.user.lastname;
+    newUser.username = this.state.user.username;
     e.preventDefault();
     authRequests
       .registerUser(user)
       .then(() => {
         authRequests.getCurrentUserJwt();
-        userRequests.createUser(user);
+        userRequests.createUser(newUser);
       })
       .catch((error) => {
         console.error('there was an error in registering', error);
