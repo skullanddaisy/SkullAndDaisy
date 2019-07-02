@@ -63,6 +63,19 @@ namespace SkullAndDaisy.Data
             }
         }
 
+        public User GetSingleUserByEmail(string email)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var user = db.QueryFirstOrDefault<User>(@"
+                    Select * From users
+                    Where email = @email",
+                    new { email });
+
+                return user;
+            }
+        }
+
         public User AddUser(string firstName, string lastName, string username, string email, string password)
         {
             using (var db = new SqlConnection(_connectionString))
