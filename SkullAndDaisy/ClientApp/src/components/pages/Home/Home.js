@@ -18,7 +18,7 @@ const defaultPendingOrder = {
   id: 0,
   orderDate: '',
   orderStatus: '',
-  paymentTypeId: null,
+  paymentTypeId: 0,
   total: 0.00,
   userId: 0,
   products: [],
@@ -28,6 +28,7 @@ class Home extends React.Component {
     state = {
       userId: 0,
       pendingOrder: defaultPendingOrder,
+      loadComponents: false,
     }
 
     goToProfile = () => {
@@ -47,8 +48,7 @@ class Home extends React.Component {
               if (result.data.length === 0) {
                 this.createNewPendingOrder();
               } else {
-                const pendingOrder = result.data;
-                this.setState({ pendingOrder });
+                this.setState({ loadComponents: true });
               }
             })
             .catch((error) => {
@@ -62,13 +62,14 @@ class Home extends React.Component {
     createNewPendingOrder = () => {
       const { pendingOrder, userId } = this.state;
       const newPendingOrder = { ...pendingOrder };
-      newPendingOrder.orderstatus = 'Pending';
+      newPendingOrder.orderStatus = 'Pending';
       newPendingOrder.total = 0.00;
+      newPendingOrder.paymentTypeId = 5;
       newPendingOrder.orderDate = new Date();
       newPendingOrder.userId = userId;
       orderRequests.addOrder(newPendingOrder)
-        .then((result) => {
-          this.setState({ pendingOrder: result.data });
+        .then(() => {
+          this.setState({ loadComponents: true });
         })
         .catch((error) => {
           console.error(error);
@@ -76,7 +77,7 @@ class Home extends React.Component {
     }
 
     render() {
-      const { pendingOrder, userId } = this.state;
+      const { loadComponents, userId } = this.state;
       const Decorators = [{
         render() {
           return (
@@ -92,7 +93,7 @@ class Home extends React.Component {
         },
       }];
 
-      if (pendingOrder.orderStatus === '') {
+      if (loadComponents === false) {
         return (
           <div><h1>Loading</h1></div>
         );

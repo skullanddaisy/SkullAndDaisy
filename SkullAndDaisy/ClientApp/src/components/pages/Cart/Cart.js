@@ -108,7 +108,7 @@ class Cart extends Component {
   createNewPendingOrder = () => {
     const { pendingOrder, userId, paymentMethodKey } = this.state;
     const newPendingOrder = { ...pendingOrder };
-    newPendingOrder.orderstatus = 'Pending';
+    newPendingOrder.orderStatus = 'Pending';
     newPendingOrder.total = 0.00;
     newPendingOrder.orderDate = new Date();
     newPendingOrder.paymentTypeId = paymentMethodKey;
@@ -192,7 +192,22 @@ class Cart extends Component {
     };
 
     const makeModal = () => {
-      if (modal) {
+      if (modal && this.state.paymentMethods.length === 0) {
+        return (
+          <div>
+            <Modal isOpen={this.state.modal} className={this.props.className}>
+              <ModalHeader>No Payment Methods Found</ModalHeader>
+              <ModalBody>
+                A payment method is needed to process the order.
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </div>
+        );
+      }
+      if (modal === true) {
         return (
           <div>
             <Modal isOpen={this.state.modal} className={this.props.className}>
