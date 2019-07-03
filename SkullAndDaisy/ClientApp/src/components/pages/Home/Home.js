@@ -1,20 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from 'nuka-carousel';
 import userRequests from '../../../helpers/data/userRequests';
-import UserProfileCard from '../../UserProfileCard/UserProfileCard';
-import DealOfTheDayCard from '../../DealOfTheDayCard/DealOfTheDayCard';
-import LatestProductsCard from '../../LatestProductsCard/LatestProductsCard';
+import orderRequests from '../../../helpers/data/orderRequests';
+import UserProfileCard from './UserProfileCard/UserProfileCard';
+import DealOfTheDayCard from './DealOfTheDayCard/DealOfTheDayCard';
+import LatestProductsCard from './LatestProductsCard/LatestProductsCard';
 import MyFooter from '../../MyFooter/MyFooter';
 import amethyst from '../../../img/amethyst_crystal.jpg';
 import herbs from '../../../img/herbs_1.jpeg';
 import potions from '../../../img/potions.png';
 import poison from '../../../img/poisonCarousel.jpg';
-import Carousel from 'nuka-carousel';
 import './Home.scss';
+
+
+const defaultPendingOrder = {
+  id: 0,
+  orderDate: '',
+  orderStatus: '',
+  paymentTypeId: 0,
+  total: 0.00,
+  userId: 0,
+  products: [],
+};
 
 class Home extends React.Component {
     state = {
       userId: 0,
+      pendingOrder: defaultPendingOrder,
+      loadComponents: false,
     }
 
     goToProfile = () => {
@@ -29,29 +43,57 @@ class Home extends React.Component {
       userRequests.getUserIdByEmail()
         .then((userId) => {
           this.setState({ userId });
+          orderRequests.getPendingOrder(userId)
+            .then((result) => {
+              if (result.data.length === 0) {
+                this.createNewPendingOrder();
+              } else {
+                this.setState({ loadComponents: true });
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         }).catch((error) => {
           console.error(error);
         });
     }
 
+    createNewPendingOrder = () => {
+      const { pendingOrder, userId } = this.state;
+      const newPendingOrder = { ...pendingOrder };
+      newPendingOrder.orderStatus = 'Pending';
+      newPendingOrder.total = 0.00;
+      newPendingOrder.paymentTypeId = 5;
+      newPendingOrder.orderDate = new Date();
+      newPendingOrder.userId = userId;
+      orderRequests.addOrder(newPendingOrder)
+        .then(() => {
+          this.setState({ loadComponents: true });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
     render() {
-      const { userId } = this.state;
+      const { loadComponents, userId } = this.state;
       const Decorators = [{
-          render() {
-            return (
+        render() {
+          return (
               <button
                 onClick={this.props.previousSlide}>
                 Previous Slide
               </button>
-            )
-          },
+          );
+        },
         position: 'CenterLeft',
         style: {
-          padding: 20
-        }
+          padding: 20,
+        },
       }];
-      
-      if (userId === 0) {
+
+      if (loadComponents === false) {
         return (
           <div><h1>Loading</h1></div>
         );

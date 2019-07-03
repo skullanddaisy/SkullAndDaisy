@@ -1,7 +1,7 @@
 import React from 'react';
 import './SellerProducts.scss';
 import productRequests from '../../../helpers/data/productRequests';
-import ProductCard from '../../ProductCard/ProductCard';
+import ProductCard from '../ProductDetails/ProductCard/ProductCard';
 import userRequests from '../../../helpers/data/userRequests';
 
 class SellerProducts extends React.Component {
@@ -21,8 +21,7 @@ class SellerProducts extends React.Component {
           .catch(err => console.error('error in getting products', err));
       }).catch((error) => {
         console.error(error);
-      }
-    );
+      });
   }
 
   render() {

@@ -5,12 +5,11 @@
 import firebase from 'firebase';
 import axios from 'axios';
 
-axios.interceptors.request.use(function (request) {
+axios.interceptors.request.use((request) => {
   const token = sessionStorage.getItem('token');
   if (token != null) {
     request.headers.Authorization = `Bearer ${token}`;
   }
-
   return request;
 }, function (err) {
   return Promise.reject(err);
@@ -43,7 +42,6 @@ const getUid = () => {
 const getUserEmail = () => {
   return firebase.auth().currentUser.email;
 };
-
 
 const getCurrentUserJwt = () => firebase
   .auth()
