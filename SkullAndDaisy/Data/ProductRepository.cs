@@ -110,7 +110,8 @@ namespace SkullAndDaisy.Data
                         [ProductTypeId] = @productTypeId,
                         [Description] = @description,
                         [Quantity] = @quantity,
-                        [UserId] = @userId
+                        [UserId] = @userId,
+                        [ImageUrl] = @imageUrl
                      WHERE id = @id";
 
                 var rowAffected = db.Execute(updateQuery, productToUpdate);
