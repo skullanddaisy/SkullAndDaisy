@@ -29,6 +29,13 @@ const defaultPendingOrder = {
   products: [],
 };
 
+const defaultPaymentType = {
+  name: '',
+  accountNumber: '',
+  userId: 0,
+  isActive: true,
+}
+
 class Cart extends Component {
   state = {
     userId: 0,
@@ -42,6 +49,8 @@ class Cart extends Component {
     paymentMethods: [],
     paymentMethodKey: 0,
     showAlert: false,
+    newPaymentType: defaultPaymentType,
+    addPayment: false,
   }
 
   toggle = () => {
@@ -82,6 +91,14 @@ class Cart extends Component {
 
   closeModal = () => {
     this.setState({ modal: false });
+  }
+
+  enterNewPayment = () => {
+    this.setState({ addPayment: true});
+  }
+
+  exitNewPayment = () => {
+    this.setState({ addPayment: false })
   }
 
   processOrder = () => {
@@ -161,6 +178,45 @@ class Cart extends Component {
       });
   }
 
+  addPaymentType = (newPaymentType) => {
+    const userId = this.state.userId;
+    newPaymentType.userId = userId;
+    paymentTypeRequests.addPaymentType(newPaymentType)
+      .then(() => {
+        paymentTypeRequests.getAllPaymentTypes(userId)
+          .then((paymentMethods) => {
+            this.setState({ paymentMethods });
+            // this.props.history.push(`/paymenttypes`);
+          })
+        .catch(err => alert(`error with adding payment method`, err));
+      })
+  }
+
+  formSubmit = (e) => {
+    e.preventDefault();
+    const myPaymentType = { ...this.state.newPaymentType };
+    this.addPaymentType(myPaymentType);
+    this.setState({ newPaymentType: defaultPaymentType});
+    this.setState({ addPayment: false });
+  }
+
+  formFieldStringState = (name, e) => {
+    const tempPaymentType = { ...this.state.newPaymentType };
+    tempPaymentType[name] = e.target.value;
+    this.setState({ newPaymentType: tempPaymentType });
+  }
+
+  formFieldNumberState = (name, e) => {
+    const tempPaymentType = { ...this.state.newPaymentType };
+    tempPaymentType[name] = e.target.value * 1;
+    this.setState({ newPaymentType: tempPaymentType });
+  }
+
+  nameChange = e => this.formFieldStringState('name', e);
+
+  accountNumberChange = e => this.formFieldStringState('accountNumber', e);
+
+
   render() {
     const {
       numberOfProducts,
@@ -171,6 +227,8 @@ class Cart extends Component {
       dropDownValue,
       paymentMethods,
       showAlert,
+      addPayment,
+      newPaymentType
     } = this.state;
 
     const paymentMethodItems = paymentMethods.map(paymentMethod => (
@@ -207,6 +265,47 @@ class Cart extends Component {
           </div>
         );
       }
+      if (modal === true && addPayment === true) {
+        return (
+          <div>
+            <Modal isOpen={this.state.modal} className={this.props.className}>
+              <ModalHeader>Add New Payment Method</ModalHeader>
+              <ModalBody>
+                {makeAlert()}
+                <form>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input
+                  maxLength="55"
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  aria-describedby="nameHelp"
+                  value={newPaymentType.name}
+                  onChange={this.nameChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="accountNumber">Account Number:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="accountNumber"
+                  aria-describedby="accountNumberHelp"
+                  value={newPaymentType.accountNumber}
+                  onChange={this.accountNumberChange}
+                />
+              </div>
+              <div className="enterPaymentButtons">
+                <Button color="success" onClick={this.formSubmit}>Save Payment</Button>
+                <Button color="secondary" onClick={this.exitNewPayment}>Cancel</Button>
+              </div>
+            </form>
+              </ModalBody>
+            </Modal>
+          </div>
+        );
+      }
       if (modal === true) {
         return (
           <div>
@@ -234,6 +333,9 @@ class Cart extends Component {
               <p className='sub m-2'>SubTotal ({numberOfProducts} items): <strong className='totalPrice'>${totalPriceOfOrder}</strong></p>
               </ModalBody>
               <ModalFooter>
+                <div className="addPaymentButton">
+                  <Button color="success" onClick={this.enterNewPayment}>+ Add Payment</Button>
+                </div>
                 <Button color="primary" onClick={this.processOrder}>Process Order</Button>{' '}
                 <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
               </ModalFooter>

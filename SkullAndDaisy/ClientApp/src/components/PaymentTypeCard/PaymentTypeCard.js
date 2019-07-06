@@ -7,7 +7,7 @@ export default class PaymentTypeCard extends Component {
 		paymentType: paymentTypeShape,
 	}
 
-	// Function that allows user to edit appointment
+	// Function that allows user to edit paymentType
 	editPaymentType = (e) => {
 		e.preventDefault();
 		const { passPaymentTypeToEdit, paymentType } = this.props;
@@ -19,7 +19,7 @@ export default class PaymentTypeCard extends Component {
 		this.setState({ open: true });
 	}
 
-	// Function that renders the edit button on each appointment item
+	// Function that renders the edit button on each paymentType item
     makeEditButton = () => {
 		  return (
 			<div id="editButtonDiv">
@@ -32,7 +32,7 @@ export default class PaymentTypeCard extends Component {
 		  );
 		};
   
-	  // Function that renders the delete button on each appointment item
+	// Function that renders the delete button on each paymentType item
 	makeDeleteButton = () => {
 		  return (
 			<div id="deleteButtonDiv">
