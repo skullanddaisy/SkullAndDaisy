@@ -9,7 +9,7 @@ import './PaymentTypes.scss';
 
 const defaultPaymentType = {
   name: '',
-  accountNumber: 0,
+  accountNumber: '',
   userId: 0,
   isActive: true,
 }
@@ -20,7 +20,9 @@ class PaymentTypes extends React.Component {
     currentUser: {},
     paymentTypes: [],
     singlePaymentType: {},
-    modal: false,
+    open: false,
+    editId: '-1',
+    isEditing: false,
     newPaymentType: defaultPaymentType,
   }
 
@@ -37,16 +39,12 @@ class PaymentTypes extends React.Component {
     newPaymentType.userId = userId;
     PaymentTypeRequests.addPaymentType(newPaymentType)
       .then(() => {
-        userRequests.getSingleUser()
-          .then((user) => {
-            this.setState({currentUser: user});
-          })
         PaymentTypeRequests.getAllPaymentTypes(userId)
           .then((paymentTypes) => {
             this.setState({ paymentTypes });
             this.props.history.push(`/paymenttypes`);
           })
-        .catch(err => console.error(`error with getting payment types`, err));
+        .catch(err => alert(`error with getting payment types`, err));
       })
   }
 
@@ -77,19 +75,12 @@ class PaymentTypes extends React.Component {
     const {
       currentUser,
       paymentTypes,
-      newPaymentType
+      newPaymentType,
+      
     } = this.state;
 
     const firstName = currentUser.firstName;
     const lastName = currentUser.lastName;
-
-    // const displayModal = () => {
-    //   return (
-    //     <div>
-
-    //     </div>
-    //   );
-    // };
 
     const paymentCardComponents = paymentTypes.map(paymentType =>(
       <PaymentTypeCard 
@@ -106,7 +97,7 @@ class PaymentTypes extends React.Component {
             <p>{firstName}</p>
             <p>{lastName}</p>
           </div>
-          <div>
+          <div className="paymentTypeForm">
           <form>
               <div className="form-group">
                 <label htmlFor="name">Name:</label>
@@ -123,7 +114,7 @@ class PaymentTypes extends React.Component {
               <div className="form-group">
                 <label htmlFor="accountNumber">Account Number:</label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control"
                   id="accountNumber"
                   aria-describedby="accountNumberHelp"

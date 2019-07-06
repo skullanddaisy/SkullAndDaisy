@@ -17,3 +17,17 @@
 	background-color: yellow;
 	color: black;
 }
+
+.paymentTypeForm {
+	display: flex;
+	justify-content: center;
+	background-color: gray;
+	margin: 40px;
+	border-radius: 1rem;
+	width: 450px;
+	height: 250px;
+
+	input {
+		width: 250px;
+	}
+}
