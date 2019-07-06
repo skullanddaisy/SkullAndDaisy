@@ -8,23 +8,20 @@ import {
 import { Link } from 'react-router-dom';
 import ProductRequest from '../../../helpers/data/productRequests';
 import productShape from '../../../helpers/props/productShape';
-import ProductCard from '../../ProductCard/ProductCard';
-import UserRequests from '../../../helpers/data/userRequests';
 import orderRequests from '../../../helpers/data/orderRequests';
 import productOrderRequests from '../../../helpers/data/productOrderRequests';
 import './ProductDetails.scss';
 import userRequests from '../../../helpers/data/userRequests';
-import LatestProducts from '../../../components/LatestProductsCard/LatestProductsCard';
+import LatestProducts from '../Home/LatestProductsCard/LatestProductsCard';
 import soldOutStamp from '../../../img/sold-out-stamp-1.png';
 
 const defaultProductOrder = {
 	orderId: 0,
 	productId: 0,
-	quantity: 0
+	quantity: 0,
   };
 
-class ProductDetails extends React.Component{
-	
+class ProductDetails extends React.Component {
 	state = {
 		product: productShape,
 		products: [],
@@ -47,7 +44,7 @@ class ProductDetails extends React.Component{
 		ProductRequest.getProductById(productId)
 		.then((productById) => {
 			this.setState({ product: productById });
-			this.setState({ sellerId: productById.userId })
+			this.setState({ sellerId: productById.userId });
 			userRequests.getUserById(this.state.sellerId)
 				.then((theSeller) => {
 					this.setState({ seller: theSeller });
@@ -56,16 +53,16 @@ class ProductDetails extends React.Component{
 							this.setState({ products: productsByUserId });
 						})
 					.catch((err) => {
-				  console.error("Wasn't able to get seller products.", err);
+					console.error("Wasn't able to get seller products.", err);
 				});
-			})
+			});
 		});
-		UserRequests.getUserIdByEmail()
-		  .then((userId) => {
+		userRequests.getUserIdByEmail()
+			.then((userId) => {
 			this.setState({ userId });
-		  }).catch((error) => {
+			}).catch((error) => {
 			console.error(error);
-		  });
+			});
 	}
 
   onDismiss = () => {
@@ -80,52 +77,44 @@ class ProductDetails extends React.Component{
 
 	addToCart = () => {
 		orderRequests.getPendingOrder(this.state.userId)
-		  .then((result) => {
+			.then((result) => {
 			const pendingOrder = result.data;
 			const orderProducts = pendingOrder[0].products;
 			let matchingProduct;
 			for (let i = 0; i < orderProducts.length; i += 1) {
-			  if (orderProducts[i].id === this.state.product.id) {
+				if (orderProducts[i].id === this.state.product.id) {
 				matchingProduct = orderProducts[i];
-			  }
+				}
 			}
 			if (matchingProduct === undefined) {
-			  const newProductOrder = { ...this.state.newProductOrder };
-			  newProductOrder.productId = this.state.product.id;
-			  newProductOrder.orderId = pendingOrder[0].id;
-			  newProductOrder.quantity = this.state.quantity;
-			  this.setState({ newProductOrder, showAlert: true });
-			  productOrderRequests.addProductOrder(this.state.newProductOrder).then();
+				const newProductOrder = { ...this.state.newProductOrder };
+				newProductOrder.productId = this.state.product.id;
+				newProductOrder.orderId = pendingOrder[0].id;
+				newProductOrder.quantity = this.state.quantity;
+				this.setState({ newProductOrder, showAlert: true });
+				productOrderRequests.addProductOrder(this.state.newProductOrder).then();
 			} else {
-			  productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
-			  .then((res) => {
+				productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
+				.then((res) => {
 				const productOrder = res.data;
 				productOrder.quantity = this.state.quantity + productOrder.quantity;
 				productOrderRequests.updateProductOrder(productOrder).then();
-			  }).catch();
+				}).catch();
 			}
-		  }).catch();
+			}).catch();
 		}
 
 	render() {
-		
 		const {
-			products,
 			product,
 			seller,
 			showAlert,
-			quantity } = this.state;
-		
+			quantity,
+} = this.state;
+
 		const sellerStore = `/sellerstore/${seller.id}`;
 
-		const productPotionComponents = products.map(product => (
-			<ProductCard
-			key={product.id}
-			product={product}
-			seller={seller}
-			/>));
-
-		UserRequests.getUserById(2)
+		userRequests.getUserById(2)
 			.then((theUser) => {
 				this.setState({ user: theUser });
 		});

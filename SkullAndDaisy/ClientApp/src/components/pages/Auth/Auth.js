@@ -10,8 +10,7 @@ import {
   Container,
 } from 'reactstrap';
 import authRequests from '../../../helpers/data/authRequests';
-import Register from '../../Register/Register';
-
+import Register from './Register/Register';
 import './Auth.scss';
 
 class Auth extends React.Component {

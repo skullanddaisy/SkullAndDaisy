@@ -17,7 +17,7 @@ namespace SkullAndDaisy.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Product AddProduct(string title, string description, string imageUrl, int productTypeId, decimal price, int quantity, int userId)
+        public Product AddProduct(string title, string imageUrl, string description, int productTypeId, decimal price, int quantity, int userId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -110,7 +110,8 @@ namespace SkullAndDaisy.Data
                         [ProductTypeId] = @productTypeId,
                         [Description] = @description,
                         [Quantity] = @quantity,
-                        [UserId] = @userId
+                        [UserId] = @userId,
+                        [ImageUrl] = @imageUrl
                      WHERE id = @id";
 
                 var rowAffected = db.Execute(updateQuery, productToUpdate);

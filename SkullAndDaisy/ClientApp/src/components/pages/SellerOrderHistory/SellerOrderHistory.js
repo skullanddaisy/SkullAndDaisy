@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import userRequests from '../../../helpers/data/userRequests';
 import orderRequests from '../../../helpers/data/orderRequests';
-import SoldItem from '../../SoldItem/SoldItem';
+import SoldItem from './SoldItem/SoldItem';
 import './SellerOrderHistory.scss';
 
 export default class SellerOrderHistory extends Component {

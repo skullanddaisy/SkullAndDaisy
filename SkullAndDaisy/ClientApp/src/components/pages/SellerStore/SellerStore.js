@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import ProductCard from '../../ProductCard/ProductCard';
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-tabs */
+import React, { Component } from 'react';
+import ProductCard from '../ProductDetails/ProductCard/ProductCard';
 import userRequests from '../../../helpers/data/userRequests';
 import productRequests from '../../../helpers/data/productRequests';
 import './SellerStore.scss';
@@ -7,42 +9,41 @@ import './SellerStore.scss';
 
 export default class SellerStore extends Component {
 	state = {
-		products: [],
-		userId: 0,
-		seller: {}
+	  products: [],
+	  userId: 0,
+	  seller: {},
 	}
 
 
 	componentDidMount() {
-		const sellerId = this.props.match.params.id;
-		userRequests.getUserById(sellerId)
+	  const sellerId = this.props.match.params.id;
+	  userRequests.getUserById(sellerId)
 		  .then((seller) => {
-			this.setState({ seller });
-			productRequests.getSellersProducts(this.state.seller.id)
+	      this.setState({ seller });
+	      productRequests.getSellersProducts(this.state.seller.id)
 			  .then((products) => {
-				this.setState({ products });
+	          this.setState({ products });
 			  })
 			  .catch(err => console.error('error in getting products', err));
 		  }).catch((error) => {
-			console.error(error);
-		});
+	      console.error(error);
+	    });
 	}
 
 	render() {
+	  const {
+	    products,
+	    seller,
+	  } = this.state;
 
-		const {
-			products,
-			seller,
-		} = this.state;
-
-		const productItemComponents = products.map(product => (
+	  const productItemComponents = products.map(product => (
             <ProductCard
               product={product}
 			  key={product.id}
 			  seller={seller}
 			/>));
-		const sellerEmail = `mailto: ${seller.email}`;
-		return (
+	  const sellerEmail = `mailto: ${seller.email}`;
+	  return (
 			<div className="sellerStoreContainer">
 				<h1>Seller Store</h1>
 				<div className="cardContainer">
@@ -66,6 +67,6 @@ export default class SellerStore extends Component {
 					</div>
 				</div>
 			</div>
-		)
+	  );
 	}
 }
