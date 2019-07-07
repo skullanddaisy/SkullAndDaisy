@@ -3,9 +3,19 @@ import userRequests from '../../../helpers/data/userRequests';
 import PaymentTypeCard from '../../PaymentTypeCard/PaymentTypeCard';
 // import PaymentType from '../../PaymentType/PaymentType';
 // import PaymentTypeModal from '../../PaymentTypeModal/PaymentTypeModal';
-import PaymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
+import paymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
 import './PaymentTypes.scss';
-
+// import EditPaymentType from '../../Modals/EditPaymentType';
+import {
+	Button,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	Form,
+	FormGroup,
+	Label
+} from 'reactstrap';
 
 const defaultPaymentType = {
   name: '',
@@ -19,11 +29,11 @@ class PaymentTypes extends React.Component {
   state = {
     currentUser: {},
     paymentTypes: [],
-    singlePaymentType: {},
-    open: false,
+    paymentType: {},
     editId: '-1',
     isEditing: false,
     newPaymentType: defaultPaymentType,
+    modalOpen: false,
   }
 
   componentDidMount() {
@@ -36,16 +46,56 @@ class PaymentTypes extends React.Component {
 
   addPaymentType = (newPaymentType) => {
     const userId = this.state.currentUser.id;
-    newPaymentType.userId = userId;
-    PaymentTypeRequests.addPaymentType(newPaymentType)
+    paymentTypeRequests.addPaymentType(newPaymentType)
       .then(() => {
-        PaymentTypeRequests.getAllPaymentTypes(userId)
+        paymentTypeRequests.getAllPaymentTypes(userId)
           .then((paymentTypes) => {
             this.setState({ paymentTypes });
             this.props.history.push(`/paymenttypes`);
           })
         .catch(err => alert(`error with getting payment types`, err));
       })
+  }
+
+  formSubmitUpdatePayment = () => {
+    const { isEditing, currentUser, paymentType } = this.state;
+    const userId = currentUser.id;
+    const paymentTypeId = paymentType.id;
+    if (isEditing) {
+      paymentTypeRequests.updatePaymentType(paymentTypeId)
+        .then(() => {
+          paymentTypeRequests.getAllPaymentTypes(userId)
+            .then((paymentTypes) => {
+              this.setState({ paymentTypes, isEditing: false, editId: '-1' });
+            });
+        })
+        .catch(err => console.error('error with payment post', err));
+    }
+  };
+  
+  deletePaymentType = (paymentTypeId) => {
+    const { currentUser } = this.state;
+    const userId = currentUser.id
+    paymentTypeRequests.deletePaymentType(paymentTypeId)
+      .then(() => {
+        paymentTypeRequests.getAllPaymentTypes(userId)
+          .then((paymentTypes) => {
+            this.setState({ paymentTypes });
+          });
+      })
+      .catch(err => console.error('error with delete payment type', err));
+  }
+
+  passPaymentTypeToEdit = (paymentTypeId) => {
+    this.setState({ isEditing: true, editId: paymentTypeId })
+  } 
+
+  openModal = () => {
+    this.setState({ modalOpen: true })
+  }
+
+  closeModal = () => {
+    this.setState({ modalOpen: false })
   }
 
   formFieldStringState = (name, e) => {
@@ -60,7 +110,7 @@ class PaymentTypes extends React.Component {
     this.setState({ newPaymentType: tempPaymentType });
   }
 
-  formSubmit = (e) => {
+  formSubmitAddPayment = (e) => {
     e.preventDefault();
     const myPaymentType = { ...this.state.newPaymentType };
     this.addPaymentType(myPaymentType);
@@ -71,64 +121,101 @@ class PaymentTypes extends React.Component {
 
   accountNumberChange = e => this.formFieldStringState('accountNumber', e);
 
+  // Function that allows user to edit paymentType
+  editPaymentType = (e) => {
+    e.preventDefault();
+    const { passPaymentTypeToEdit, paymentType } = this.props;
+
+    // Function that sets the state of the EditId to the paymentTypeId.
+    passPaymentTypeToEdit(paymentType.id);
+
+    // Opens the modal
+    this.setState({ modalOpen: true });
+  }
+
   render() {
     const {
-      currentUser,
       paymentTypes,
+      paymentType,
       newPaymentType,
-      
+      modalOpen,
+      isEditing,
+      editId
     } = this.state;
-
-    const firstName = currentUser.firstName;
-    const lastName = currentUser.lastName;
 
     const paymentCardComponents = paymentTypes.map(paymentType =>(
       <PaymentTypeCard 
         key={paymentType.id}
         paymentType={paymentType}
+        passPaymentTypeToEdit={this.passPaymentTypeToEdit}
+        isEditing={isEditing}
+        editId={editId}
+        openModal={this.openModal}
+        editPaymentType={this.editPaymentType}
+        deletePaymentType={this.deletePaymentType}
       />
     ))
 
     return (
       <div className='payment-types'>
         <h2>Payment Types</h2>
-        <div id="paymentCardContainer">
-          <div id="paymentCard">
-            <p>{firstName}</p>
-            <p>{lastName}</p>
-          </div>
-          <div className="paymentTypeForm">
-          <form>
-              <div className="form-group">
-                <label htmlFor="name">Name:</label>
-                <input
-                  maxLength="55"
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  aria-describedby="nameHelp"
-                  value={newPaymentType.name}
-                  onChange={this.nameChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="accountNumber">Account Number:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="accountNumber"
-                  aria-describedby="accountNumberHelp"
-                  value={newPaymentType.accountNumber}
-                  onChange={this.accountNumberChange}
-                />
-              </div>
-              <button color="primary" onClick={this.formSubmit}>Save Payment Type</button>
-            </form>
-          </div>
-          <div>
-            {paymentCardComponents}
-          </div>
+        <div>
+          <Button className="primary" onClick={this.openModal}>+ Add Payment Method</Button>
         </div>
+        <div id="paymentCardContainer">
+          {paymentCardComponents}
+        </div>
+        <div>
+				<Modal
+					isOpen={modalOpen}
+					toggle={this.toggle}
+					isEditing={isEditing}
+					editId={editId}
+				>
+					<ModalHeader></ModalHeader>
+					<ModalBody>
+					<Form>
+						<FormGroup>
+							<Label for="name">Name:</Label>
+							<input
+							maxLength="55"
+							type="text"
+							className="form-control"
+							id="name"
+							aria-describedby="nameHelp"
+							value={paymentType.name}
+							onChange={this.nameChange}
+							/>
+						</FormGroup>
+						<FormGroup>
+							<Label for="accountNumber">Account Number:</Label>
+							<input
+							type="text"
+							className="form-control"
+							id="accountNumber"
+							aria-describedby="accountNumberHelp"
+							value={paymentType.accountNumber}
+							onChange={this.accountNumberChange}
+							/>
+						</FormGroup>
+						<ModalFooter>
+							<Button color="primary" onClick={(e) => {
+                if (isEditing) {
+                  e.preventDefault();
+                  this.formSubmitUpdatePayment();
+                  this.closeModal();
+                } else {
+                  e.preventDefault();
+                  this.addPaymentType();
+                  this.closeModal();
+                }
+							}}>Save Payment Method</Button>
+							<Button color="secondary" onClick={this.closeModal}>Cancel</Button>
+						</ModalFooter>
+					</Form>
+					</ModalBody>
+				</Modal>
+			</div>
       </div>
     );
   }
