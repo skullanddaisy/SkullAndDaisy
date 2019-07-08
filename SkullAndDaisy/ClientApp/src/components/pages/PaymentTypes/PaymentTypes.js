@@ -81,15 +81,14 @@ class PaymentTypes extends React.Component {
     myPaymentType.userId = userId;
 
     paymentTypeRequests.addPaymentType(myPaymentType)
-      .then((newPaymentType) => {
-        paymentTypes.push(newPaymentType)
+      .then(() => {
         this.setState({ newPaymentType: defaultPaymentType });
-      })
-      paymentTypeRequests.getAllPaymentTypes(userId)
+        paymentTypeRequests.getAllPaymentTypes(userId)
           .then((paymentTypes) => {
             console.log(paymentTypes);
             this.setState({ paymentTypes });
           })
+      })
   }
 
   deletePaymentType = (paymentTypeId) => {
