@@ -36,6 +36,7 @@ class ProductDetails extends React.Component {
 		newProductOrder: defaultProductOrder,
 		quantity: 1,
 		showAlert: false,
+		disableAddToCart: false,
 	}
 
 	componentDidMount() {
@@ -45,6 +46,9 @@ class ProductDetails extends React.Component {
 		.then((productById) => {
 			this.setState({ product: productById });
 			this.setState({ sellerId: productById.userId });
+			if (productById.quantity === 0) {
+				this.setState({ disableAddToCart: true });
+			}
 			userRequests.getUserById(this.state.sellerId)
 				.then((theSeller) => {
 					this.setState({ seller: theSeller });
@@ -70,8 +74,12 @@ class ProductDetails extends React.Component {
   }
 
 	quantityChange = (e) => {
+		const { product } = this.state;
 		let quantity = { ...this.state.quantity };
 		quantity = e.target.value * 1;
+		if (quantity > product.quantity) {
+			quantity = product.quantity;
+		}
 		this.setState({ quantity });
 	};
 
@@ -97,7 +105,12 @@ class ProductDetails extends React.Component {
 				productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
 				.then((res) => {
 				const productOrder = res.data;
-				productOrder.quantity = this.state.quantity + productOrder.quantity;
+				const newQuantity = this.state.quantity + productOrder.quantity;
+				if (newQuantity > this.state.product.quantity) {
+					productOrder.quantity = this.state.product.quantity;
+				} else {
+					productOrder.quantity = newQuantity;
+				}
 				productOrderRequests.updateProductOrder(productOrder).then();
 				}).catch();
 			}
@@ -110,6 +123,7 @@ class ProductDetails extends React.Component {
 			seller,
 			showAlert,
 			quantity,
+			disableAddToCart,
 } = this.state;
 
 		const sellerStore = `/sellerstore/${seller.id}`;
@@ -161,9 +175,9 @@ class ProductDetails extends React.Component {
 						</div>
 						<div id="descriptionHeader">Description:</div>
 						<div id="productDetails">{product.description}</div>
+						<div class='text-danger'>{product.quantity} left in stock</div>
 						<div className="productDetailsButtonContainer">
-							<Button className="productDetailsButton" onClick={this.addToCart}>Add to Cart</Button>
-							<Button className="productDetailsButton">Add to Wish List</Button>
+							<Button className="productDetailsButton" disabled={disableAddToCart} onClick={this.addToCart}>Add to Cart</Button>
 						</div>
 					</div>
 					<hr id="productDetailLine"></hr>
