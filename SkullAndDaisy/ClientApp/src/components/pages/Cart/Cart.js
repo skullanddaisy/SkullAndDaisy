@@ -18,6 +18,7 @@ import paymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
 import CartTable from './CartTable/CartTable';
 import './Cart.scss';
 import productOrderRequests from '../../../helpers/data/productOrderRequests';
+import productRequests from '../../../helpers/data/productRequests';
 
 const defaultPendingOrder = {
   id: 0,
@@ -97,12 +98,32 @@ class Cart extends Component {
       orderRequests.updateOrder(myOrder)
         .then(() => {
           this.createNewPendingOrder();
+          this.updateStockQuantities();
           this.setState({ modal: false });
         })
         .catch((error) => {
           console.error(error);
         });
     }
+  }
+
+  updateStockQuantities = () => {
+    const { pendingOrder } = this.state;
+    pendingOrder.products.forEach((product) => {
+      const productQuantity = product.quantity;
+      let stockQuantity = 0;
+      productRequests.getProductById(product.id)
+        .then((originalProduct) => {
+          stockQuantity = originalProduct.quantity;
+          const newQuantity = stockQuantity - productQuantity;
+          originalProduct.quantity = newQuantity;
+          productRequests.putRequest(originalProduct.id, originalProduct)
+            .then();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
   }
 
   createNewPendingOrder = () => {
