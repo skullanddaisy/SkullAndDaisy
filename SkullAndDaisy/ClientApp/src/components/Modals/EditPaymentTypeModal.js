@@ -101,7 +101,7 @@ export default class EditPaymentType extends Component {
 							aria-describedby="accountNumberHelp"
 							value={newPaymentType.accountNumber}
 							onChange={this.accountNumberChange}
-							/>
+						/>
 						</FormGroup>
 						<ModalFooter>
 							<Button color="primary" onClick={(e) => {

@@ -13,7 +13,7 @@ export default class PaymentTypeCard extends Component {
 		const { passPaymentTypeToEdit, paymentType, openModal } = this.props;
 
 		// Function that sets the state of the EditId to the paymentTypeId.
-		passPaymentTypeToEdit(paymentType.id);
+		passPaymentTypeToEdit(paymentType);
 
 		// Opens the modal
 		openModal();
@@ -50,7 +50,6 @@ export default class PaymentTypeCard extends Component {
 			</div>
 		  )
 		};
-
 		
 		render() {
 		const { paymentType } = this.props;

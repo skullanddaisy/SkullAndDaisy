@@ -40,39 +40,58 @@ class PaymentTypes extends React.Component {
     userRequests.getSingleUser()
       .then((user) => {
         this.setState({currentUser: user});
-        this.setState({paymentTypes: user.paymentTypes})
+        this.setState({paymentTypes: user.paymentTypes});
       })
   }
 
-  addPaymentType = (newPaymentType) => {
-    const userId = this.state.currentUser.id;
-    paymentTypeRequests.addPaymentType(newPaymentType)
+  // addPaymentType = (newPaymentType) => {
+  //   const userId = this.state.currentUser.id;
+
+  //   paymentTypeRequests.addPaymentType(newPaymentType)
+  //     .then(() => {
+  //       paymentTypeRequests.getAllPaymentTypes(userId)
+  //         .then((paymentTypes) => {
+  //           this.setState({ paymentTypes });
+  //           this.props.history.push(`/paymenttypes`);
+  //         })
+  //       .catch(err => alert(`error with getting payment types`, err));
+  //     })
+  // }
+
+  formSubmitUpdatePayment = () => {
+    const { currentUser, newPaymentType } = this.state;
+    const userId = currentUser.id;
+    const paymentTypeId = newPaymentType.id;
+    const myPaymentType = { ...this.state.newPaymentType };
+
+    paymentTypeRequests.updatePaymentType(paymentTypeId, myPaymentType)
       .then(() => {
         paymentTypeRequests.getAllPaymentTypes(userId)
           .then((paymentTypes) => {
-            this.setState({ paymentTypes });
-            this.props.history.push(`/paymenttypes`);
-          })
-        .catch(err => alert(`error with getting payment types`, err));
+            this.setState({ paymentTypes, isEditing: false, editId: '-1' });
+          });
       })
-  }
-
-  formSubmitUpdatePayment = () => {
-    const { isEditing, currentUser, paymentType } = this.state;
-    const userId = currentUser.id;
-    const paymentTypeId = paymentType.id;
-    if (isEditing) {
-      paymentTypeRequests.updatePaymentType(paymentTypeId)
-        .then(() => {
-          paymentTypeRequests.getAllPaymentTypes(userId)
-            .then((paymentTypes) => {
-              this.setState({ paymentTypes, isEditing: false, editId: '-1' });
-            });
-        })
-        .catch(err => console.error('error with payment post', err));
-    }
+    .catch(err => console.error('error with payment post', err));
   };
   
+  formSubmitAddPayment = () => {
+    const userId = this.state.currentUser.id;
+    const myPaymentType = { ...this.state.newPaymentType };
+    const { paymentTypes } = this.state;
+    myPaymentType.userId = userId;
+
+    paymentTypeRequests.addPaymentType(myPaymentType)
+      .then((newPaymentType) => {
+        paymentTypes.push(newPaymentType)
+        this.setState({ newPaymentType: defaultPaymentType });
+      })
+      paymentTypeRequests.getAllPaymentTypes(userId)
+          .then((paymentTypes) => {
+            console.log(paymentTypes);
+            this.setState({ paymentTypes });
+          })
+  }
+
   deletePaymentType = (paymentTypeId) => {
     const { currentUser } = this.state;
     const userId = currentUser.id
@@ -86,8 +105,19 @@ class PaymentTypes extends React.Component {
       .catch(err => console.error('error with delete payment type', err));
   }
 
-  passPaymentTypeToEdit = (paymentTypeId) => {
-    this.setState({ isEditing: true, editId: paymentTypeId })
+  passPaymentTypeToEdit = (paymentType) => {
+    // const editId = this.state.editId;
+    
+    this.setState({ isEditing: true, editId: paymentType.id, newPaymentType: paymentType })
+    
+    // for (let i = 0; paymentTypes.length > i; i++) {
+    //   const paymentId = paymentTypes[i].id;
+    //   console.log(`PaymentId: ${paymentId} and EditIt: ${editId}`);
+    //   if (paymentId === editId) {
+    //     this.setState({ newPaymentType: paymentType[i] });
+    //     console.log(newPaymentType);
+    //   }
+    // }
   } 
 
   openModal = () => {
@@ -95,26 +125,23 @@ class PaymentTypes extends React.Component {
   }
 
   closeModal = () => {
-    this.setState({ modalOpen: false })
+    this.setState({ modalOpen: false, isEditing: false, newPaymentType: defaultPaymentType })
   }
+
+  // setPaymentType = () => {
+  //   const { paymentTypes, paymentType } = this.state
+  //   const paymentId = paymentTypes[i].id;
+  //   const editId = this.state.editId;
+
+  //   for (let i = 0; paymentTypes.length > i; i++) {
+  //     paymentId === editId ? this.setState({ paymentType: paymentType[i] }) : '';
+  //   }
+  // }
 
   formFieldStringState = (name, e) => {
     const tempPaymentType = { ...this.state.newPaymentType };
     tempPaymentType[name] = e.target.value;
     this.setState({ newPaymentType: tempPaymentType });
-  }
-
-  formFieldNumberState = (name, e) => {
-    const tempPaymentType = { ...this.state.newPaymentType };
-    tempPaymentType[name] = e.target.value * 1;
-    this.setState({ newPaymentType: tempPaymentType });
-  }
-
-  formSubmitAddPayment = (e) => {
-    e.preventDefault();
-    const myPaymentType = { ...this.state.newPaymentType };
-    this.addPaymentType(myPaymentType);
-    this.setState({ newPaymentType: defaultPaymentType})
   }
 
   nameChange = e => this.formFieldStringState('name', e);
@@ -183,7 +210,7 @@ class PaymentTypes extends React.Component {
 							className="form-control"
 							id="name"
 							aria-describedby="nameHelp"
-							value={paymentType.name}
+							value={newPaymentType.name}
 							onChange={this.nameChange}
 							/>
 						</FormGroup>
@@ -194,7 +221,7 @@ class PaymentTypes extends React.Component {
 							className="form-control"
 							id="accountNumber"
 							aria-describedby="accountNumberHelp"
-							value={paymentType.accountNumber}
+							value={newPaymentType.accountNumber}
 							onChange={this.accountNumberChange}
 							/>
 						</FormGroup>
@@ -206,7 +233,7 @@ class PaymentTypes extends React.Component {
                   this.closeModal();
                 } else {
                   e.preventDefault();
-                  this.addPaymentType();
+                  this.formSubmitAddPayment();
                   this.closeModal();
                 }
 							}}>Save Payment Method</Button>

@@ -33,7 +33,7 @@ const addPaymentType = paymentType => axios.post(`${sadApiBaseUrl}/paymenttypes/
 
 const deletePaymentType = (paymentTypeId) => axios.put(`${sadApiBaseUrl}/paymenttypes/delete/${paymentTypeId}`);
 
-const updatePaymentType = (paymentTypeId) => axios.put(`${sadApiBaseUrl}/paymenttypes/update${paymentTypeId}`);
+const updatePaymentType = (paymentTypeId, newPaymentType) => axios.put(`${sadApiBaseUrl}/paymenttypes/update/${paymentTypeId}`, newPaymentType);
 
 const getPaymentTypesByUserId = userId => axios.get(`${sadApiBaseUrl}/paymenttypes/${userId}/all`);
 
