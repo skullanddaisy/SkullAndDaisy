@@ -50,10 +50,13 @@ class Auth extends React.Component {
       const { user } = this.state;
       return (
             <Container className="Login">
+                <div>
+                  <img class='skullImage' src='http://clipart-library.com/images/8cGbMR54i.png' alt='logo'/>
+                </div>
+                <div id="login-form">
                 <Row>
                     <Col><h1 className="text-center">Skull And Daisy</h1></Col>
                 </Row>
-                <div id="login-form">
                 <Form>
                     <FormGroup className="form-group">
                     <Label htmlFor="inputEmail" className="col-sm-4 control-label">
