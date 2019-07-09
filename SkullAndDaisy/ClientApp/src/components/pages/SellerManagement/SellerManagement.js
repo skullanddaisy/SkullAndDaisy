@@ -105,8 +105,9 @@ class SellerManagement extends React.Component {
 
   passProductToEdit = productId => this.setState({ isEditing: true, editId: productId });
 
-  deleteOne = (productId) => {
-    productRequests.deleteProduct(productId)
+  deleteOne = (product) => {
+    product.quantity = 0;
+    productRequests.putRequest(product.id, product)
       .then(() => {
         this.getMyInventory();
       })

@@ -323,7 +323,7 @@ class Cart extends Component {
                 A payment method is needed to process the order.
               </ModalBody>
               <ModalFooter>
-                <div className="addPaymentButton">
+                <div className="">
                   <Button color="success" onClick={this.enterNewPayment}>+ Add Payment</Button>
                 </div>
                 <Button color="secondary" onClick={this.closeModal}>Cancel</Button>

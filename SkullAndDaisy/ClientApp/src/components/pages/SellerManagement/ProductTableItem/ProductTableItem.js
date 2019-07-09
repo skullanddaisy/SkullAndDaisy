@@ -17,7 +17,7 @@ export default class ProductTableItem extends Component {
   deleteEvent = (e) => {
     e.preventDefault();
     const { deleteSingleProduct, product } = this.props;
-    deleteSingleProduct(product.id);
+    deleteSingleProduct(product);
   }
 
   editEvent = (e) => {
