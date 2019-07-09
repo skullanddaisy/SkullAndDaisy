@@ -44,7 +44,7 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public PaymentType AddNewPaymentType(string name, int accountNumber, int userId, bool isActive)
+        public PaymentType AddNewPaymentType(string name, string accountNumber, int userId, bool isActive)
         {
             using (var db = new SqlConnection(_connectionString))
             {

@@ -6,6 +6,7 @@ import orderShape from '../../../../helpers/props/orderShape';
 import formatPrice from '../../../../helpers/formatPrice';
 import formatProductType from '../../../../helpers/formatProductType';
 import productOrderRequests from '../../../../helpers/data/productOrderRequests';
+import productRequests from '../../../../helpers/data/productRequests';
 
 import './CartProductItem.scss';
 
@@ -22,11 +23,24 @@ class CartProductItem extends React.Component {
     isEditing: false,
     quantity: 0,
     price: 0.00,
+    stockQuantity: 0,
   }
 
   componentDidMount() {
-    const productQuantity = this.props.product.quantity;
-    this.setState({ quantity: productQuantity });
+    let productQuantity = this.props.product.quantity;
+    productRequests.getProductById(this.props.product.id)
+      .then((product) => {
+        this.setState({ stockQuantity: product.quantity });
+        if (this.state.stockQuantity === 0) {
+          this.deleteProductEvent();
+        } else if (productQuantity > this.state.stockQuantity) {
+          productQuantity = this.state.stockQuantity;
+        }
+        this.setState({ quantity: productQuantity });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   updateProduct = () => {
@@ -39,7 +53,9 @@ class CartProductItem extends React.Component {
         productOrder.quantity = this.state.quantity;
         updateProduct(productOrder);
         this.setState({ isEditing: false });
-      }).catch();
+      }).catch((error) => {
+        console.error(error);
+      });
   }
 
   deleteProductEvent = () => {
@@ -50,12 +66,18 @@ class CartProductItem extends React.Component {
       .then((result) => {
         const productOrder = result.data;
         deleteProduct(productOrder.id);
-      }).catch();
+      }).catch((error) => {
+        console.error(error);
+      });
   }
 
   quantityChange = (e) => {
     let quantity = { ...this.state.quantity };
+    const { stockQuantity } = this.state;
     quantity = e.target.value * 1;
+    if (quantity > stockQuantity) {
+      quantity = stockQuantity;
+    }
     this.setState({ quantity });
   };
 
@@ -137,7 +159,7 @@ class CartProductItem extends React.Component {
           <div className='mb-2'>{product.title}</div>{product.description}
           </Link>
         </th>
-        <td>{product.quantity}</td>
+        <td>{quantity}</td>
         <td>{formatProductType(product.productTypeId)}</td>
         <td>{formatPrice(productPrice)}</td>
         <td>

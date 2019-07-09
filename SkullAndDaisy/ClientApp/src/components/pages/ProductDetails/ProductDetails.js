@@ -36,6 +36,7 @@ class ProductDetails extends React.Component {
 		newProductOrder: defaultProductOrder,
 		quantity: 1,
 		showAlert: false,
+		disableAddToCart: false,
 	}
 
 	componentDidMount() {
@@ -45,6 +46,9 @@ class ProductDetails extends React.Component {
 		.then((productById) => {
 			this.setState({ product: productById });
 			this.setState({ sellerId: productById.userId });
+			if (productById.quantity === 0) {
+				this.setState({ disableAddToCart: true });
+			}
 			userRequests.getUserById(this.state.sellerId)
 				.then((theSeller) => {
 					this.setState({ seller: theSeller });
@@ -70,8 +74,12 @@ class ProductDetails extends React.Component {
   }
 
 	quantityChange = (e) => {
+		const { product } = this.state;
 		let quantity = { ...this.state.quantity };
 		quantity = e.target.value * 1;
+		if (quantity > product.quantity) {
+			quantity = product.quantity;
+		}
 		this.setState({ quantity });
 	};
 
@@ -97,7 +105,12 @@ class ProductDetails extends React.Component {
 				productOrderRequests.getProductOrderByIds(pendingOrder[0].id, matchingProduct.id)
 				.then((res) => {
 				const productOrder = res.data;
-				productOrder.quantity = this.state.quantity + productOrder.quantity;
+				const newQuantity = this.state.quantity + productOrder.quantity;
+				if (newQuantity > this.state.product.quantity) {
+					productOrder.quantity = this.state.product.quantity;
+				} else {
+					productOrder.quantity = newQuantity;
+				}
 				productOrderRequests.updateProductOrder(productOrder).then();
 				}).catch();
 			}
@@ -110,6 +123,7 @@ class ProductDetails extends React.Component {
 			seller,
 			showAlert,
 			quantity,
+			disableAddToCart,
 } = this.state;
 
 		const sellerStore = `/sellerstore/${seller.id}`;
@@ -119,23 +133,24 @@ class ProductDetails extends React.Component {
 				this.setState({ user: theUser });
 		});
 
-      const makeAlert = () => {
-        if (showAlert) {
-          return <Alert className='alert' color="success" toggle={this.onDismiss}>
-          Added {product.title} to your cart!
-          </Alert>;
-        }
-        return <div></div>;
-      };
-
+		const makeAlert = () => {
+			if (showAlert) {
+			return <Alert className='alert' color="success" toggle={this.onDismiss}>
+			Added {product.title} to your cart!
+			</Alert>;
+			}
+			return <div></div>;
+		};
+		  
+		if (product.quantity === 0) {
 		return (
 			<div className="productDetailsContainer1">
           {makeAlert()}
 				<div className="productDetailsContainer">
 					<div id="leftCol" className="leftCol">
-					<div id="soldOutDiv">
-						<img id="theStamp" src={soldOutStamp} alt="sold out"></img>
-					</div>
+						<div id="soldOutDiv">
+							<img id="theStamp" src={soldOutStamp} alt="sold out"></img>
+						</div>
 						<div className="imageDiv">
 							<img className='productDetailImg' src={product.imageUrl} alt={product.title} />
 						</div>
@@ -160,18 +175,58 @@ class ProductDetails extends React.Component {
 						</div>
 						<div id="descriptionHeader">Description:</div>
 						<div id="productDetails">{product.description}</div>
+						<div class='text-danger'>{product.quantity} left in stock</div>
 						<div className="productDetailsButtonContainer">
-							<Button className="productDetailsButton" onClick={this.addToCart}>Add to Cart</Button>
-							<Button className="productDetailsButton">Add to Wish List</Button>
+							<Button className="productDetailsButton" disabled={disableAddToCart} onClick={this.addToCart}>Add to Cart</Button>
 						</div>
 					</div>
 					<hr id="productDetailLine"></hr>
 					<h1 className="latestProductsTextx">Latest Products</h1>
 					<LatestProducts />
-					{/* {productPotionComponents} */}
 				</div>
 			</div>
 		);
+	}
+	return (
+		<div className="productDetailsContainer1">
+			{makeAlert()}
+			<div className="productDetailsContainer">
+				<div id="leftCol" className="leftCol">
+					<div className="imageDiv">
+						<img className='productDetailImg' top src={product.imageUrl} alt={product.title} />
+					</div>
+				</div>
+				<div id="middleCol" className="middleCol">
+					<h1 className="productTitle">{product.title}</h1>
+					<hr id="productDetailTitleLine"></hr>
+					<div id="priceAndQuantityDiv">
+						<div className="listPrice">List Price: <span id="productDetailPrice">${product.price}</span></div>
+						<div id="quantityDiv">
+							Qty: <input id="quantityInput"
+											value={quantity}
+					onChange={this.quantityChange}>
+				</input>
+						</div>
+					</div>
+					<div id="soldBy">
+						<div className="mr-3">Sold by: </div>
+						<Link to={sellerStore}>
+							{seller.username}
+						</Link>
+					</div>
+					<div id="descriptionHeader">Description:</div>
+					<div id="productDetails">{product.description}</div>
+					<div className="productDetailsButtonContainer">
+						<Button className="productDetailsButton" onClick={this.addToCart}>Add to Cart</Button>
+						<Button className="productDetailsButton">Add to Wish List</Button>
+					</div>
+				</div>
+				<hr id="productDetailLine"></hr>
+				<h1 className="latestProductsTextx">Latest Products</h1>
+				<LatestProducts />
+			</div>
+		</div>
+	);
 	}
 }
 export default ProductDetails;

@@ -9,7 +9,7 @@ namespace SkullAndDaisy.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
         public int UserId { get; set; }
         public bool IsActive { get; set; }
     }
