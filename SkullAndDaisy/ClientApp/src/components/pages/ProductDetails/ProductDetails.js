@@ -216,9 +216,9 @@ class ProductDetails extends React.Component {
 					</div>
 					<div id="descriptionHeader">Description:</div>
 					<div id="productDetails">{product.description}</div>
+					<div class='text-danger'>{product.quantity} left in stock</div>
 					<div className="productDetailsButtonContainer">
 						<Button className="productDetailsButton" onClick={this.addToCart}>Add to Cart</Button>
-						<Button className="productDetailsButton">Add to Wish List</Button>
 					</div>
 				</div>
 				<hr id="productDetailLine"></hr>
