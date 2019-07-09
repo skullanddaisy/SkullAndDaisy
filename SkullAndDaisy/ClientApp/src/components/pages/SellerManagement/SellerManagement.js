@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import userRequests from '../../../helpers/data/userRequests';
-import OrdersTable from '../Orders/OrdersTable/OrdersTable';
+import OrdersTable from './OrdersTable/OrdersTable';
 import InventoryTable from './InventoryTable/InventoryTable';
 import './SellerManagement.scss';
 import orderRequests from '../../../helpers/data/orderRequests';
