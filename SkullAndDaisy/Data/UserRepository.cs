@@ -17,6 +17,7 @@ namespace SkullAndDaisy.Data
         {
             _connectionString = dbConfig.Value.ConnectionString;
         }
+
         public IEnumerable<User> GetAllUsers()
         {
             using (var db = new SqlConnection(_connectionString))
@@ -76,7 +77,7 @@ namespace SkullAndDaisy.Data
             }
         }
 
-        public User AddUser(string firstName, string lastName, string username, string email)
+        public User AddUser(string firstName, string lastName, string username, string email, string imageUrl)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -85,9 +86,10 @@ namespace SkullAndDaisy.Data
                         [FirstName],
                         [LastName],
                         [Username],
-                        [Email])
+                        [Email],
+                        [ImageUrl])
                     Output inserted.*
-                    Values(@firstname, @lastname, @username, @email)";
+                    Values(@firstname, @lastname, @username, @email, @imageUrl)";
 
                 var parameters = new
                 {
@@ -95,6 +97,7 @@ namespace SkullAndDaisy.Data
                     LastName = lastName,
                     Username = username,
                     Email = email,
+                    ImageUrl = imageUrl,
                 };
 
                 var newUser = db.QueryFirstOrDefault<User>(insertQuery, parameters);
@@ -137,7 +140,8 @@ namespace SkullAndDaisy.Data
                     Update Users
                     Set firstname = null,
                         lastname = null,
-                        email = null
+                        email = null,
+                        imageUrl = null,
                     Where id = @id";
 
                 var rowsAffected = db.Execute(updateQuery, userToUpdate);
