@@ -7,6 +7,7 @@ import './SellerManagement.scss';
 import orderRequests from '../../../helpers/data/orderRequests';
 import formatPrice from '../../../helpers/formatPrice';
 import productRequests from '../../../helpers/data/productRequests';
+import productOrderRequests from '../../../helpers/data/productOrderRequests';
 
 class SellerManagement extends React.Component {
   state = {
@@ -55,6 +56,16 @@ class SellerManagement extends React.Component {
     orderRequests.getUnshippedItems(this.state.userId)
       .then((unshippedItems) => {
         this.setState({ unshippedItems });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  shipIt = (productOrderId) => {
+    productOrderRequests.shipProductOrder(productOrderId)
+      .then(() => {
+        this.getUnshippedItems();
       })
       .catch((error) => {
         console.error(error);
@@ -164,7 +175,7 @@ class SellerManagement extends React.Component {
             </div>
         </header>
         <div className="dashboard-middle mt-4">
-          <OrdersTable unshippedItems={unshippedItems} />
+          <OrdersTable unshippedItems={unshippedItems} shipIt={this.shipIt} />
           <InventoryTable
             myInventory={myInventory}
             onSubmit={this.formSubmitEvent}

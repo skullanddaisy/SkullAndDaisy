@@ -256,7 +256,9 @@ namespace SkullAndDaisy.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var unshippedItems = db.Query<Object>(
-                    @"select u.Id as SellerId, o.OrderDate, u.FirstName, u.LastName, u.Username, u.Email, p.Title, po.Quantity, p.Price, o.Total, po.shipped
+                    @"select u.Id as SellerId, o.OrderDate, u.FirstName, 
+                        u.LastName, u.Username, u.Email, p.Title, po.Quantity, 
+                        p.Price, o.Total, po.shipped, po.id as Id
                       from orders o
                       join productorders po on po.orderid = o.id
                       join products p on p.id = po.ProductId

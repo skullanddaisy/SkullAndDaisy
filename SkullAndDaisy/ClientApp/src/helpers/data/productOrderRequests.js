@@ -11,9 +11,12 @@ const updateProductOrder = productOrderObject => axios.put(`${sadApiBaseUrl}/pro
 
 const deleteProductOrder = productOrderId => axios.delete(`${sadApiBaseUrl}/productorders/deleteproductorder/${productOrderId}`);
 
+const shipProductOrder = productOrderId => axios.put(`${sadApiBaseUrl}/productorders/shippedProductOrder/${productOrderId}`);
+
 export default {
   addProductOrder,
   getProductOrderByIds,
   updateProductOrder,
   deleteProductOrder,
+  shipProductOrder,
 };
