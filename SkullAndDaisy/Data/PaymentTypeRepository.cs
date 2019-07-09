@@ -84,7 +84,8 @@ namespace SkullAndDaisy.Data
                         Update PaymentTypes
                         Set name = @name,
                             accountNumber = @accountNumber,
-                            userId = @userId
+                            userId = @userId,
+                            isActive = @isActive
                         Where id = @id";
 
                 var rowsAffected = db.Execute(updateQuery, paymentTypeToUpdate);

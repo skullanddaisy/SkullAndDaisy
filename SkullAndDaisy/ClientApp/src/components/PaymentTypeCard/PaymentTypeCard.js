@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import paymentTypeShape from '../../helpers/props/paymentTypeShape';
+import { Button } from 'reactstrap';
 import './PaymentTypeCard.scss';
 
 export default class PaymentTypeCard extends Component {
@@ -30,9 +31,9 @@ export default class PaymentTypeCard extends Component {
 		  return (
 			<div id="editButtonDiv">
 			  <span className="">
-				<button className="primary" onClick={this.editPaymentType}>
+				<Button className="editButton" onClick={this.editPaymentType}>
 				  Edit
-				</button>
+				</Button>
 			  </span>
 			</div>
 		  );
@@ -43,9 +44,9 @@ export default class PaymentTypeCard extends Component {
 		  return (
 			<div id="deleteButtonDiv">
 			  <span className="">
-				<button className="secondary" onClick={this.deletePaymentType}>
+				<Button className="btn-danger" onClick={this.deletePaymentType}>
 				  Delete
-				</button>
+				</Button>
 			  </span>
 			</div>
 		  )
@@ -58,7 +59,7 @@ export default class PaymentTypeCard extends Component {
 		return (
 			<div id="paymentTypeCardContainer">
 				<div className="paymentTypeCard">
-					<div className="paymentText col-8">
+					<div className="paymentText col-6">
 						<p>{paymentType.name} ending in ({lastFour})</p>
 					</div>
 					<div className="paymentEditDiv col-2">
