@@ -6,7 +6,7 @@ const sadApiBaseUrl = apiKeys.sadApi.apiBaseUrl;
 const getAllPaymentTypes = (userId) => new Promise((resolve, reject) => {
 	axios.get(`${sadApiBaseUrl}/paymenttypes/${userId}/all`)
 		.then((results) => {
-			if ( results != null) {
+			if (results != null) {
 				const paymentTypes = results.data;
 				resolve(paymentTypes);
 			}
@@ -16,8 +16,27 @@ const getAllPaymentTypes = (userId) => new Promise((resolve, reject) => {
 		});
 });
 
-const getSinglePaymentType = (userId) => new Promise((resolve, reject) => {
-	axios.get(`${sadApiBaseUrl}/paymenttypes/${userId}`)
+const getAllActivePaymentTypes = (userId) => new Promise((resolve, reject) => {
+	axios.get(`${sadApiBaseUrl}/paymenttypes/${userId}/all`)
+		.then((results) => {
+			if (results != null) {
+				const paymentTypes = results.data;
+				const activePaymentTypes = [];
+				for(let i = 0; paymentTypes.length > i; i++) {
+					if (paymentTypes[i].isActive) {
+						activePaymentTypes.push(paymentTypes[i]);
+					}
+				}
+				resolve(activePaymentTypes);
+			} 
+		})
+	.catch((err) => {
+		reject(err);
+	});
+})
+
+const getSinglePaymentType = (paymentTypeId) => new Promise((resolve, reject) => {
+	axios.get(`${sadApiBaseUrl}/paymenttypes/${paymentTypeId}`)
 		.then((result) => {
 			if (result != null) {
 				const paymentType = result.data;
@@ -31,7 +50,7 @@ const getSinglePaymentType = (userId) => new Promise((resolve, reject) => {
 
 const addPaymentType = paymentType => axios.post(`${sadApiBaseUrl}/paymenttypes/create`, paymentType);
 
-const deletePaymentType = (paymentTypeId) => axios.put(`${sadApiBaseUrl}/paymenttypes/delete/${paymentTypeId}`);
+// const deletePaymentType = (paymentTypeId) => axios.put(`${sadApiBaseUrl}/paymenttypes/delete/${paymentTypeId}`);
 
 const updatePaymentType = (paymentTypeId, newPaymentType) => axios.put(`${sadApiBaseUrl}/paymenttypes/update/${paymentTypeId}`, newPaymentType);
 
@@ -40,8 +59,9 @@ const getPaymentTypesByUserId = userId => axios.get(`${sadApiBaseUrl}/paymenttyp
 export default {
 	getAllPaymentTypes,
 	getSinglePaymentType,
-	deletePaymentType,
+	// deletePaymentType,
 	updatePaymentType,
 	getPaymentTypesByUserId,
-	addPaymentType
+	addPaymentType,
+	getAllActivePaymentTypes
 }
