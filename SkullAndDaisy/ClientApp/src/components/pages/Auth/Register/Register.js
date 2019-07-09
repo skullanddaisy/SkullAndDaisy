@@ -167,7 +167,7 @@ class Register extends React.Component {
     return (
         <div className="register">
         <div className='account'>
-          <p><strong>Don't have an account?</strong> <Button className='btn btn-dark' onClick={this.toggle}>Register</Button></p>
+          <p className='text-light'><strong>Don't have an account?</strong> <Button className='btn btn-dark' onClick={this.toggle}>Register</Button></p>
         </div>
       <div>{buildModal()}</div>
       </div>
