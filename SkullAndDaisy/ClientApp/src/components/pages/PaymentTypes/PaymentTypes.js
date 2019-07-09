@@ -1,11 +1,8 @@
 import React from 'react';
 import userRequests from '../../../helpers/data/userRequests';
 import PaymentTypeCard from '../../PaymentTypeCard/PaymentTypeCard';
-// import PaymentType from '../../PaymentType/PaymentType';
-// import PaymentTypeModal from '../../PaymentTypeModal/PaymentTypeModal';
 import paymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
 import './PaymentTypes.scss';
-// import EditPaymentType from '../../Modals/EditPaymentType';
 import {
 	Button,
 	Modal,
@@ -39,24 +36,14 @@ class PaymentTypes extends React.Component {
   componentDidMount() {
     userRequests.getSingleUser()
       .then((user) => {
+        const userId = user.id;
         this.setState({currentUser: user});
-        this.setState({paymentTypes: user.paymentTypes});
+        paymentTypeRequests.getAllActivePaymentTypes(userId)
+          .then((activePaymentTypes) => {
+            this.setState({paymentTypes: activePaymentTypes});
+          })
       })
   }
-
-  // addPaymentType = (newPaymentType) => {
-  //   const userId = this.state.currentUser.id;
-
-  //   paymentTypeRequests.addPaymentType(newPaymentType)
-  //     .then(() => {
-  //       paymentTypeRequests.getAllPaymentTypes(userId)
-  //         .then((paymentTypes) => {
-  //           this.setState({ paymentTypes });
-  //           this.props.history.push(`/paymenttypes`);
-  //         })
-  //       .catch(err => alert(`error with getting payment types`, err));
-  //     })
-  // }
 
   formSubmitUpdatePayment = () => {
     const { currentUser, newPaymentType } = this.state;
@@ -66,7 +53,7 @@ class PaymentTypes extends React.Component {
 
     paymentTypeRequests.updatePaymentType(paymentTypeId, myPaymentType)
       .then(() => {
-        paymentTypeRequests.getAllPaymentTypes(userId)
+        paymentTypeRequests.getAllActivePaymentTypes(userId)
           .then((paymentTypes) => {
             this.setState({ paymentTypes, isEditing: false, editId: '-1' });
           });
@@ -83,9 +70,8 @@ class PaymentTypes extends React.Component {
     paymentTypeRequests.addPaymentType(myPaymentType)
       .then(() => {
         this.setState({ newPaymentType: defaultPaymentType });
-        paymentTypeRequests.getAllPaymentTypes(userId)
+        paymentTypeRequests.getAllActivePaymentTypes(userId)
           .then((paymentTypes) => {
-            console.log(paymentTypes);
             this.setState({ paymentTypes });
           })
       })
@@ -94,30 +80,25 @@ class PaymentTypes extends React.Component {
   deletePaymentType = (paymentTypeId) => {
     const { currentUser } = this.state;
     const userId = currentUser.id
-    paymentTypeRequests.deletePaymentType(paymentTypeId)
-      .then(() => {
-        paymentTypeRequests.getAllPaymentTypes(userId)
+    paymentTypeRequests.getSinglePaymentType(paymentTypeId)
+    .then((paymentType) => {
+      console.log(paymentType);
+      paymentType.isActive = false;
+      paymentTypeRequests.updatePaymentType(paymentTypeId, paymentType)
+        .then((payment) => {
+          console.log(payment);
+          paymentTypeRequests.getAllActivePaymentTypes(userId)
           .then((paymentTypes) => {
             this.setState({ paymentTypes });
           });
+        })
       })
-      .catch(err => console.error('error with delete payment type', err));
+    .catch(err => console.error('error with delete payment type', err));
   }
 
   passPaymentTypeToEdit = (paymentType) => {
-    // const editId = this.state.editId;
-    
     this.setState({ isEditing: true, editId: paymentType.id, newPaymentType: paymentType })
-    
-    // for (let i = 0; paymentTypes.length > i; i++) {
-    //   const paymentId = paymentTypes[i].id;
-    //   console.log(`PaymentId: ${paymentId} and EditIt: ${editId}`);
-    //   if (paymentId === editId) {
-    //     this.setState({ newPaymentType: paymentType[i] });
-    //     console.log(newPaymentType);
-    //   }
-    // }
-  } 
+  }
 
   openModal = () => {
     this.setState({ modalOpen: true })
@@ -126,16 +107,6 @@ class PaymentTypes extends React.Component {
   closeModal = () => {
     this.setState({ modalOpen: false, isEditing: false, newPaymentType: defaultPaymentType })
   }
-
-  // setPaymentType = () => {
-  //   const { paymentTypes, paymentType } = this.state
-  //   const paymentId = paymentTypes[i].id;
-  //   const editId = this.state.editId;
-
-  //   for (let i = 0; paymentTypes.length > i; i++) {
-  //     paymentId === editId ? this.setState({ paymentType: paymentType[i] }) : '';
-  //   }
-  // }
 
   formFieldStringState = (name, e) => {
     const tempPaymentType = { ...this.state.newPaymentType };
@@ -162,7 +133,6 @@ class PaymentTypes extends React.Component {
   render() {
     const {
       paymentTypes,
-      paymentType,
       newPaymentType,
       modalOpen,
       isEditing,
