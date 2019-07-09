@@ -43,7 +43,7 @@ namespace SkullAndDaisy.Controllers
         [HttpPost("addProductOrder")]
         public ActionResult AddProductOrder(ProductOrder productOrderObject)
         {
-            var newProductOrder = _productOrderRepository.AddProductOrder(productOrderObject.ProductId, productOrderObject.OrderId, productOrderObject.Quantity);
+            var newProductOrder = _productOrderRepository.AddProductOrder(productOrderObject.ProductId, productOrderObject.OrderId, productOrderObject.Quantity, productOrderObject.Shipped);
 
             return Created($"api/createdProductOrder/{newProductOrder.Id}", newProductOrder);
         }
@@ -59,7 +59,7 @@ namespace SkullAndDaisy.Controllers
         [HttpPut("updateProductOrder")]
         public ActionResult UpdateProductOrder(ProductOrder productOrderObject)
         {
-            var updatedOrder = _productOrderRepository.UpdateProductOrder(productOrderObject.Id, productOrderObject.ProductId, productOrderObject.OrderId, productOrderObject.Quantity);
+            var updatedOrder = _productOrderRepository.UpdateProductOrder(productOrderObject.Id, productOrderObject.ProductId, productOrderObject.OrderId, productOrderObject.Quantity, productOrderObject.Shipped);
 
             return Ok(updatedOrder);
         }

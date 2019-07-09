@@ -58,7 +58,7 @@ namespace SkullAndDaisy.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var singleProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
-                    select Id, ProductId, OrderId, Quantity
+                    select Id, ProductId, OrderId, Quantity, Shipped
                     from ProductOrders
                     where OrderId = @orderId and ProductId = @productId",
                     new { orderId, productId });
@@ -72,15 +72,15 @@ namespace SkullAndDaisy.Data
             throw new Exception("Found no Product Orders");
         }
 
-        public ProductOrder AddProductOrder(int productId, int orderId, int quantity)
+        public ProductOrder AddProductOrder(int productId, int orderId, int quantity, bool shipped)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newProductOrder = db.QueryFirstOrDefault<ProductOrder>(@"
-                    Insert into ProductOrders(orderId, productId, quantity)
+                    Insert into ProductOrders(orderId, productId, quantity, shipped)
                     Output inserted.*
-                    Values(@orderId, @productId, @quantity)",
-                    new {orderId, productId, quantity});
+                    Values(@orderId, @productId, @quantity, @shipped)",
+                    new {orderId, productId, quantity, shipped});
 
                 if (newProductOrder != null)
                 {
@@ -110,7 +110,7 @@ namespace SkullAndDaisy.Data
             throw new Exception("Product Order did not delete");
         }
 
-        public ProductOrder UpdateProductOrder(int id, int productId, int orderId, int quantity)
+        public ProductOrder UpdateProductOrder(int id, int productId, int orderId, int quantity, bool shipped)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -118,10 +118,11 @@ namespace SkullAndDaisy.Data
                     update ProductOrders
                     set ProductId = @productId,
                     OrderId = @orderId,
-                    Quantity = @quantity
+                    Quantity = @quantity,
+                    Shipped = @shipped
                     output inserted.*
                     where Id = @id",
-                    new { productId, orderId, quantity, id });
+                    new { productId, orderId, quantity, shipped, id });
 
                 if (updatedProductOrder != null)
                 {
