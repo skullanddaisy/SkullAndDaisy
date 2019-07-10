@@ -5,12 +5,13 @@ import './OrdersTable.scss';
 
 export default class OrdersTable extends Component {
   render() {
-    const { unshippedItems } = this.props;
+    const { unshippedItems, shipIt } = this.props;
 
     const orderTableComponents = unshippedItems.map(item => (
       <OrderTableItem
         item={item}
         key={item.id}
+        shipIt={shipIt}
       />
     ));
 
