@@ -7,7 +7,7 @@ namespace SkullAndDaisy.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductOrdersController : ControllerBase
+    public class ProductOrdersController : SecureControllerBase
     {
         readonly ProductOrderRepository _productOrderRepository;
 
