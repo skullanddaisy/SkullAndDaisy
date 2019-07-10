@@ -28,6 +28,16 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
+.dropdownOption {
+    color: black;
+}
+
+.dropdown-item {
+    a {
+        color: black;
+    }
+}
+
 .searchBar {
     border: none !important;
     border-radius: 1rem;

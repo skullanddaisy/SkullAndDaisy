@@ -137,23 +137,23 @@ componentDidMount() {
     }
   }
 
-  onSearchClick = (value, e) => {
-    const { products } = this.state;
-    const filteredProducts = [];
-    e.preventDefault();
-    if (!value) {
-      this.setState({ filteredProducts: products });
-    } else {
-		  products.forEach((result) => {
-        if (result.title.toLowerCase().includes(value.toLowerCase())
-			  || result.description.toLowerCase().includes(value.toLowerCase())
-        ) {
-			  filteredProducts.push(result);
-        }
-        this.setState({ filteredProducts });
-		  });
-    }
-  }
+  // onSearchClick = (value, e) => {
+  //   const { products } = this.state;
+  //   const filteredProducts = [];
+  //   e.preventDefault();
+  //   if (!value) {
+  //     this.setState({ filteredProducts: products });
+  //   } else {
+	// 	  products.forEach((result) => {
+  //       if (result.title.toLowerCase().includes(value.toLowerCase())
+	// 		  || result.description.toLowerCase().includes(value.toLowerCase())
+  //       ) {
+	// 		  filteredProducts.push(result);
+  //       }
+  //       this.setState({ filteredProducts });
+	// 	  });
+  //   }
+  // }
 
   onSearchClickSellers = (value, e) => {
     const { sellers } = this.state;
@@ -245,12 +245,33 @@ componentDidMount() {
       if (isAuthed && searchStatus === 'products') {
         return (
           <Nav className="ml-auto" navbar>
+            <UncontrolledDropdown inNavbar>
+                <DropdownToggle id="categoryDropdown" nav caret>
+                  Categories
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <NavLink tag={RRNavLink} to='/potions'>Potions</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <NavLink tag={RRNavLink} to='/poisons'>Poisons</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <NavLink tag={RRNavLink} to='/crystals'>Crystals</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <NavLink tag={RRNavLink} to='/herbs'>Herbs</NavLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
             {buildFilterButton()}
             <SearchField
               placeholder="Search Skull and Daisy..."
               onChange={this.onChange}
               onEnter={this.onEnter}
-              onSearchClick={this.onSearchClick}
               searchText=""
               classNames="searchBar"
             />
@@ -268,12 +289,33 @@ componentDidMount() {
       } if (isAuthed && searchStatus === 'sellers') {
         return (
           <Nav className="ml-auto" navbar>
-            {buildFilterButton()}
+            <UncontrolledDropdown inNavbar>
+                <DropdownToggle id="categoryDropdown" nav caret>
+                  Categories
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/potions'>Potions</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/poisons'>Poisons</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/crystals'>Crystals</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/herbs'>Herbs</NavLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              {buildFilterButton()}
             <SearchField
               placeholder="Search Skull and Daisy..."
               onChange={this.onChangeSellers}
               onEnter={this.onEnterSellers}
-              onSearchClick={this.onSearchClickSellers}
               searchText=""
               classNames="searchBar"
             />
@@ -298,45 +340,6 @@ componentDidMount() {
           <NavbarBrand href="/">Skull & Daisy</NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
-          {/* Modal */}
-          <div className="modal left fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-
-                <div className="modal-header">
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 className="modal-title" id="myModalLabel">Categories</h4>
-                </div>
-
-                <div className="modal-body">
-
-                </div>
-
-              </div> {/* modal-content */}
-            </div> {/* modal-dialog */}
-          </div> {/* modal */}
-          <UncontrolledDropdown inNavbar>
-                <DropdownToggle id="categoryDropdown" nav caret>
-                  Categories
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/potions'>Potions</NavLink>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/poisons'>Poisons</NavLink>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/crystals'>Crystals</NavLink>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/herbs'>Herbs</NavLink>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
             {buildNavbar()}
           </Collapse>
         </Navbar>
