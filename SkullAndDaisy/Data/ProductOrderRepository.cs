@@ -132,5 +132,25 @@ namespace SkullAndDaisy.Data
 
             throw new Exception("Product Order did not update");
         }
+
+        public ProductOrder ShipProduct(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var updateQuery = @"
+                        Update ProductOrders
+                        Set shipped = 1
+                        output inserted.*
+                        Where id = @id";
+
+                var order = db.QueryFirst<ProductOrder>(updateQuery, new { id } );
+
+                if (order != null)
+                    return order;
+            }
+
+            throw new Exception("Could not ship product");
+        }
+
     }
 }

@@ -35,7 +35,7 @@ const defaultPaymentType = {
   accountNumber: '',
   userId: 0,
   isActive: true,
-}
+};
 
 class Cart extends Component {
   state = {
@@ -78,7 +78,8 @@ class Cart extends Component {
         this.setProductStates();
         paymentTypeRequests.getPaymentTypesByUserId(userId)
           .then((result) => {
-            const paymentMethods = result.data;
+            const paymentMethodArray = result.data;
+            const paymentMethods = paymentMethodArray.filter(method => method.isActive === true);
             this.setState({ paymentMethods });
           });
       }).catch((error) => {
@@ -95,11 +96,11 @@ class Cart extends Component {
   }
 
   enterNewPayment = () => {
-    this.setState({ addPayment: true});
+    this.setState({ addPayment: true });
   }
 
   exitNewPayment = () => {
-    this.setState({ addPayment: false })
+    this.setState({ addPayment: false });
   }
 
   processOrder = () => {
@@ -204,20 +205,21 @@ class Cart extends Component {
     newPaymentType.userId = userId;
     paymentTypeRequests.addPaymentType(newPaymentType)
       .then(() => {
-        paymentTypeRequests.getAllPaymentTypes(userId)
-          .then((paymentMethods) => {
+        paymentTypeRequests.getPaymentTypesByUserId(userId)
+          .then((result) => {
+            const paymentMethodArray = result.data;
+            const paymentMethods = paymentMethodArray.filter(method => method.isActive === true);
             this.setState({ paymentMethods });
-            // this.props.history.push(`/paymenttypes`);
-          })
-        .catch(err => alert(`error with adding payment method`, err));
+          });
       })
+      .catch(err => alert('error with adding payment method', err));
   }
 
   formSubmit = (e) => {
     e.preventDefault();
     const myPaymentType = { ...this.state.newPaymentType };
     this.addPaymentType(myPaymentType);
-    this.setState({ newPaymentType: defaultPaymentType});
+    this.setState({ newPaymentType: defaultPaymentType });
     this.setState({ addPayment: false });
   }
 
@@ -249,7 +251,7 @@ class Cart extends Component {
       paymentMethods,
       showAlert,
       addPayment,
-      newPaymentType
+      newPaymentType,
     } = this.state;
 
     const paymentMethodItems = paymentMethods.map(paymentMethod => (
@@ -271,22 +273,7 @@ class Cart extends Component {
     };
 
     const makeModal = () => {
-      if (modal && this.state.paymentMethods.length === 0) {
-        return (
-          <div>
-            <Modal isOpen={this.state.modal} className={this.props.className}>
-              <ModalHeader>No Payment Methods Found</ModalHeader>
-              <ModalBody>
-                A payment method is needed to process the order.
-              </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
-              </ModalFooter>
-            </Modal>
-          </div>
-        );
-      }
-      if (modal === true && addPayment === true) {
+      if (addPayment) {
         return (
           <div>
             <Modal isOpen={this.state.modal} className={this.props.className}>
@@ -323,6 +310,24 @@ class Cart extends Component {
               </div>
             </form>
               </ModalBody>
+            </Modal>
+          </div>
+        );
+      }
+      if (modal && this.state.paymentMethods.length === 0) {
+        return (
+          <div>
+            <Modal isOpen={this.state.modal} className={this.props.className}>
+              <ModalHeader>No Payment Methods Found</ModalHeader>
+              <ModalBody>
+                A payment method is needed to process the order.
+              </ModalBody>
+              <ModalFooter>
+                <div className="">
+                  <Button color="success" onClick={this.enterNewPayment}>+ Add Payment</Button>
+                </div>
+                <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
+              </ModalFooter>
             </Modal>
           </div>
         );

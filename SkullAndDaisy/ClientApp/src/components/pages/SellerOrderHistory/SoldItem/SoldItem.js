@@ -75,6 +75,7 @@ class SoldItem extends React.Component {
         const itemComponent = order.products.map(product => (
           <ProductItem
             product={product}
+            orderId={order.id}
             key={product.id}
           />
         ));
@@ -83,6 +84,7 @@ class SoldItem extends React.Component {
       const itemComponents = firstProduct.map(product => (
         <ProductItem
           product={product}
+          orderId={order.id}
           key={product.id}
         />
       ));

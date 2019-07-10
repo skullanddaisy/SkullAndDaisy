@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 import userRequests from '../../../helpers/data/userRequests';
-import OrdersTable from '../Orders/OrdersTable/OrdersTable';
+import OrdersTable from './OrdersTable/OrdersTable';
 import InventoryTable from './InventoryTable/InventoryTable';
 import './SellerManagement.scss';
 import orderRequests from '../../../helpers/data/orderRequests';
 import formatPrice from '../../../helpers/formatPrice';
 import productRequests from '../../../helpers/data/productRequests';
+import productOrderRequests from '../../../helpers/data/productOrderRequests';
 
 class SellerManagement extends React.Component {
   state = {
@@ -61,6 +62,16 @@ class SellerManagement extends React.Component {
       });
   }
 
+  shipIt = (productOrderId) => {
+    productOrderRequests.shipProductOrder(productOrderId)
+      .then(() => {
+        this.getUnshippedItems();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   formSubmitEvent = (newProduct) => {
     const { isEditing, editId } = this.state;
     if (isEditing) {
@@ -105,8 +116,9 @@ class SellerManagement extends React.Component {
 
   passProductToEdit = productId => this.setState({ isEditing: true, editId: productId });
 
-  deleteOne = (productId) => {
-    productRequests.deleteProduct(productId)
+  deleteOne = (product) => {
+    product.quantity = 0;
+    productRequests.putRequest(product.id, product)
       .then(() => {
         this.getMyInventory();
       })
@@ -164,7 +176,7 @@ class SellerManagement extends React.Component {
             </div>
         </header>
         <div className="dashboard-middle mt-4">
-          <OrdersTable unshippedItems={unshippedItems} />
+          <OrdersTable unshippedItems={unshippedItems} shipIt={this.shipIt} />
           <InventoryTable
             myInventory={myInventory}
             onSubmit={this.formSubmitEvent}
