@@ -63,5 +63,13 @@ namespace SkullAndDaisy.Controllers
 
             return Ok(updatedOrder);
         }
+
+        [HttpPut("shippedProductOrder/{id}")]
+        public ActionResult shipProductOrder(int id)
+        {
+            var shippedProductOrder = _productOrderRepository.ShipProduct(id);
+
+            return Ok(shippedProductOrder);
+        }
     }
 }
