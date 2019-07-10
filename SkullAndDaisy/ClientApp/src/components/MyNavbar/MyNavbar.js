@@ -100,61 +100,6 @@ componentDidMount() {
     }
   }
 
-  onEnter = (value, e) => {
-    const { products } = this.state;
-    const filteredProducts = [];
-    e.preventDefault();
-    if (!value) {
-      this.setState({ filteredProducts: products });
-    } else {
-		  products.forEach((result) => {
-        if (result.title.toLowerCase().includes(value.toLowerCase())
-			  || result.description.toLowerCase().includes(value.toLowerCase())
-        ) {
-			  filteredProducts.push(result);
-        }
-        this.setState({ filteredProducts });
-		  });
-    }
-  }
-
-  onEnterSellers = (value, e) => {
-    const { sellers } = this.state;
-    const filteredSellers = [];
-    e.preventDefault();
-    if (!value) {
-      this.setState({ filteredSellers: sellers });
-    } else {
-      sellers.forEach((result) => {
-        if (result.firstName.toLowerCase().includes(value.toLowerCase())
-        || result.lastName.toLowerCase().includes(value.toLowerCase())
-        || result.username.toLowerCase().includes(value.toLowerCase())
-        ) {
-          filteredSellers.push(result);
-        }
-        this.setState({ filteredSellers });
-      });
-    }
-  }
-
-  // onSearchClick = (value, e) => {
-  //   const { products } = this.state;
-  //   const filteredProducts = [];
-  //   e.preventDefault();
-  //   if (!value) {
-  //     this.setState({ filteredProducts: products });
-  //   } else {
-	// 	  products.forEach((result) => {
-  //       if (result.title.toLowerCase().includes(value.toLowerCase())
-	// 		  || result.description.toLowerCase().includes(value.toLowerCase())
-  //       ) {
-	// 		  filteredProducts.push(result);
-  //       }
-  //       this.setState({ filteredProducts });
-	// 	  });
-  //   }
-  // }
-
   onSearchClickSellers = (value, e) => {
     const { sellers } = this.state;
     const filteredSellers = [];
@@ -245,8 +190,8 @@ componentDidMount() {
       if (isAuthed && searchStatus === 'products') {
         return (
           <Nav className="ml-auto" navbar>
-            <UncontrolledDropdown inNavbar>
-                <DropdownToggle id="categoryDropdown" nav caret>
+            <UncontrolledDropdown style={{border: 'solid 1px rgba(255, 255, 255, 0.5)', borderRadius: '0.3rem'}} className="mr-4" inNavbar>
+                <DropdownToggle style={{color: 'white', textDecoration: 'none'}} id="categoryDropdown" nav caret>
                   Categories
                 </DropdownToggle>
                 <DropdownMenu right>
@@ -271,26 +216,23 @@ componentDidMount() {
             <SearchField
               placeholder="Search Skull and Daisy..."
               onChange={this.onChange}
-              onEnter={this.onEnter}
               searchText=""
               classNames="searchBar"
             />
             <NavItem>
-              <NavLink tag={RRNavLink} to='/useraccount'>User Account</NavLink>
+              <NavLink tag={RRNavLink} to='/useraccount' style={{color: 'white', textDecoration: 'none'}}>User Account</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/cart'>Cart</NavLink>
+              <NavLink tag={RRNavLink} to='/cart' style={{color: 'white', textDecoration: 'none'}}>Cart</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink className='logout-link' onClick={logoutClicky}>Logout</NavLink>
-            </NavItem>
+            <NavLink className='logout-link' onClick={logoutClicky} style={{color: 'white', textDecoration: 'none'}}>Logout</NavLink>
           </Nav>
         );
       } if (isAuthed && searchStatus === 'sellers') {
         return (
           <Nav className="ml-auto" navbar>
-            <UncontrolledDropdown inNavbar>
-                <DropdownToggle id="categoryDropdown" nav caret>
+            <UncontrolledDropdown className="mr-4" inNavbar>
+                <DropdownToggle style={{color: 'white', textDecoration: 'none'}} id="categoryDropdown" nav caret>
                   Categories
                 </DropdownToggle>
                 <DropdownMenu right>
@@ -315,18 +257,17 @@ componentDidMount() {
             <SearchField
               placeholder="Search Skull and Daisy..."
               onChange={this.onChangeSellers}
-              onEnter={this.onEnterSellers}
               searchText=""
               classNames="searchBar"
             />
             <NavItem>
-              <NavLink tag={RRNavLink} to='/useraccount'>User Account</NavLink>
+              <NavLink tag={RRNavLink} to='/useraccount' style={{color: 'white', textDecoration: 'none'}}>User Account</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/cart'>Cart</NavLink>
+              <NavLink tag={RRNavLink} to='/cart' style={{color: 'white', textDecoration: 'none'}}>Cart</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className='logout-link' onClick={logoutClicky}>Logout</NavLink>
+              <NavLink className='logout-link' onClick={logoutClicky} style={{color: 'white', textDecoration: 'none'}}>Logout</NavLink>
             </NavItem>
           </Nav>
         );
@@ -336,8 +277,8 @@ componentDidMount() {
 
     return (
       <div className="my-navbar">
-        <Navbar className="the-navbar" dark expand="md">
-          <NavbarBrand href="/">Skull & Daisy</NavbarBrand>
+        <Navbar className="the-navbar" expand="md">
+          <NavbarBrand href="/" style={{color: 'white', textDecoration: 'none'}}>Skull & Daisy</NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
