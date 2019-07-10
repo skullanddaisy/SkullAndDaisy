@@ -1,15 +1,14 @@
 @import '../../../styles/variables.scss';
 
-// .homeContainer {
-//     padding-left: 40px;
-//     padding-right: 40px;
-// }
+.homeContainer {
+    padding: 0 50px;
+}
 
 .homeUpper {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .homeMiddle {
@@ -17,9 +16,6 @@
     justify-content: center;
     flex-wrap:wrap;
     text-align: left;
-    width: 91%;
-    margin-left: 4.7%;
-    margin-right: 4.7%;
 }
 
 .featuredPics {
@@ -39,14 +35,13 @@
 .featuredListText {
     text-align: left;
     width: 100%;
-    margin-left: 10px;
     color:white;
 }
 
 .latestProductsText {
     text-align: left;
     width: 100%;
-    margin-left: 10px;
+    margin-top: 20px;
     color:white;
 }
 

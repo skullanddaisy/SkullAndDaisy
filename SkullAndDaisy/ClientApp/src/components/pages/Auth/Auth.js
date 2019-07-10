@@ -51,7 +51,7 @@ class Auth extends React.Component {
       return (
             <Container className="Login">
                 <div>
-                  <img class='skullImage' src='http://clipart-library.com/images/8cGbMR54i.png' alt='logo'/>
+                  <img className='skullImage' src='http://clipart-library.com/images/8cGbMR54i.png' alt='logo'/>
                 </div>
                 <div id="login-form">
                 <Row>
