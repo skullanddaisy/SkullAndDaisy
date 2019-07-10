@@ -100,45 +100,47 @@ class Home extends React.Component {
       }
 
       return (
-            <div className='homeContainer'>
-                <div className="homeUpper">
-                    <UserProfileCard
-                      goToProfile={this.goToProfile}
-                      goToCart={this.goToCart}
-                      userId={userId}
-                    />
-                    <DealOfTheDayCard />
-                </div>
-                <div className="homeMiddle">
-                    <div className="featuredListText">
-                        <h1>Featured list</h1>
-                    </div>
-                    <Carousel slidesToShow={4} slidesToScroll={1} height={400} slideWidth={5} cellAlign="center" dragging={true} Decorators={Decorators}>
-                      <Link to='/crystals'>
-                        <img className="featuredPics" src={amethyst} alt="amethyst" />
-                      </Link>
+        <div>
+          <div className='homeContainer'>
+              <div className="homeUpper">
+                  <UserProfileCard
+                    goToProfile={this.goToProfile}
+                    goToCart={this.goToCart}
+                    userId={userId}
+                  />
+                  <DealOfTheDayCard />
+              </div>
+              <div className="homeMiddle">
+                  <div className="featuredListText">
+                      <h1>Featured list</h1>
+                  </div>
+                  <Carousel slidesToShow={4} slidesToScroll={1} height={400} slideWidth={5} cellAlign="center" dragging={true} Decorators={Decorators}>
+                    <Link to='/crystals'>
+                      <img className="featuredPics" src={amethyst} alt="amethyst" />
+                    </Link>
 
-                      <Link to='/potions'>
-                        <img className="featuredPics" src={potions} alt="potions" />
-                      </Link>
+                    <Link to='/potions'>
+                      <img className="featuredPics" src={potions} alt="potions" />
+                    </Link>
 
-                      <Link to='/poisons'>
-                        <img className="featuredPics" src={poison} alt="poison" />
-                      </Link>
+                    <Link to='/poisons'>
+                      <img className="featuredPics" src={poison} alt="poison" />
+                    </Link>
 
-                      <Link to='/herbs'>
-                        <img className="featuredPics" src={herbs} alt="herbs" />
-                      </Link>
-                    </Carousel>
-                    <div className="latestProductsText">
-                        <h1>Latest products</h1>
-                    </div>
-                    <LatestProductsCard />
-                </div>
-                <div>
-                    <MyFooter />
-                </div>
-            </div>
+                    <Link to='/herbs'>
+                      <img className="featuredPics" src={herbs} alt="herbs" />
+                    </Link>
+                  </Carousel>
+                  <div className="latestProductsText">
+                      <h1>Latest products</h1>
+                  </div>
+                  <LatestProductsCard />
+              </div>
+          </div>
+          <div>
+              <MyFooter />
+          </div>
+        </div>
       );
     }
 }

@@ -3,7 +3,7 @@ import './MyFooter.scss';
 
 class MyFooter extends React.Component {
   render() {
-    const sadText = '-------------- Skull and Daisy --------------';
+    const sadText = 'Skull & Daisy';
     return (
             <footer className="footer">
                 <div className="footerContent">

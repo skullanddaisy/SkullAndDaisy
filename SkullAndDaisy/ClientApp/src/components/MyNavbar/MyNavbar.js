@@ -279,7 +279,7 @@ componentDidMount() {
       <div className="my-navbar">
         <Navbar className="the-navbar" expand="md">
           <NavbarBrand href="/" style={{color: 'white', textDecoration: 'none'}}>Skull & Daisy</NavbarBrand>
-          <NavbarToggler onClick={e => this.toggle(e)} />
+          <NavbarToggler onClick={e => this.toggle(e)} style={{color: 'white', textDecoration: 'none'}} />
           <Collapse isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
           </Collapse>
