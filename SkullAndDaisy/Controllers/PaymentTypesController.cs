@@ -12,7 +12,7 @@ namespace SkullAndDaisy.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentTypesController : ControllerBase
+    public class PaymentTypesController : SecureControllerBase
     {
         readonly PaymentTypeRepository _paymentTypeRepository;
 
