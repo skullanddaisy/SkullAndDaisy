@@ -12,7 +12,7 @@ namespace SkullAndDaisy.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductTypesController : ControllerBase
+    public class ProductTypesController : SecureControllerBase
     {
         readonly ProductTypeRepository _productTypeRepository;
 
