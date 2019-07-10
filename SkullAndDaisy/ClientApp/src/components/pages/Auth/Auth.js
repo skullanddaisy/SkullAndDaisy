@@ -59,7 +59,7 @@ class Auth extends React.Component {
                 </Row>
                 <Form>
                     <FormGroup className="form-group">
-                    <Label htmlFor="inputEmail" className="col-sm-4 control-label">
+                    <Label htmlFor="inputEmail" className="col-sm-4 control-label text-light">
                         Email:
                     </Label>
                         <Input
@@ -72,7 +72,7 @@ class Auth extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup className="form-group">
-                    <Label htmlFor="inputPassword" className="col-sm-4 control-label">
+                    <Label htmlFor="inputPassword" className="col-sm-4 control-label text-light">
                         Password:
                     </Label>
                         <Input
