@@ -36,7 +36,7 @@ export default class InventoryTable extends Component {
     ));
 
     return (
-      <div className="col ml-5 mr-5">
+      <div className="col ml-2 mr-2 mt-5">
         <div className="row d-flex justify-content-center mb-4">
           <h2 className="mr-5 table-contents">Inventory</h2>
           <InventoryModal

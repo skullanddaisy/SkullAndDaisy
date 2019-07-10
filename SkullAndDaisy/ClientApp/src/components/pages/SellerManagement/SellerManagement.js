@@ -166,16 +166,18 @@ class SellerManagement extends React.Component {
     return (
       <div className='seller-management'>
         <header className="dashboard-header">
-            <h1 className="card-subtitle mb-4 ml-4 text-muted">Seller Dashboard</h1>
+          <div className="d-flex justify-content-center mb-3">
+            <h1 className="text-muted">Seller Dashboard</h1>
+          </div>
             <div>
             <Button color="secondary" onClick={this.goToOrderHistory}>See Order History</Button>
             </div>
-            <div>
-              <p className="card-text mr-4">Sales this month: {formatPrice(this.state.monthlySales)}</p>
-              <p className="card-text mr-4 mb-1">Total sales: {formatPrice(this.state.totalSales)}</p>
+            <div className="row text-light mt-3">
+              <p className="col-6">Monthly sales: {formatPrice(this.state.monthlySales)}</p>
+              <p className="col-6">Total sales: {formatPrice(this.state.totalSales)}</p>
             </div>
         </header>
-        <div className="dashboard-middle mt-4">
+        <div className="dashboard-middle mt-4 d-flex flex-wrap">
           <OrdersTable unshippedItems={unshippedItems} shipIt={this.shipIt} />
           <InventoryTable
             myInventory={myInventory}
