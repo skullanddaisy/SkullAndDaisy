@@ -16,3 +16,16 @@
   max-width: 35px;
   height: 30px;
 }
+
+@media only screen and (max-width: 600px) {
+  .cart-item {
+    font-size: 10px;
+  }
+
+  .product-img {
+    width: 82px;
+    height: 55px;
+    border-radius: 10px;
+  }
+  
+}
