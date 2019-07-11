@@ -51,4 +51,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 * [Austin Cumberlander](https://github.com/acumberlander)
 * [Jasmine Walters](https://github.com/jsmnwltrs)
 * [Marshall Offutt](https://github.com/marshalloffutt)
-* [Nathan Gonzalez](https://github.com/copypastedeveloper)(mentor)
+* [Nathan Gonzalez](https://github.com/copypastedeveloper) (mentor)
