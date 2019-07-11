@@ -8,10 +8,10 @@ users are presented with seller management tools which allows them to manage the
 total sales figures, and also manage their pending shipments.
 
 ## Screenshots
-Authentication
+#### Authentication
 ![Authentication](/SkullAndDaisy/images/screenshot1.png)
 
-Home
+#### Home
 ![Home screen](/SkullAndDaisy/images/screenshot2.png)
 
 ## Technologies Used
