@@ -1,4 +1,4 @@
-# Skull & Daisy
+# :skull: Skull & Daisy :sunflower:
 
 Skull & Daisy is the storefront webapp for all your new agey psychobabble needs. As this was designed as an
 Amazon clone, when users register for a Skull & Daisy account, they are registered as both buyers and sellers.
