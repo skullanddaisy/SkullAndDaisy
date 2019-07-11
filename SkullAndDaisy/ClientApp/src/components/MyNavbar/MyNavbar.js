@@ -196,19 +196,19 @@ componentDidMount() {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/potions'>Potions</NavLink>
+                    <NavLink tag={RRNavLink} to='/potions' style={{color: 'black', textDecoration: 'none'}}>Potions</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/poisons'>Poisons</NavLink>
+                    <NavLink tag={RRNavLink} to='/poisons' style={{color: 'black', textDecoration: 'none'}}>Poisons</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/crystals'>Crystals</NavLink>
+                    <NavLink tag={RRNavLink} to='/crystals' style={{color: 'black', textDecoration: 'none'}}>Crystals</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink tag={RRNavLink} to='/herbs'>Herbs</NavLink>
+                    <NavLink tag={RRNavLink} to='/herbs' style={{color: 'black', textDecoration: 'none'}}>Herbs</NavLink>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -237,19 +237,19 @@ componentDidMount() {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    <NavLink className="dropdownOption" tag={RRNavLink} to='/potions'>Potions</NavLink>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/potions' style={{color: 'black', textDecoration: 'none'}}>Potions</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink className="dropdownOption" tag={RRNavLink} to='/poisons'>Poisons</NavLink>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/poisons' style={{color: 'black', textDecoration: 'none'}}>Poisons</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink className="dropdownOption" tag={RRNavLink} to='/crystals'>Crystals</NavLink>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/crystals' style={{color: 'black', textDecoration: 'none'}}>Crystals</NavLink>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink className="dropdownOption" tag={RRNavLink} to='/herbs'>Herbs</NavLink>
+                    <NavLink className="dropdownOption" tag={RRNavLink} to='/herbs' style={{color: 'black', textDecoration: 'none'}}>Herbs</NavLink>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -277,7 +277,7 @@ componentDidMount() {
 
     return (
       <div className="my-navbar">
-        <Navbar className="the-navbar" expand="md">
+        <Navbar className="the-navbar" dark expand="md">
           <NavbarBrand href="/" style={{color: 'white', textDecoration: 'none'}}>Skull & Daisy</NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} style={{color: 'white', textDecoration: 'none'}} />
           <Collapse isOpen={this.state.isOpen} navbar>
