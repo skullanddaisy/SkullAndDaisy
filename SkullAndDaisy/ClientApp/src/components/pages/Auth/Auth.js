@@ -59,9 +59,7 @@ class Auth extends React.Component {
                 </Row>
                 <Form>
                     <FormGroup className="form-group">
-                    <Label htmlFor="inputEmail" className="col-sm-4 control-label text-light">
-                        Email:
-                    </Label>
+                      <div id="emailInputDiv">
                         <Input
                         type="email"
                         className="form-control"
@@ -70,11 +68,10 @@ class Auth extends React.Component {
                         value={user.email}
                         onChange={this.emailChange}
                         />
+                      </div>
                     </FormGroup>
                     <FormGroup className="form-group">
-                    <Label htmlFor="inputPassword" className="col-sm-4 control-label text-light">
-                        Password:
-                    </Label>
+                      <div id="passwordInputDiv">
                         <Input
                         type="password"
                         className="form-control"
@@ -83,21 +80,25 @@ class Auth extends React.Component {
                         value={user.password}
                         onChange={this.passwordChange}
                         />
+                      </div>
                     </FormGroup>
-                    <FormGroup className="form-group">
-                    <div className="col-sm-12">
+                    <FormGroup className="formButtons">
+                    <div className="">
                         <Button
                         type="submit"
-                        className="btn btn-default col-xs-12"
+                        className="btn col-xs-12 mr-2"
                         onClick={this.loginClickEvent}
+                        color="primary"
                         >
                         Login
                         </Button>
                     </div>
+                    <div className="">
+                      <Register />
+                    </div>
                     </FormGroup>
                 </Form>
                 </div>
-                <Register />
             </Container>
       );
     }

@@ -154,12 +154,12 @@ class PaymentTypes extends React.Component {
 
     return (
       <div className='payment-types'>
-        <h2>Payment Types</h2>
-        <div>
-          <Button className="primary" onClick={this.openModal}>+ Add Payment Method</Button>
-        </div>
+        <h2 id="paymentTypesHeader">Payment Types</h2>
         <div id="paymentCardContainer">
           {paymentCardComponents}
+        </div>
+        <div id="addPaymentButtonDiv">
+          <Button color="primary" onClick={this.openModal}>+ Add Payment Method</Button>
         </div>
         <div>
 				<Modal
