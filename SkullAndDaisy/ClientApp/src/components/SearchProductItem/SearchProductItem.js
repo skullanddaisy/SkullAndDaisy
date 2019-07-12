@@ -24,7 +24,7 @@ export default class SearchProductItem extends React.Component {
     return (
 			<tr className="searchTableItem" onClick={goToDetailsPage}>
 				<tb><img className='searchImage' src={product.imageUrl} alt='this is a product' /></tb>
-				<th><div className=''>{product.title}</div>{product.description}</th>
+				<th><div className=''>{product.title}</div></th>
 				<td>{formatProductType(product.productTypeId)}</td>
 				<td>{formatPrice(product.price)}</td>
 		</tr>

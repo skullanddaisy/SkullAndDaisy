@@ -26,6 +26,7 @@
 }
 .navbar-brand {
     color: white;
+    font-family: 'Cabin Sketch', cursive;
 }
 #categoryDropdown {
     color: rgba(255, 255, 255, 0.5);
@@ -60,4 +61,123 @@
 
 .searchResultsCard {
     max-height: 300px;
+}
+@media (max-width: 600px) {
+    .searchBar {
+        // display: flex;
+        // justify-content: center;
+        border-radius: 0 1rem 1rem 0;
+        width: 450px;
+        margin: 0 0px;
+    }
+
+    .dropdown {
+        width: 450px;
+        margin: 20px 0px 0;
+    }
+
+    .navButton {
+        width: 450px;
+        margin: 10px 0px;
+    }
+}
+
+@media (min-width: 600px) {
+    .searchBar {
+        border-radius: 0 1rem 1rem 0;
+        width: 500px;
+        margin: 0 30px;
+    }
+
+    .dropdown {
+        width: 500px;
+        margin: 20px 30px 0px;
+    }
+
+    .navButton {
+        width: 500px;
+        margin: 10px 30px 10px;
+    }
+}
+
+@media (min-width: 700px) {
+    .searchBar {
+        border-radius: 0 1rem 1rem 0;
+        width: 600px;
+        margin: 0 30px;
+    }
+
+    .dropdown {
+        width: 600px;
+        margin: 20px 30px 0px;
+    }
+
+    .navButton {
+        width: 600px;
+        margin: 10px 30px 10px;
+    }
+}
+
+@media (min-width: 768px) {
+    .searchBar {
+        border: none !important;
+        border-radius: 1rem;
+        width: 200px;
+        margin: 20px 0;
+    }
+
+    .dropdown {
+        width: 100px;
+        height: 40px;
+        margin: 15px 0;
+    }
+
+    .navButton {
+        width: 100px;
+        margin: 15px 10px;
+        height: 40px;
+    }
+
+    .nav-item {
+        margin: 15px 0 0;
+    }
+
+    .logout-link {
+        height: 40px;
+        margin: 15px 0 0;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .navContent {
+        margin: 0 
+    }
+    .searchBar {
+        border: none !important;
+        border-radius: 1rem;
+        width: 700px;
+        margin: 3px 70px 0 20px;
+    }
+
+    .dropdown {
+        width: 100px;
+        height: 40px;
+        margin: 0 5px;
+    }
+
+    .navButton {
+        width: 100px;
+        margin: 0 5px;
+        height: 40px;
+    }
+
+    .nav-item {
+        margin: 0;
+    }
+
+    .logout-link {
+        height: 40px;
+        margin: 0;
+    }
 }
