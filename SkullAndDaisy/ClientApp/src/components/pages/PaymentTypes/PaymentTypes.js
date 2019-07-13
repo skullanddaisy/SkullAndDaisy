@@ -1,28 +1,28 @@
+/* eslint-disable no-tabs */
 import React from 'react';
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Form,
+  FormGroup,
+  Label,
+} from 'reactstrap';
 import userRequests from '../../../helpers/data/userRequests';
 import PaymentTypeCard from '../../PaymentTypeCard/PaymentTypeCard';
 import paymentTypeRequests from '../../../helpers/data/paymentTypeRequests';
 import './PaymentTypes.scss';
-import {
-	Button,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
-	Form,
-	FormGroup,
-	Label
-} from 'reactstrap';
 
 const defaultPaymentType = {
   name: '',
   accountNumber: '',
   userId: 0,
   isActive: true,
-}
+};
 
 class PaymentTypes extends React.Component {
-
   state = {
     currentUser: {},
     paymentTypes: [],
@@ -37,12 +37,12 @@ class PaymentTypes extends React.Component {
     userRequests.getSingleUser()
       .then((user) => {
         const userId = user.id;
-        this.setState({currentUser: user});
+        this.setState({ currentUser: user });
         paymentTypeRequests.getAllActivePaymentTypes(userId)
           .then((activePaymentTypes) => {
-            this.setState({paymentTypes: activePaymentTypes});
-          })
-      })
+            this.setState({ paymentTypes: activePaymentTypes });
+          });
+      });
   }
 
   formSubmitUpdatePayment = () => {
@@ -58,13 +58,12 @@ class PaymentTypes extends React.Component {
             this.setState({ paymentTypes, isEditing: false, editId: '-1' });
           });
       })
-    .catch(err => console.error('error with payment post', err));
+      .catch(err => console.error('error with payment post', err));
   };
-  
+
   formSubmitAddPayment = () => {
     const userId = this.state.currentUser.id;
     const myPaymentType = { ...this.state.newPaymentType };
-    const { paymentTypes } = this.state;
     myPaymentType.userId = userId;
 
     paymentTypeRequests.addPaymentType(myPaymentType)
@@ -73,39 +72,37 @@ class PaymentTypes extends React.Component {
         paymentTypeRequests.getAllActivePaymentTypes(userId)
           .then((paymentTypes) => {
             this.setState({ paymentTypes });
-          })
-      })
+          });
+      });
   }
 
   deletePaymentType = (paymentTypeId) => {
     const { currentUser } = this.state;
-    const userId = currentUser.id
+    const userId = currentUser.id;
     paymentTypeRequests.getSinglePaymentType(paymentTypeId)
-    .then((paymentType) => {
-      console.log(paymentType);
-      paymentType.isActive = false;
-      paymentTypeRequests.updatePaymentType(paymentTypeId, paymentType)
-        .then((payment) => {
-          console.log(payment);
-          paymentTypeRequests.getAllActivePaymentTypes(userId)
-          .then((paymentTypes) => {
-            this.setState({ paymentTypes });
+      .then((paymentType) => {
+        paymentType.isActive = false;
+        paymentTypeRequests.updatePaymentType(paymentTypeId, paymentType)
+          .then(() => {
+            paymentTypeRequests.getAllActivePaymentTypes(userId)
+              .then((paymentTypes) => {
+                this.setState({ paymentTypes });
+              });
           });
-        })
       })
-    .catch(err => console.error('error with delete payment type', err));
+      .catch(err => console.error('error with delete payment type', err));
   }
 
   passPaymentTypeToEdit = (paymentType) => {
-    this.setState({ isEditing: true, editId: paymentType.id, newPaymentType: paymentType })
+    this.setState({ isEditing: true, editId: paymentType.id, newPaymentType: paymentType });
   }
 
   openModal = () => {
-    this.setState({ modalOpen: true })
+    this.setState({ modalOpen: true });
   }
 
   closeModal = () => {
-    this.setState({ modalOpen: false, isEditing: false, newPaymentType: defaultPaymentType })
+    this.setState({ modalOpen: false, isEditing: false, newPaymentType: defaultPaymentType });
   }
 
   formFieldStringState = (name, e) => {
@@ -136,11 +133,11 @@ class PaymentTypes extends React.Component {
       newPaymentType,
       modalOpen,
       isEditing,
-      editId
+      editId,
     } = this.state;
 
-    const paymentCardComponents = paymentTypes.map(paymentType =>(
-      <PaymentTypeCard 
+    const paymentCardComponents = paymentTypes.map(paymentType => (
+      <PaymentTypeCard
         key={paymentType.id}
         paymentType={paymentType}
         passPaymentTypeToEdit={this.passPaymentTypeToEdit}
@@ -150,7 +147,7 @@ class PaymentTypes extends React.Component {
         editPaymentType={this.editPaymentType}
         deletePaymentType={this.deletePaymentType}
       />
-    ))
+    ));
 
     return (
       <div className='payment-types'>
@@ -165,8 +162,6 @@ class PaymentTypes extends React.Component {
 				<Modal
 					isOpen={modalOpen}
 					toggle={this.toggle}
-					isEditing={isEditing}
-					editId={editId}
 				>
 					<ModalHeader></ModalHeader>
 					<ModalBody>
@@ -196,15 +191,15 @@ class PaymentTypes extends React.Component {
 						</FormGroup>
 						<ModalFooter>
 							<Button color="primary" onClick={(e) => {
-                if (isEditing) {
-                  e.preventDefault();
-                  this.formSubmitUpdatePayment();
-                  this.closeModal();
-                } else {
-                  e.preventDefault();
-                  this.formSubmitAddPayment();
-                  this.closeModal();
-                }
+							  if (isEditing) {
+							    e.preventDefault();
+							    this.formSubmitUpdatePayment();
+							    this.closeModal();
+							  } else {
+							    e.preventDefault();
+							    this.formSubmitAddPayment();
+							    this.closeModal();
+							  }
 							}}>Save Payment Method</Button>
 							<Button color="secondary" onClick={this.closeModal}>Cancel</Button>
 						</ModalFooter>

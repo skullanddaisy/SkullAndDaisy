@@ -9,8 +9,8 @@ export default class OrdersTable extends Component {
 
     const orderTableComponents = unshippedItems.map(item => (
       <OrderTableItem
-        item={item}
         key={item.id}
+        item={item}
         shipIt={shipIt}
       />
     ));

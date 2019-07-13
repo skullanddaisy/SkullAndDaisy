@@ -141,7 +141,7 @@ class ProductDetails extends React.Component {
 			}
 			return <div></div>;
 		};
-		  
+
 		if (product.quantity === 0) {
 		return (
 			<div className="productDetailsContainer1">
@@ -175,7 +175,7 @@ class ProductDetails extends React.Component {
 						</div>
 						<div id="descriptionHeader">Description:</div>
 						<div id="productDetails">{product.description}</div>
-						<div class='text-danger'>{product.quantity} left in stock</div>
+						<div className='text-danger'>{product.quantity} left in stock</div>
 						<div className="productDetailsButtonContainer">
 							<Button className="productDetailsButton" disabled={disableAddToCart} onClick={this.addToCart}>Add to Cart</Button>
 						</div>
@@ -193,7 +193,7 @@ class ProductDetails extends React.Component {
 			<div className="productDetailsContainer">
 				<div id="leftCol" className="leftCol">
 					<div className="imageDiv">
-						<img className='productDetailImg' top src={product.imageUrl} alt={product.title} />
+						<img className='productDetailImg' top='true' src={product.imageUrl} alt={product.title} />
 					</div>
 				</div>
 				<div id="middleCol" className="middleCol">
@@ -216,7 +216,7 @@ class ProductDetails extends React.Component {
 					</div>
 					<div id="descriptionHeader">Description:</div>
 					<div id="productDetails">{product.description}</div>
-					<div class='text-danger'>{product.quantity} left in stock</div>
+					<div className='text-danger'>{product.quantity} left in stock</div>
 					<div className="productDetailsButtonContainer">
 						<Button className="productDetailsButton" onClick={this.addToCart}>Add to Cart</Button>
 					</div>

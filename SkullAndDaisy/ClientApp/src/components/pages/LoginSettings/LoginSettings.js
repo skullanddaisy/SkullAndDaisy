@@ -76,13 +76,13 @@ class LoginSettings extends React.Component {
     return (
       <div className='login-settings'>
         <h1>Login Settings</h1>
-        <div class="card tborder-dark mb-3 profile-card mt-4">
-          <div class="card-body card-header p-3 d-flex justify-content-between">
-            <div class="d-flex flex-column text-left">
-              <p class="card-title font-weight-bold">Username:</p>
+        <div className="card tborder-dark mb-3 profile-card mt-4">
+          <div className="card-body card-header p-3 d-flex justify-content-between">
+            <div className="d-flex flex-column text-left">
+              <p className="card-title font-weight-bold">Username:</p>
               <p>{currentUser.username}</p>
             </div>
-            <div class="m-3 ml-5">
+            <div className="m-3 ml-5">
               <EditUserNameModal
                 buttonLabel='Edit'
                 currentUser={currentUser}
@@ -91,12 +91,12 @@ class LoginSettings extends React.Component {
             </div>
           </div>
 
-          <div class="card-body card-header p-3 d-flex justify-content-between">
-            <div class="d-flex flex-column text-left">
-              <p class="card-title font-weight-bold">Name:</p>
+          <div className="card-body card-header p-3 d-flex justify-content-between">
+            <div className="d-flex flex-column text-left">
+              <p className="card-title font-weight-bold">Name:</p>
               <p>{currentUser.firstName} {currentUser.lastName}</p>
             </div>
-            <div class="m-3 ml-5">
+            <div className="m-3 ml-5">
             <EditFirstAndLastNameModal
                 buttonLabel='Edit'
                 currentUser={currentUser}
@@ -105,12 +105,12 @@ class LoginSettings extends React.Component {
             </div>
           </div>
 
-          <div class="card-body card-header p-3 d-flex justify-content-between">
-            <div class="d-flex flex-column text-left">
-              <p class="card-title font-weight-bold">Email:</p>
+          <div className="card-body card-header p-3 d-flex justify-content-between">
+            <div className="d-flex flex-column text-left">
+              <p className="card-title font-weight-bold">Email:</p>
               <p>{currentUser.email}</p>
             </div>
-            <div class="m-3 ml-5">
+            <div className="m-3 ml-5">
             <EditEmailModal
                 buttonLabel='Edit'
                 currentUser={currentUser}
@@ -121,12 +121,12 @@ class LoginSettings extends React.Component {
             </div>
           </div>
 
-          <div class="card-body card-header p-3 d-flex justify-content-between">
-            <div class="d-flex flex-column text-left">
-              <p class="card-title font-weight-bold">Password:</p>
+          <div className="card-body card-header p-3 d-flex justify-content-between">
+            <div className="d-flex flex-column text-left">
+              <p className="card-title font-weight-bold">Password:</p>
               <p>********</p>
             </div>
-            <div class="m-3 ml-5">
+            <div className="m-3 ml-5">
               <EditPasswordModal
                 buttonLabel='Edit'
                 changePassword={this.changePassword}
@@ -134,7 +134,6 @@ class LoginSettings extends React.Component {
               />
             </div>
           </div>
-
         </div>
       </div>
     );
