@@ -175,11 +175,11 @@ componentDidMount() {
     const buildFilterButton = () => {
       if (this.state.searchStatus === 'products') {
         return (
-          <Button color="primary" onClick={sellersMode}>Products</Button>
+          <Button className="navButton" color="primary" onClick={sellersMode}>Products</Button>
         );
       } if (this.state.searchStatus === 'sellers') {
         return (
-          <Button color="warning" onClick={productsMode}>Sellers</Button>
+          <Button className="navButton" color="warning" onClick={productsMode}>Sellers</Button>
         );
       }
       return '';
@@ -190,7 +190,7 @@ componentDidMount() {
       if (isAuthed && searchStatus === 'products') {
         return (
           <Nav className="ml-auto" navbar>
-            <UncontrolledDropdown style={{border: 'solid 1px rgba(255, 255, 255, 0.5)', borderRadius: '0.3rem'}} className="mr-4" inNavbar>
+            <UncontrolledDropdown style={{border: 'solid 1px rgba(255, 255, 255, 0.5)', borderRadius: '0.3rem'}} className="" inNavbar>
                 <DropdownToggle style={{color: 'white', textDecoration: 'none'}} id="categoryDropdown" nav caret>
                   Categories
                 </DropdownToggle>
@@ -220,7 +220,7 @@ componentDidMount() {
               classNames="searchBar"
             />
             <NavItem>
-              <NavLink tag={RRNavLink} to='/useraccount' style={{color: 'white', textDecoration: 'none'}}>User Account</NavLink>
+              <NavLink tag={RRNavLink} to='/useraccount' style={{color: 'white', textDecoration: 'none'}}>Account</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to='/cart' style={{color: 'white', textDecoration: 'none'}}>Cart</NavLink>
@@ -231,7 +231,7 @@ componentDidMount() {
       } if (isAuthed && searchStatus === 'sellers') {
         return (
           <Nav className="ml-auto" navbar>
-            <UncontrolledDropdown className="mr-4" inNavbar>
+            <UncontrolledDropdown className="" inNavbar>
                 <DropdownToggle style={{color: 'white', textDecoration: 'none'}} id="categoryDropdown" nav caret>
                   Categories
                 </DropdownToggle>
@@ -261,10 +261,10 @@ componentDidMount() {
               classNames="searchBar"
             />
             <NavItem>
-              <NavLink tag={RRNavLink} to='/useraccount' style={{color: 'white', textDecoration: 'none'}}>User Account</NavLink>
+              <NavLink className='account-link' tag={RRNavLink} to='/useraccount' style={{color: 'white', textDecoration: 'none'}}>User Account</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/cart' style={{color: 'white', textDecoration: 'none'}}>Cart</NavLink>
+              <NavLink className="cart-link" tag={RRNavLink} to='/cart' style={{color: 'white', textDecoration: 'none'}}>Cart</NavLink>
             </NavItem>
             <NavItem>
               <NavLink className='logout-link' onClick={logoutClicky} style={{color: 'white', textDecoration: 'none'}}>Logout</NavLink>
