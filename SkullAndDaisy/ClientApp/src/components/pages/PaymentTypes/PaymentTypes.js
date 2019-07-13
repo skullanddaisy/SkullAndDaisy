@@ -162,8 +162,6 @@ class PaymentTypes extends React.Component {
 				<Modal
 					isOpen={modalOpen}
 					toggle={this.toggle}
-					isEditing={isEditing}
-					editId={editId}
 				>
 					<ModalHeader></ModalHeader>
 					<ModalBody>

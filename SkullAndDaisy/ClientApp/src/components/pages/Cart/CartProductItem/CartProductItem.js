@@ -139,10 +139,10 @@ class CartProductItem extends React.Component {
         <td>{formatPrice(productPrice)}</td>
         <td>
           <button className="btn btn-default" onClick={this.saveChanges}>
-            <i class="fas fa-check-circle"></i>
+            <i className="fas fa-check-circle"></i>
           </button>
           <button className="btn btn-default" onClick={this.cancelChanges}>
-            <i class="fas fa-times-circle"></i>
+            <i className="fas fa-times-circle"></i>
           </button>
         </td>
       </tr>

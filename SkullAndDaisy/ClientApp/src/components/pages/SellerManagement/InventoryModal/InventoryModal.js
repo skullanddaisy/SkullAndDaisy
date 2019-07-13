@@ -92,9 +92,9 @@ class InventoryModal extends React.Component {
     const { isEditing } = this.props;
     const title = () => {
       if (isEditing) {
-        return <h2>Edit Product</h2>;
+        return <p>Edit Product</p>;
       }
-      return <h2>Add New Product</h2>;
+      return <p>Add New Product</p>;
     };
 
     return (
