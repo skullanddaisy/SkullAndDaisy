@@ -339,13 +339,14 @@ class Cart extends Component {
               <ModalHeader>Checkout</ModalHeader>
               <ModalBody>
                 {makeAlert()}
-              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <Dropdown className="payment-dropdown" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <div className='p-1'>
                   <strong className='p-1'>Payment Method:</strong>
                 <DropdownToggle
                   tag="span"
                   onClick={this.toggle}
                   data-toggle="dropdown"
+                  className="payment-dropdown-toggle"
                   aria-expanded={this.state.dropdownOpen}
                   caret
                 >
