@@ -39,3 +39,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+.payment-dropdown {
+  width: 65% !important;
+  border: none;
+}
+
+.payment-dropdown-toggle {
+  margin-left: 10px;
+  border: 1px solid gray;
+  width: max-content;
+  border-radius: 0.3rem;
+  padding: .3rem;
+}
